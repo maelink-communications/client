@@ -1,5 +1,5 @@
 :root {
-    --main: #131313;
+    --main: linear-gradient(#2c1313, #571c1c);
     --main2: #232323;
     --accent: #ee5858;
     --accent2: #f08686;
@@ -14,7 +14,6 @@ body {
     height: 100%;
     overflow: hidden;
 }
-
 
 body {
     margin: 0;
@@ -32,11 +31,35 @@ body {
     flex-direction: column;
 }
 
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('static/PATTERN.png') repeat;
+    background-size: 20%;
+    filter: blur(8px);
+    animation: pan 60s infinite linear;
+    z-index: -1;
+}
+
+@keyframes pan {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
 .topnav {
     background: transparent;
     backdrop-filter: blur(24px) contrast(0.8);
     color: var(--text);
     display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     position: fixed;
     z-index: 1;
@@ -50,6 +73,10 @@ body {
     height: 100%;
     width: var(--topnav-height);
     padding-inline-end: 8px;
+}
+
+.topnav .logo {
+    height: 24px;
 }
 
 .topnav button {
@@ -100,11 +127,19 @@ body {
 
 .box {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background: var(--main2);
+    background-color: rgba(22, 22, 22, 0.7);
+    backdrop-filter: blur(24px);
     padding: 32px;
-    border-radius: 12px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 40%;
+    box-shadow: -2px 0 8px rgba(0,0,0,0.2);
 
     @media screen and (max-width: 600px) {
         height: 100%;
@@ -157,21 +192,23 @@ form {
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    width: 100%;
 }
 
 input {
-    background-color: var(--main);
+    background-color: #131313;
     color: var(--text);
     font-family: inherit;
     border: none;
     padding: 8px;
     border-radius: 8px;
     display: block;
+    width: 100%;
 }
 
 input:focus {
     outline: none;
-    border-bottom: 1px solid pink;
+    border-bottom: 1px solid rgb(255, 102, 127);
 }
 
 input[type="text"] {
@@ -182,6 +219,7 @@ input[type="submit"] {
     color: white;
     background-color: #864242;
     cursor: pointer;
+    width: 100%;
 }
 
 input[type="submit"]:hover {
