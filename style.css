@@ -141,7 +141,7 @@ body {
     width: 40%;
     box-shadow: -2px 0 8px rgba(0,0,0,0.2);
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 620px) {
         height: 100%;
         width: 100%;
         flex-direction: column;
@@ -179,7 +179,7 @@ h1 {
 }
 
 h2 {
-    @media screen and (min-width: 600px) {
+    @media screen and (min-width: 620px) {
         margin-inline-end: 32px;
     }
 }
@@ -200,15 +200,17 @@ input {
     color: var(--text);
     font-family: inherit;
     border: none;
-    padding: 8px;
+    padding: 12px;
     border-radius: 8px;
     display: block;
+    transition: 0.1s;
     width: 100%;
 }
 
 input:focus {
     outline: none;
     border-bottom: 1px solid rgb(255, 102, 127);
+    outline: 1px solid var(--accent2);
 }
 
 input[type="text"] {
@@ -217,13 +219,13 @@ input[type="text"] {
 
 input[type="submit"] {
     color: white;
-    background-color: #864242;
+    background-color: var(--accent);
     cursor: pointer;
     width: 100%;
 }
 
 input[type="submit"]:hover {
-    background-color: #512a2a;
+    background-color: var(--accent2);
 }
 
 .login_input_label {
