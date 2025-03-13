@@ -1,3 +1,4 @@
-# client-gen2
-Codename Dublin (https://maps.app.goo.gl/QgCMGnAdjhpzrbm29)
-Official fontend for supersample
+# client-gen2 / ***Codename Dublin***
+*(https://maps.app.goo.gl/QgCMGnAdjhpzrbm29)*
+
+***Official WIP frontend for simplesample / maelink gen2***
