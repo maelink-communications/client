@@ -134,11 +134,9 @@ body {
     background-color: rgba(22, 22, 22, 0.7);
     backdrop-filter: blur(24px);
     padding: 32px;
-    position: fixed;
-    top: 0;
-    right: 0;
     height: 100%;
-    width: 40%;
+    width: 50%;
+    max-width: 600px;
     box-shadow: -2px 0 8px rgba(0,0,0,0.2);
 
     @media screen and (max-width: 620px) {
@@ -146,6 +144,12 @@ body {
         width: 100%;
         flex-direction: column;
         background-image: linear-gradient(var(--main2), var(--main));
+    }
+    
+    @media screen and (min-width: 620px) {
+        position: fixed;
+        top: 0;
+        right: 0;
     }
 }
 
@@ -192,7 +196,7 @@ form {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    width: 100%;
+    width: 90%;
 }
 
 input {
@@ -204,7 +208,6 @@ input {
     border-radius: 8px;
     display: block;
     transition: 0.1s;
-    width: 100%;
 }
 
 input:focus {
@@ -214,7 +217,7 @@ input:focus {
 }
 
 input[type="text"] {
-    margin-bottom: 0.5rem;
+    margin-bottom: 4px;
 }
 
 input[type="submit"] {
@@ -222,6 +225,8 @@ input[type="submit"] {
     background-color: var(--accent);
     cursor: pointer;
     width: 100%;
+    margin: 12px;
+    margin-inline: 0;
 }
 
 input[type="submit"]:hover {
@@ -232,5 +237,5 @@ input[type="submit"]:hover {
     font-size: small;
     opacity: 0.5;
     margin: 0;
-    margin-bottom: 0.3rem;
+    margin-bottom: 4px;
 }
