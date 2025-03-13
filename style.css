@@ -1,0 +1,164 @@
+:root {
+    --main: #131313;
+    --main2: #232323;
+    --accent: #ee5858;
+    --accent2: #f08686;
+    --titletext: #ffffff;
+    --text: #ffffff;
+
+    --topnav-height: 32px;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+
+body {
+    margin: 0;
+    margin-top: calc(var(--topnav-height) + 16px);
+
+    background: var(--main);
+    font-family: Ubuntu, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: var(--text);
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.topnav {
+    background: transparent;
+    backdrop-filter: blur(24px) contrast(0.8);
+    color: var(--text);
+    display: flex;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    padding: 8px;
+    height: var(--topnav-height);
+}
+
+.topnav .icon {
+    height: 100%;
+    width: var(--topnav-height);
+    padding-inline-end: 8px;
+}
+
+.topnav button {
+    height: var(--topnav-height);
+    padding: 0px 8px;
+
+    border: solid;
+    border-width: 1px;
+    border-color: var(--accent);
+    border-radius: 4px;
+
+    background-image: linear-gradient(var(--main), var(--accent2));
+    cursor: pointer;
+}
+
+.topnav button:active {
+    background-image: linear-gradient(var(--accent2), var(--accent));
+}
+
+.topnav input {
+    background-color: var(--main);
+    color: var(--text);
+
+    border: solid;
+    border-width: 1px;
+    border-color: var(--accent);
+    border-radius: 4px;
+}
+
+.root {
+    background: var(--main);
+
+    max-width: fit-content;
+    margin-inline: auto;
+    text-align: center;
+
+    padding: 2px 32px;
+
+    max-width: 800px;
+    min-height: calc(100vh - var(--topnav-height) - 32px);
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--main2);
+    padding: 32px;
+    border-radius: 12px;
+    @media screen and (max-width: 600px) {
+        height: 100%;
+        width: 100%;
+        flex-direction: column;
+        background-image: linear-gradient(var(--main2), var(--main));
+    }
+}
+
+.vid {
+    background-color: var(--accent);
+    color: var(--text-1);
+
+    border-width: 8px;
+    border-color: var(--accent2);
+
+    font-size: inherit;
+    cursor: pointer;
+    font-family: inherit;
+    margin: 0;
+}
+
+.vid img {
+    width: 632px;
+    height: 332px;
+}
+
+h1 {
+    color: var(--titletext);
+    font-size: 40px;
+    margin: 8px;
+    @media screen and (min-width: 800px) {
+        font-size: 72px;
+    }
+
+}
+
+h2 {
+    @media screen and (min-width: 600px) {
+        margin-inline-end: 32px;
+    }
+}
+
+p {
+    margin: 8px;
+}
+
+input {
+    background-color: var(--main);
+    color: var(--text);
+    font-family: inherit;
+    border: none;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+input[type=submit] {
+    width: 100%;
+}
