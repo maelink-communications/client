@@ -20,7 +20,7 @@ body {
     margin-top: calc(var(--topnav-height) + 16px);
 
     background: var(--main);
-    font-family: 'Kanit', sans-serif;
+    font-family: 'Rethink Sans', sans-serif;
     color: var(--text);
     height: 100%;
     padding: 0;
