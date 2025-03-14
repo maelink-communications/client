@@ -40,7 +40,7 @@ body {
     background: url('static/PATTERN.png') repeat;
     background-size: 50%;
     filter: blur(8px);
-    animation: pan 60s infinite linear;
+    animation: pan 30s infinite linear(0 50%, 1 100%);
     z-index: -1;
 }
 
@@ -49,7 +49,7 @@ body {
         background-position: 0 0;
     }
     100% {
-        background-position: 100% 100%;
+        background-position: 75% 78.75%;
     }
 }
 
