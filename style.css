@@ -58,7 +58,7 @@ body {
     backdrop-filter: blur(24px) contrast(0.8);
     color: var(--text);
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     width: 100%;
     position: fixed;
@@ -77,6 +77,14 @@ body {
 
 .topnav .logo {
     height: 24px;
+}
+
+.topnav h3.pill {
+    background: linear-gradient(#bf4040, #c33c3c);
+    border-radius: 16px;
+    color: white;
+    padding: 4px 12px;
+    margin-left: 10px;
 }
 
 .topnav button {
@@ -186,6 +194,10 @@ h2 {
     @media screen and (min-width: 620px) {
         margin-inline-end: 32px;
     }
+}
+
+h3 {
+    margin-left: 10px
 }
 
 p {
