@@ -16,6 +16,20 @@
     <div class="topnav">
         <img src="static/logo.svg" alt="maelink logo" class="logo">
         <h3 class="pill">Closed Beta</h3>
+        <div class="user-icon">
+            <img src="static/defaultuser.png" alt="User Icon" class="user-img">
+            <div class="dropdown">
+                <img src="static/settings.png" alt="Settings" class="dropdown-icon">
+                <img src="static/logout.png" alt="Logout" class="dropdown-icon" id="logout">
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <form id="postFormElement">
+            <textarea id="postContent" placeholder="Penny for your thoughts." required></textarea>
+            <input type="submit" value="Post">
+        </form>
+        <div id="postsContainer"></div>
     </div>
     <script src="main.js"></script>
 </body>

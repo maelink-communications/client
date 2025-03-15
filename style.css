@@ -256,3 +256,93 @@ input[type="submit"]:hover {
     margin-bottom: 4px;
     color: white;
 }
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Changed from center to stretch */
+    padding: 16px;
+    width: 100%;
+}
+
+#postFormElement {
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 16px;
+}
+
+#postFormElement textarea {
+    width: 100%;
+    height: 15px;
+    padding: 12px;
+    border-radius: 16px;
+    border: none;
+    margin-bottom: 8px;
+    align-content: center;
+    font-family: inherit;
+    resize: none;
+    background: #333333;
+    font-size: 10px;
+}
+
+#postFormElement input[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    border-radius: 16px;
+    border: none;
+    background-color: var(--accent);
+    color: white;
+    cursor: pointer;
+}
+
+#postFormElement input[type="submit"]:hover {
+    background-color: var(--accent2);
+}
+
+#postsContainer {
+    width: 100%;
+    max-width: 800px;
+}
+
+.post {
+    background: var(--main2);
+    padding: 16px;
+    border-radius: 16px;
+    margin-bottom: 8px;
+    color: var(--text);
+}
+
+.user-icon {
+    position: relative;
+    margin-left: auto;
+    margin-right: 50px;
+    cursor: pointer;
+}
+
+.user-img {
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background: var(--main2);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-icon {
+    width: 32px;
+    height: 32px;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.dropdown-icon:hover {
+    background: var(--accent2);
+}
