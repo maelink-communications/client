@@ -337,8 +337,8 @@ input[type="submit"]:hover {
 }
 
 .dropdown-icon {
-    width: 32px;
-    height: 32px;
+    width: 22px;
+    height: 24px;
     padding: 8px;
     cursor: pointer;
 }
