@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("Signup inputs:", username, password, code); // Debug line
 
       try {
-        const reg = await fetch("http://localhost:4040", {
+        const reg = await fetch("https://maelink-http.derpygamer2142.com/", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const password = document.getElementById("password")?.value;
       console.log("Attempting to authenticate with", username, password);
       try {
-        const response = await fetch("http://localhost:4040", {
+        const response = await fetch("https://maelink-http.derpygamer2142.com/", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("Post content:", content); // Debug line
 
       try {
-        const response = await fetch("http://localhost:4040", {
+        const response = await fetch("https://maelink-http.derpygamer2142.com/", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function fetchPosts(token) {
   try {
-    const fetchposts = await fetch("http://localhost:4040", {
+    const fetchposts = await fetch("https://maelink-http.derpygamer2142.com/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

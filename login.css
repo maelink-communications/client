@@ -1,19 +1,12 @@
 :root {
     --main: linear-gradient(#2c1321, #571c26);
     --main2: #232323;
-    --alt: #333333;
     --accent: #f85c5c;
     --accent2: #f36590;
     --titletext: #ffffff;
     --text: #ffffff;
 
     --topnav-height: 32px;
-}
-
-html,
-body {
-    height: 100%;
-    overflow: hidden;
 }
 
 body {
@@ -261,44 +254,38 @@ input[type="submit"]:hover {
 
 .content {
     display: flex;
-    flex-direction: column;
-    align-items: stretch; /* Changed from center to stretch */
-    padding: 16px;
+    flex-direction: column-reverse;
     width: 100%;
 }
 
 #postFormElement {
     width: 100%;
-    position: absolute;
-    bottom: 0;
+    max-width: 800px;
+    margin-bottom: 16px;
 }
 
 #postFormElement textarea {
-    height: 24px;
+    width: 100%;
+    height: 15px;
     padding: 12px;
     border-radius: 16px;
     border: none;
-    margin-bottom: zpx;
+    margin-bottom: 8px;
     align-content: center;
     font-family: inherit;
     resize: none;
-    background: var(--alt);
-    font-size: 16px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    color: var(--text);
+    background: #333333;
+    font-size: 10px;
 }
 
 #postFormElement input[type="submit"] {
     width: 100%;
-    padding: 8px;
+    padding: 12px;
     border-radius: 16px;
     border: none;
     background-color: var(--accent);
     color: white;
     cursor: pointer;
-    border-radius: 0;
-    margin: 0;
 }
 
 #postFormElement input[type="submit"]:hover {
