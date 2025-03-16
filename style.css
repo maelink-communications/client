@@ -10,29 +10,23 @@
     --topnav-height: 32px;
 }
 
-html,
 body {
     height: 100%;
-    overflow: hidden;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    margin: 0;
-    margin-top: calc(var(--topnav-height) + 16px);
-
     background: var(--main);
     font-family: 'Rethink Sans', sans-serif;
     color: var(--text);
-    height: 100%;
-    padding: 0;
-    margin: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 }
 
-.background {
+.image {
     position: fixed;
     top: 0;
     left: 0;
@@ -262,7 +256,7 @@ input[type="submit"]:hover {
 .content {
     display: flex;
     flex-direction: column;
-    align-items: stretch; /* Changed from center to stretch */
+    align-items: stretch;
     padding: 16px;
     width: 100%;
 }

@@ -1,5 +1,5 @@
 :root {
-    --main: linear-gradient(#2c1321, #571c26);
+    --main: linear-gradient(#681c47, #571c26);
     --main2: #232323;
     --accent: #f85c5c;
     --accent2: #f36590;
@@ -12,7 +12,6 @@
 body {
     margin: 0;
     margin-top: calc(var(--topnav-height) + 16px);
-
     background: var(--main);
     font-family: 'Rethink Sans', sans-serif;
     color: var(--text);
@@ -26,6 +25,16 @@ body {
 }
 
 .background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--main);
+    z-index: -2;
+}
+
+.image {
     position: fixed;
     top: 0;
     left: 0;

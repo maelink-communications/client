@@ -5,12 +5,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const signupForm = document.getElementById("signupFormElement");
   if (signupForm) {
     signupForm.addEventListener("submit", async function (e) {
-      console.log("Signup form submitted"); // Debug line
+      console.log("Signup form submitted");
       e.preventDefault();
       const username = document.getElementById("signupUsername")?.value;
       const password = document.getElementById("signupPassword")?.value;
       const code = document.getElementById("code")?.value;
-      console.log("Signup inputs:", username, password, code); // Debug line
+      console.log("Signup inputs:", username, password, code);
 
       try {
         const reg = await fetch("https://maelink-http.derpygamer2142.com/", {
@@ -29,9 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (data.payload && data.payload.token) {
           localStorage.setItem("token", data.payload.token);
           globalThis.location.href = "home.html";
-      } else {
+        } else {
           alert("Registration failed");
-      }
+        }
       } catch (error) {
         console.error("Signup error:", error);
       }
@@ -47,23 +47,26 @@ document.addEventListener("DOMContentLoaded", () => {
       const password = document.getElementById("password")?.value;
       console.log("Attempting to authenticate with", username, password);
       try {
-        const response = await fetch("https://maelink-http.derpygamer2142.com/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            type: "auth",
-            user: username,
-            password: password,
-          }),
-        });
+        const response = await fetch(
+          "https://maelink-http.derpygamer2142.com/",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              type: "auth",
+              user: username,
+              password: password,
+            }),
+          },
+        );
         const data = await response.json();
         console.log("Auth Response:", data);
         if (data.payload && data.payload.token) {
           localStorage.setItem("token", data.payload.token);
           globalThis.location.href = "home.html";
-      } else {
+        } else {
           alert("Authentication failed");
-      }
+        }
       } catch (error) {
         console.error("Authentication error:", error);
       }
@@ -78,19 +81,22 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       const content = document.getElementById("postContent")?.value;
       const token = localStorage.getItem("token");
-      console.log("Post content:", content); // Debug line
+      console.log("Post content:", content);
 
       try {
-        const response = await fetch("https://maelink-http.derpygamer2142.com/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            type: "post",
-            community: "home",
-            p: content,
-            token: token,
-          }),
-        });
+        const response = await fetch(
+          "https://maelink-http.derpygamer2142.com/",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              type: "post",
+              community: "home",
+              p: content,
+              token: token,
+            }),
+          },
+        );
         const data = await response.json();
         console.log("Post response:", data);
 
@@ -113,15 +119,15 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.removeItem("token");
       localStorage.setItem("redirectAfterLogout", "true");
       globalThis.location.href = "index.html";
-  });
+    });
   }
 
   const token = localStorage.getItem("token");
-    if (token) {
-        fetchPosts(token);
-    } else {
-        localStorage.removeItem("token");
-    }
+  if (token) {
+    fetchPosts(token);
+  } else {
+    localStorage.removeItem("token");
+  }
 });
 
 async function fetchPosts(token) {
@@ -147,8 +153,8 @@ async function fetchPosts(token) {
       postElement.innerHTML = `
         <p>${post.u}</p>
         <p>${post.p}</p>
-        <p>${new Date(post.ts).toLocaleString()}</p>
-      `;
+        <p>${new Date(Number(post.ts)).toLocaleString()}</p>
+        `;
       postsContainer.appendChild(postElement);
     });
   } catch (error) {
@@ -163,7 +169,11 @@ document.querySelector(".user-icon").addEventListener("click", function () {
     : "block";
 });
 
-if (localStorage.getItem("redirectAfterLogout") === "true" && globalThis.location.pathname !== "/index.html" && globalThis.location.pathname !== "/signup.html") {
+if (
+  localStorage.getItem("redirectAfterLogout") === "true" &&
+  globalThis.location.pathname !== "/index.html" &&
+  globalThis.location.pathname !== "/signup.html"
+) {
   localStorage.removeItem("redirectAfterLogout");
   globalThis.location.href = "index.html";
 }
