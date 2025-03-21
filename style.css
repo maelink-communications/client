@@ -7,13 +7,18 @@
     --titletext: #ffffff;
     --text: #ffffff;
 
-    --topnav-height: 32px;
+    --sidenav-width: 200px;
 }
 
-body {
+*, *::before, *::after {
+    overflow: none;
+}
+
+html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
 }
 
 body {
@@ -21,78 +26,59 @@ body {
     font-family: 'Rethink Sans', sans-serif;
     color: var(--text);
     display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.image {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('static/PATTERN.png') repeat;
-    background-size: 50%;
-    filter: blur(8px);
-    animation: pan 30s infinite linear(0 50%, 1 100%);
-    z-index: -1;
-}
-
-@keyframes pan {
-    0% {
-        background-position: 0 0;
-    }
-    100% {
-        background-position: 75% 78.75%;
-    }
-}
-
-.topnav {
-    background: transparent;
-    backdrop-filter: blur(24px) contrast(0.8);
-    color: var(--text);
-    display: flex;
     justify-content: flex-start;
+    flex-direction: row;
+    height: 100vh; /* Ensure body takes full viewport height */
+}
+
+.sidenav {
+    display: flex;
+    left: 0px;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: var(--main2);
+    background-color: rgba(22, 22, 22, 0.7);
+    backdrop-filter: blur(24px);
+    padding-left: 16px;
+    padding-right: 32px;
+    height: 100vh;
+    width: 65%;
+    max-width: 200px;
+    min-width: 150px;
+    box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+    overflow-y: auto;
+}
+
+.logo-and-pill {
+    display: flex;
     align-items: center;
-    width: 100%;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    padding: 8px;
-    height: var(--topnav-height);
+    margin-bottom: 16px;
 }
 
-.topnav .icon {
-    height: 100%;
-    width: var(--topnav-height);
-    padding-inline-end: 8px;
-}
-
-.topnav .logo {
-    height: 24px;
-    transform: scale(1.5);
-}
-
-.topnav h3.pill {
+.sidenav h3.pill {
     background: linear-gradient(45deg, var(--accent), var(--accent2));
     border-radius: 16px;
     color: white;
     padding: 4px 12px;
-    margin-left: 10px;
+    justify-self: center;
+    align-self: center;
+    align-content: center;
     font-size: 16px;
+}
+
+.sidenav .logo {
+    height: 24px;
+    transform: scale(1.5);
 }
 
 .topnav button {
     height: var(--topnav-height);
     padding: 0px 8px;
-
     border: solid;
     border-width: 1px;
     border-color: var(--accent);
     border-radius: 16px;
-
     background-image: linear-gradient(var(--main), var(--accent2));
     cursor: pointer;
 }
@@ -104,7 +90,6 @@ body {
 .topnav input {
     background-color: var(--main);
     color: var(--text);
-
     border: solid;
     border-width: 1px;
     border-color: var(--accent);
@@ -113,15 +98,12 @@ body {
 
 .root {
     background: var(--main);
-
     max-width: fit-content;
     margin-inline: auto;
     text-align: center;
-
     padding: 2px 32px;
-
     max-width: 800px;
-    min-height: calc(100vh - var(--topnav-height) - 32px);
+    max-height: 100vh;
 }
 
 .grid {
@@ -143,14 +125,12 @@ body {
     width: 50%;
     max-width: 600px;
     box-shadow: -2px 0 8px rgba(0,0,0,0.2);
-
     @media screen and (max-width: 600px) {
         height: 100%;
         width: 100%;
         flex-direction: column;
         background-image: linear-gradient(var(--main2), var(--main));
     }
-    
     @media screen and (min-width: 600px) {
         position: fixed;
         top: 0;
@@ -158,33 +138,13 @@ body {
     }
 }
 
-.vid {
-    background-color: var(--accent);
-    color: var(--text-1);
-
-    border-width: 8px;
-    border-color: var(--accent2);
-
-    font-size: inherit;
-    cursor: pointer;
-    font-family: inherit;
-    margin: 0;
-}
-
-.vid img {
-    width: 632px;
-    height: 332px;
-}
-
 h1 {
     color: var(--titletext);
     font-size: 40px;
     margin: 8px;
-
     @media screen and (min-width: 800px) {
         font-size: 72px;
     }
-
 }
 
 h2 {
@@ -237,7 +197,7 @@ input[type="submit"] {
     background-color: var(--accent);
     cursor: pointer;
     width: 100%;
-    margin: 12px;
+    margin: 0px;
     margin-inline: 0;
 }
 
@@ -256,15 +216,21 @@ input[type="submit"]:hover {
 .content {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
     padding: 16px;
     width: 100%;
+    margin-left: auto;
+    overflow-y: auto;
+}
+
+.username {
+    color: white;
+    font-weight: 500;
 }
 
 #postFormElement {
     width: 100%;
-    position: absolute;
-    bottom: 0;
+    max-width: 100%;
+    margin-top: 50px
 }
 
 #postFormElement textarea {
@@ -272,7 +238,6 @@ input[type="submit"]:hover {
     padding: 12px;
     border-radius: 16px;
     border: none;
-    margin-bottom: zpx;
     align-content: center;
     font-family: inherit;
     resize: none;
@@ -291,7 +256,9 @@ input[type="submit"]:hover {
     background-color: var(--accent);
     color: white;
     cursor: pointer;
-    border-radius: 0;
+    border-radius: 16px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
     margin: 0;
 }
 
@@ -300,49 +267,69 @@ input[type="submit"]:hover {
 }
 
 #postsContainer {
+    margin-right: 0px;
     width: 100%;
-    max-width: 800px;
+    max-width: 100%;
 }
 
 .post {
-    background: var(--main2);
+    background: #323232;
     padding: 16px;
     border-radius: 16px;
+    margin-top: 20px;
     margin-bottom: 8px;
-    color: var(--text);
+    color: var (--text);
 }
 
-.user-icon {
+.post-content {
+    font-weight: 600;
+    font-size: larger
+}
+
+.post-tag {
+    color: #8b5151;
+    font-weight: 700;
+}
+
+.post-timestamp {
+    font-size: small;
+    margin-top: 50px;
+    color: grey;
+}
+
+.user-icon-container {
     position: relative;
-    margin-left: auto;
-    margin-right: 50px;
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+    align-self: center;
+    background: var(--main2);
+    margin-bottom: 40px;
+    padding: 8px;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .user-img {
     height: 32px;
     width: 32px;
     border-radius: 50%;
+    margin-right: 8px;
 }
 
 .dropdown {
-    display: none;
-    position: absolute;
-    top: 40px;
-    right: 0;
-    background: var(--main2);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
 }
 
 .dropdown-icon {
-    width: 22px;
+    width: auto;
     height: 24px;
     padding: 8px;
+    margin-left: 30px;
     cursor: pointer;
 }
 
 .dropdown-icon:hover {
-    background: var(--accent2);
+    background: var(--alt);
+    border-radius: 8px;
 }

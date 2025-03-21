@@ -151,9 +151,9 @@ async function fetchPosts(token) {
       const postElement = document.createElement("div");
       postElement.className = "post";
       postElement.innerHTML = `
-        <p>${post.u}</p>
-        <p>${post.p}</p>
-        <p>${new Date(Number(post.ts)).toLocaleString()}</p>
+        <p class="post-tag">//<span class="username">${post.u}</span></p>
+        <p class="post-content">${post.p}</p>
+        <p class="post-timestamp">${new Date(Number(post.ts)).toLocaleString()}</p>
         `;
       postsContainer.appendChild(postElement);
     });
