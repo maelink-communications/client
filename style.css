@@ -284,6 +284,7 @@ input[type="submit"]:hover {
 .post-content {
     font-weight: 600;
     font-size: larger;
+    margin-left: 7.5px;
     white-space: pre-line;
 }
 
