@@ -230,9 +230,10 @@ input[type="submit"]:hover {
     max-width: 100%;
     margin-top: 50px
 }
-
 #postFormElement textarea {
-    height: 24px;
+    min-height: 48px;
+    height: auto;
+    max-height: 200px;
     padding: 12px;
     border-radius: 16px;
     border: none;
@@ -244,6 +245,7 @@ input[type="submit"]:hover {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     color: var(--text);
+    overflow-y: hidden;
 }
 
 #postFormElement input[type="submit"] {
