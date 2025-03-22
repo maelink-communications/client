@@ -28,7 +28,7 @@ body {
     display: flex;
     justify-content: flex-start;
     flex-direction: row;
-    height: 100vh; /* Ensure body takes full viewport height */
+    height: 100vh;
 }
 
 .sidenav {
@@ -283,7 +283,8 @@ input[type="submit"]:hover {
 
 .post-content {
     font-weight: 600;
-    font-size: larger
+    font-size: larger;
+    white-space: pre-line;
 }
 
 .post-tag {
