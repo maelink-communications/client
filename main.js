@@ -171,8 +171,8 @@ function sanitize(string) {
     "'": '&#x27;',
     "/": '&#x2F;',
   };
-  const reg = /[&<>"'/]/ig;
-  return string.replace(reg, (match)=>(map[match]));
+  const reg = /[&<>"'/]/g;
+  return string.replace(/\n/g, '<br>').replace(reg, (match)=>(map[match]));
 }
 
 document.querySelector(".user-icon").addEventListener("click", function () {
