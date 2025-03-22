@@ -8,17 +8,12 @@
         rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - maelink</title>
+    <title>Post - maelink</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="static/logo.svg" type="image/svg+xml">
 </head>
 
 <body style="background: #232323">
-    <div class="topbar">
-        <p>This is an early closed alpha of maelink gen2. Expect bugs, glitches and please report anything you find on
-            the maelink Discord.</p>
-        <span class="close-topbar" onclick="closeTopbar()">x</span>
-    </div>
     <div class="sidenav">
         <div class="logo-and-pill">
             <img src="static/logo.svg" alt="maelink logo" class="logo">
@@ -30,7 +25,6 @@
                 <h3 class="home">Home</h3>
             </div>
             <div class="communities-container">
-                <img src="static/bubbles.svg" alt="bubbles icon" class="bubbles-icon">
                 <h3 class="communities">Bubbles</h3>
 
             </div>
@@ -44,17 +38,38 @@
         </div>
     </div>
     <div class="content">
-        <form id="postFormElement">
-            <textarea id="postContent" placeholder="Penny for your thoughts." required></textarea>
-            <input type="submit" value="Post">
-        </form>
-        <div id="postsContainer"></div>
+        <div id="postContainer">
+            <!-- Post content will be loaded here -->
+        </div>
+        <a href="home.html">Back to Home</a>
     </div>
     <script src="main.js"></script>
     <script>
-        function closeTopbar() {
-            document.querySelector('.topbar').style.display = 'none';
-        }
+        document.addEventListener("DOMContentLoaded", async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = urlParams.get('id');
+            const token = localStorage.getItem('token');
+
+            if (postId && token) {
+                const postData = await fetchIndividualPost(postId, token);
+                console.log(postData);
+                if (postData && postData[0]) {
+                    const post = postData[0];
+                    const postContainer = document.getElementById('postContainer');
+                    postContainer.innerHTML = `
+                        <div class="post">
+                            <p class="post-tag">//<span class="username">${post.u}</span></p>
+                            <div class="post-content">${sanitize(post.p)}</div>
+                            <p class="post-timestamp">${new Date(Number(post.ts)).toLocaleString()}</p>
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('postContainer').innerText = "Post not found.";
+                }
+            } else {
+                document.getElementById('postContainer').innerText = "Invalid post ID or token.";
+            }
+        });
     </script>
 </body>
 

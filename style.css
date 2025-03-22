@@ -231,21 +231,20 @@ input[type="submit"]:hover {
     margin-top: 50px
 }
 #postFormElement textarea {
-    min-height: 48px;
-    height: auto;
-    max-height: 200px;
-    padding: 12px;
-    border-radius: 16px;
-    border: none;
-    align-content: center;
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #515151;
+    border-radius: 12px 12px 0px 0px;
+    background: #2a2a2a;
+    color: #ffffff;
     font-family: inherit;
+    line-height: 1.4;
+    height: 36px;
+    min-height: 36px;
     resize: none;
-    background: var(--alt);
-    font-size: 16px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    color: var(--text);
+    vertical-align: top;
     overflow-y: hidden;
+    box-sizing: border-box;
 }
 
 #postFormElement input[type="submit"] {
@@ -278,24 +277,33 @@ input[type="submit"]:hover {
     border-radius: 16px;
     margin-top: 20px;
     margin-bottom: 8px;
-    color: var (--text);
+    color: var(--text);
+    border: 1px solid #444;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.post:hover {
+    background-color: #444;
 }
 
 .post-content {
-    font-weight: 600;
-    font-size: larger;
-    margin-left: 7.5px;
+    font-weight: 400;
+    font-size: 16px;
+    margin-left: 0px;
     white-space: pre-line;
 }
 
 .post-tag {
     color: #8b5151;
     font-weight: 700;
+    margin-bottom: 8px;
+    display: block;
 }
 
 .post-timestamp {
     font-size: small;
-    margin-top: 50px;
+    margin-top: 16px;
     color: grey;
 }
 
@@ -362,6 +370,13 @@ input[type="submit"]:hover {
     margin-right: 8px;
 }
 
+.bubbles-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    opacity: 50%;
+}
+
 .home {
     font-size: 16px;
     font-weight: 600;
@@ -369,8 +384,12 @@ input[type="submit"]:hover {
 
 .communities-container {
     margin-bottom: 10px;
+    display: flex;
     width: 90%;
+    align-content: center;
+    align-items: center;
     background-color: #333333;
+    justify-content: flex-start;
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 16px;

@@ -1,3 +1,6 @@
+// deno-lint-ignore-file 
+// shut up deno, this is a browser script
+// i'm just using deno to lint it because I'm too lazy to set up eslint
 console.log("main.js loaded");
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM fully loaded – main.js registering events");
@@ -147,16 +150,24 @@ async function fetchPosts(token) {
 
     const postsContainer = document.getElementById("postsContainer");
     postsContainer.innerHTML = "";
+    const postIds = []; // Array to store post IDs
     data.posts.forEach((post) => {
+      postIds.push(post.id); // Store the post ID
       const postElement = document.createElement("div");
       postElement.className = "post";
+      postElement.dataset.postId = post.id; // Store post ID as a data attribute
       postElement.innerHTML = `
         <p class="post-tag">//<span class="username">${post.u}</span></p>
         <div class="post-content">${sanitize(post.p)}</div>
         <p class="post-timestamp">${new Date(Number(post.ts)).toLocaleString()}</p>
         `;
+      postElement.addEventListener("click", () => {
+        // Redirect to post.html with the post ID as a query parameter
+        globalThis.location.href = `post.html?id=${post.id}`;
+      });
       postsContainer.appendChild(postElement);
     });
+    localStorage.setItem("postIds", JSON.stringify(postIds)); // Store post IDs in localStorage
   } catch (error) {
     console.error("Fetch posts error:", error);
   }
@@ -173,6 +184,26 @@ function sanitize(string) {
   };
   const reg = /[&<>"'/]/g;
   return string.replace(reg, (match) => map[match]).replace(/\n/g, '<br>');
+}
+
+async function fetchIndividualPost(id, token) {
+  try {
+    const response = await fetch("https://maelink-http.derpygamer2142.com/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type: "fetchIndividual",
+        id: id,
+        token: token,
+      }),
+    });
+    const data = await response.json();
+    console.log("Individual Post Data:", data);
+    return data;
+  } catch (error) {
+    console.error("Error fetching individual post:", error);
+    return null;
+  }
 }
 
 document.querySelector(".user-icon").addEventListener("click", function () {
