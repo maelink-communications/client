@@ -152,7 +152,7 @@ async function fetchPosts(token) {
       postElement.className = "post";
       postElement.innerHTML = `
         <p class="post-tag">//<span class="username">${post.u}</span></p>
-        <p class="post-content">${sanitize(post.p)}</p>
+        <div class="post-content">${sanitize(post.p)}</div>
         <p class="post-timestamp">${new Date(Number(post.ts)).toLocaleString()}</p>
         `;
       postsContainer.appendChild(postElement);
@@ -172,7 +172,7 @@ function sanitize(string) {
     "/": '&#x2F;',
   };
   const reg = /[&<>"'/]/g;
-  return string.replace(/\n/g, '<br>').replace(reg, (match)=>(map[match]));
+  return string.replace(reg, (match) => map[match]).replace(/\n/g, '<br>');
 }
 
 document.querySelector(".user-icon").addEventListener("click", function () {
