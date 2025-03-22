@@ -1,4 +1,3 @@
-# client-gen2 / ***Codename Dublin***
-*(https://maps.app.goo.gl/QgCMGnAdjhpzrbm29)*
+# client
 
-***Official WIP frontend for simplesample / maelink gen2***
+***Official WIP frontend for maelink gen2***
