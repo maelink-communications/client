@@ -152,7 +152,7 @@ async function fetchPosts(token) {
       postElement.className = "post";
       postElement.innerHTML = `
         <p class="post-tag">//<span class="username">${post.u}</span></p>
-        <p class="post-content">${post.p}</p>
+        <p class="post-content">${sanitize(post.p)}</p>
         <p class="post-timestamp">${new Date(Number(post.ts)).toLocaleString()}</p>
         `;
       postsContainer.appendChild(postElement);
@@ -160,6 +160,19 @@ async function fetchPosts(token) {
   } catch (error) {
     console.error("Fetch posts error:", error);
   }
+}
+
+function sanitize(string) {
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#x27;',
+    "/": '&#x2F;',
+  };
+  const reg = /[&<>"'/]/ig;
+  return string.replace(reg, (match)=>(map[match]));
 }
 
 document.querySelector(".user-icon").addEventListener("click", function () {
