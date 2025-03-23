@@ -297,6 +297,26 @@ input[type="submit"]:hover {
     cursor: pointer;
     align-content: flex-start;
     justify-content: flex-start;
+    flex-direction: row;
+}
+
+.referrer {
+    margin-left: 10px;
+}
+
+.one-post {
+    display: flex;
+    align-items: flex-start;
+    background-color: #343434;
+    margin: 16px;
+    border-radius: 16px;
+    width: calc(100% - 64px);
+    padding: 24px;
+    color: var(--text);
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    align-content: flex-start;
+    justify-content: flex-start;
     flex-direction: column;
 }
 
