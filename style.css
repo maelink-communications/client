@@ -214,10 +214,9 @@ input[type="submit"]:hover {
 .content {
     display: flex;
     flex-direction: column;
-    padding: 16px;
     width: 100%;
-    margin-left: auto;
-    overflow-y: auto;
+    overflow-x: hidden;
+    align-items: flex-start;
 }
 
 .username {
@@ -227,8 +226,9 @@ input[type="submit"]:hover {
 
 #postFormElement {
     width: 100%;
-    max-width: 100%;
-    margin-top: 50px
+    max-width: 97.5%;
+    margin-top: 50px;
+    margin-left: 10px;
 }
 #postFormElement textarea {
     flex-grow: 1;
@@ -264,33 +264,57 @@ input[type="submit"]:hover {
 #postFormElement input[type="submit"]:hover {
     background-color: var(--accent2);
 }
+/* finally addressing the STUPID home layout...!
+   this was a pain in the ass to make but hey it's done... i hope
+   -delusions */
 
 #postsContainer {
     margin-right: 0px;
     width: 100%;
+    display: flex;
     max-width: 100%;
+    min-width: 100%;
+    background: #232323;
+    padding: 16px;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
 }
 
 .post {
-    background: #323232;
-    padding: 16px;
-    border-radius: 16px;
-    margin-top: 20px;
-    margin-bottom: 8px;
+    display: flex; 
+    align-items: flex-start; 
+    background: none;
+    min-width: 50%;
+    max-width: 100%;
+    padding: 16px 0;
+    border-bottom: 1px solid #444;
+    margin: 0 0 20px 0;
     color: var(--text);
-    border: 1px solid #444;
     transition: background-color 0.3s ease;
     cursor: pointer;
+    align-content: flex-start;
+    justify-content: flex-start;
+}
+
+.user-img {
+    align-self: center;
+}
+
+.post:last-child {
+    border-bottom: none; /* Remove bottom border for the last post */
 }
 
 .post:hover {
-    background-color: #444;
+    background-color: none; /* Remove hover background effect */
 }
 
 .post-content {
     font-weight: 400;
     font-size: 16px;
-    margin-left: 0px;
+    margin-left: 10px; /* Add some space between the icon and the content */
     white-space: pre-line;
 }
 

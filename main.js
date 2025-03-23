@@ -157,9 +157,12 @@ async function fetchPosts(token) {
       postElement.className = "post";
       postElement.dataset.postId = post.id; // Store post ID as a data attribute
       postElement.innerHTML = `
-        <p class="post-tag">//<span class="username">${post.u}</span></p>
-        <div class="post-content">${sanitize(post.p)}</div>
-        <p class="post-timestamp">${new Date(Number(post.ts)).toLocaleString()}</p>
+        <img src="static/defaultuser.png" alt="User Icon" class="user-img" style="height: 40px; width: 40px; border-radius: 50%; margin-right: 10px;">
+        <div>
+          <p class="post-tag">//<span class="username">${post.u}</span></p>
+          <div class="post-content">${sanitize(post.p)}</div>
+          <p class="post-timestamp">${new Date(Number(post.ts)).toLocaleString()}</p>
+        </div>
         `;
       postElement.addEventListener("click", () => {
         // Redirect to post.html with the post ID as a query parameter
