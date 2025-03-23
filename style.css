@@ -284,8 +284,8 @@ input[type="submit"]:hover {
 }
 
 .post {
-    display: flex; 
-    align-items: flex-start; 
+    display: flex;
+    align-items: flex-start;
     background: none;
     min-width: 50%;
     max-width: 100%;
@@ -297,6 +297,7 @@ input[type="submit"]:hover {
     cursor: pointer;
     align-content: flex-start;
     justify-content: flex-start;
+    flex-direction: column;
 }
 
 .user-img {
