@@ -110,6 +110,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       } catch (error) {
         console.error("Post error:", error);
+      } finally {
+        document.getElementById("postContent").value = '';
       }
     });
   } else {
