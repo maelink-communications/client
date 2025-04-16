@@ -12,6 +12,7 @@
 
 *, *::before, *::after {
     overflow: none;
+    font-family: 'Rethink Sans';
 }
 
 html, body {
@@ -56,7 +57,7 @@ body {
 }
 
 .sidenav h3.pill {
-    background: linear-gradient(45deg, var(--accent), var(--accent2));
+    background: linear-gradient(45deg, #741e53, #a51a70);
     border-radius: 16px;
     color: white;
     padding: 4px 12px;
@@ -66,9 +67,41 @@ body {
     font-size: 16px;
 }
 
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+}
+
+.joinCommunity {
+    padding: 15px 10px 15px 10px;
+    border-radius: 8px;
+}
+
+.com {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background: linear-gradient(45deg, #2c1321, #571c26);
+    padding: 20px;
+    border-radius: 16px;
+    display: none;
+}
+
 .sidenav .logo {
     height: 24px;
     transform: scale(1.5);
+}
+
+button {
+    border: none;
 }
 
 .topnav button {
@@ -103,6 +136,11 @@ body {
     padding: 2px 32px;
     max-width: 800px;
     max-height: 100vh;
+}
+
+label {
+font-size: small;
+opacity: 50%;
 }
 
 .grid {
@@ -152,7 +190,7 @@ h2 {
 }
 
 h3 {
-    margin-left: 10px
+    margin-left: 10px;
 }
 
 p {
@@ -268,26 +306,30 @@ input[type="submit"]:hover {
    this was a pain in the ass to make but hey it's done... i hope
    -delusions */
 
+/* nevermind it wasn't done 
+   whatever - delusions */
+
 #postsContainer {
     margin-right: 0px;
     width: 100%;
     display: flex;
-    max-width: 100%;
-    min-width: 100%;
+    max-width: 50%;
+    min-width: 50%;
     background: #232323;
     padding: 16px;
     flex-direction: column;
     justify-content: center;
     align-content: center;
-    flex-wrap: nowrap;
+    align-self: center;
+    flex-wrap: wrap;
     align-items: center;
 }
 
 .post {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     background: none;
-    min-width: 50%;
+    min-width: 100%;
     max-width: 100%;
     padding: 16px 0;
     border-bottom: 1px solid #444;
@@ -298,6 +340,7 @@ input[type="submit"]:hover {
     align-content: flex-start;
     justify-content: flex-start;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .referrer {
@@ -325,18 +368,20 @@ input[type="submit"]:hover {
 }
 
 .post:last-child {
-    border-bottom: none; /* Remove bottom border for the last post */
+    border-bottom: none;
 }
 
 .post:hover {
-    background-color: none; /* Remove hover background effect */
+    background-color: none;
 }
 
 .post-content {
     font-weight: 400;
+    display: flex;
     font-size: 16px;
-    margin-left: 10px; /* Add some space between the icon and the content */
+    margin-left: 10px;
     white-space: pre-line;
+    flex-wrap: wrap;
 }
 
 .post-tag {
@@ -419,11 +464,11 @@ input[type="submit"]:hover {
     width: 16px;
     height: 16px;
     margin-right: 8px;
-    opacity: 50%;
 }
 
 .home {
     font-size: 16px;
+    min-width: 80%;
     font-weight: 600;
 }
 
@@ -443,21 +488,15 @@ input[type="submit"]:hover {
 
 .communities {
     font-size: 16px;
-    color: rgba(128, 128, 128, 0.3);
-}
-
-.communities-container::before {
-    content: "Work in progress!";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #ffffff;
-    font-size: 12px;
-    z-index: 1;
+    font-weight: 600;
+    color: rgb(255, 255, 255);
 }
 
 .home-container:hover {
+    background-color: #616161;
+}
+
+.communities-container:hover {
     background-color: #616161;
 }
 

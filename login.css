@@ -84,7 +84,7 @@ body {
 }
 
 .topnav h3.pill {
-    background: linear-gradient(45deg, var(--accent), var(--accent2));
+    background: linear-gradient(45deg, #ae347f, #d42828);
     border-radius: 16px;
     color: white;
     padding: 4px 12px;

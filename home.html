@@ -14,48 +14,68 @@
 </head>
 
 <body style="background: #232323">
-    <div class="topbar">
-        <p>This is an early closed alpha of maelink gen2. Expect bugs, glitches and please report anything you find on
-            the maelink Discord.</p>
-        <span class="close-topbar" onclick="closeTopbar()">x</span>
-    </div>
     <div class="sidenav">
         <div class="logo-and-pill">
             <img src="static/logo.svg" alt="maelink logo" class="logo">
-            <h3 class="pill">closed alpha</h3>
+            <h3 class="pill">prerelease</h3>
         </div>
         <div class="home-and-communities">
-            <div class="home-container">
-                <img src="static/home.svg" alt="home icon" class="home-icon">
+            <button class="home-container">
+                <img src="static/home.svg" alt="home icon" class="home-icon" id="home">
                 <h3 class="home">Home</h3>
-            </div>
-            <div class="communities-container">
-                <img src="static/bubbles.svg" alt="bubbles icon" class="bubbles-icon">
+            </button>
+            <button class="communities-container">
+                <img src="static/bubbles.svg" alt="bubbles icon" class="bubbles-icon" id="bubbles">
                 <h3 class="communities">Bubbles</h3>
-
-            </div>
+            </button>
         </div>
         <div class="user-icon-container">
             <img src="static/defaultuser.png" alt="User Icon" class="user-img">
             <div class="dropdown">
-                <img src="static/settings.png" alt="Settings" class="dropdown-icon">
+                <img src="static/settings.png" alt="Settings" class="dropdown-icon" id="settings">
                 <img src="static/logout.png" alt="Logout" class="dropdown-icon" id="logout">
             </div>
         </div>
     </div>
-    <div class="content">
+    <div class="home">
         <form id="postFormElement">
             <textarea id="postContent" placeholder="Penny for your thoughts." required></textarea>
             <input type="submit" value="Post">
         </form>
         <div id="postsContainer"></div>
     </div>
+    <div class="overlay" id="overlay"></div>
+    <div class="com" style="display: none;">
+        <h3 class="communities">Your Bubbles</h3>
+        <div id="communitiesContainer"></div><hr>
+        <h3 class="communities">Discover</h3>
+        <div id="discoverCommunities"></div><hr>
+        <div class="joinCommunity" style="background-color: rgba(0, 0, 0, 0.3)">
+            <h3 class="invitedCommunity">Invited to a Bubble?</h3>
+            <h6>If you were not provided the name of the Bubble, please ask a member for it now.</h6>
+            <label for="name">Name:</label>
+            <input type="text" id="name" placeholder="Enter the Bubble's name...">
+            <label for="invitecode">Invite code:</label>
+            <input type="text" id="invitecode" placeholder="Enter your invite code...">
+            <button id="joinCommunity" style="background-color: linear-gradient(#f85c5c, #f36590); color: #fff;">Hop in!</button>
+        </div><hr>
+        <div style="background-color: linear-gradient(#2c1321, #571c26);">
+            <h3 class="createCommunity">Want your own Bubble?</h3>
+            <label for="name2">Name:</label>
+            <input type="text" id="name2" placeholder="Enter the Bubble's name...">
+            <label for="visibility">Visibility:</label>
+            <select id="visibility" onchange="if (this.value == 'Invite-only (you need a code to join)') {document.querySelector('#codeDiv').style.display = 'block'} else {document.querySelector('#codeDiv').style.display = 'none'}">
+                <option>Public (anyone can join)</option>
+                <option>Invite-only (you need a code to join)</option>
+            </select>
+            <div id="codeDiv" style="display: none;">
+                <label for="code">Invite code:</label>
+                <input type="text" id="invitecode2" placeholder="Enter the Bubble's invite code...">
+            </div>
+            <button id="createButton" style="background-color: linear-gradient(#f85c5c, #f36590); color: #fff;">Create!</button>
+        </div>
+    </div>
     <script src="main.js"></script>
-    <script>
-        function closeTopbar() {
-            document.querySelector('.topbar').style.display = 'none';
-        }
-    </script>
 </body>
 
 </html>
