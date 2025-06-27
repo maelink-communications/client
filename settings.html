@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maelink</title>
+    <link rel="stylesheet" href="assets/client.css">
+    <link rel="stylesheet" href="titlebar/titlebar.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="titlebar">
+        <div class="decorations">
+            <img id="min-button" src="titlebar/min.svg" alt="">
+            <img id="max-button" src="titlebar/max.svg" alt="">
+            <img id="close-button" class="close-button" src="titlebar/close.svg" alt="">
+        </div>
+    </div>
+    <div class="sidebar">
+        <img class="sidebar-full" src="assets/img/icon.svg" alt="">
+        <a class="active">Account</a>
+        <a>Appearance</a>
+        <a>Logout</a>
+    </div>
+    <div class="sidebar-bottom">
+        <img onclick="location.replace('client.html')" src="assets/img/back.svg" alt="">
+    </div>
+    <div class="content"></div>
+    <script src="web.js"></script>
+</body>
+</html>
