@@ -1,6 +1,6 @@
 ## maelink client
 
-We're actually doing it this time.
+We're actually doing it.
 
 This is the work-in-progress client for maelink, for real this time.
 
