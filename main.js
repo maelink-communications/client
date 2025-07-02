@@ -10,7 +10,7 @@ const createWindow = () => {
     icon: 'static/icons/icon512.png',
     transparent: true,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),  // Add this
+      preload: path.join(__dirname, 'preload.js'),  // add this
       contextIsolation: true,
       nodeIntegration: false,
     }
@@ -30,7 +30,7 @@ app.whenReady().then(() => {
 })
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+  if (process.platform !== 'darwin') { // i hate macos i hate macos i hate macos
     app.quit()
   }
 })
