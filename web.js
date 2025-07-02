@@ -28,7 +28,7 @@ function toggleSidebar() {
                 #maelink-icon {
                     margin:var(--spacing);
                     margin-inline: auto;
-                    transform: rotate(120deg) translateX(-4px) translateY(4px);
+                    transform: translateY(2px);
                 }
 
                 .active {
