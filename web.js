@@ -72,4 +72,11 @@ document.getElementById('min-button').addEventListener('click', () => {
     window.api.sendWindowControl('minimize');
 });
 
+if (window.api?.isElectron) {
+    console.log("Electron");
+} else {
+    console.log("Browser");
+    document.getElementById("titlebar").setAttribute("style", "display: none")
+}
+
 toggleSidebar()
