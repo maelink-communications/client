@@ -10,7 +10,7 @@ const createWindow = () => {
     icon: 'static/icons/icon512.png',
     transparent: true,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),  // add this
+      preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       nodeIntegration: false,
     }
@@ -30,7 +30,7 @@ app.whenReady().then(() => {
 })
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') { // i hate macos i hate macos i hate macos
+  if (process.platform !== 'darwin') { // electron doesnt support macos so dont bother with it
     app.quit()
   }
 })
@@ -60,3 +60,4 @@ ipcMain.on('window-control', (event, action) => {
       break;
   }
 });
+
