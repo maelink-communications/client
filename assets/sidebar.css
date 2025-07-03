@@ -1,0 +1,98 @@
+ .sidebar {
+  margin: 0;
+  padding: 0;
+  width: var(--sidebar-width);
+  background-color: var(--pri);
+  position: fixed;
+  height: 100vh;
+  overflow: auto;
+  -webkit-app-region: drag;
+}
+
+.sidebar a {
+  display: block;
+  padding: var(--size);
+  text-decoration: none;
+  margin: var(--spacing);
+  border-radius: var(--size);
+  -webkit-app-region: no-drag;
+}
+
+.sidebar a.active {
+  background: var(--accent);
+}
+
+.sidebar img.active {
+  background: var(--accent);
+  display: block;
+  margin: var(--spacing);
+  margin-left: auto;
+  margin-right: auto;
+  width: 24px;
+}
+
+.sidebar a:hover:not(.active) {
+  background-color: var(--sec);
+}
+
+.sidebar-bottom {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: var(--sidebar-width);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--sec);
+  border-top-left-radius: var(--size);
+  border-top-right-radius: var(--size);
+  -webkit-app-region: no-drag;
+}
+
+.sidebar-bottom img {
+  width: calc(var(--size) * 4);
+  margin: var(--spacing);
+  margin-inline: calc(var(--sidebar-width) / 16);
+  border-radius: var(--size);
+}
+
+div.content {
+  margin-left: var(--sidebar-width);
+}
+
+#setting-icon {
+  transition: cubic-bezier(0.19, 1, 0.22, 1) 0.25s;
+}
+
+#settings-icon:hover {
+  transition: cubic-bezier(0.19, 1, 0.22, 1) 0.5s;
+  transform: rotate(180deg);
+  scale: 1.1;
+}
+
+#profile-icon {
+  transition: cubic-bezier(0.19, 1, 0.22, 1) 0.25s;
+}
+
+#profile-icon:hover {
+  box-shadow: 0 0 5px var(--accent1);
+  scale: 1.1;
+}
+
+#maelink-icon {
+  display: block;
+  margin: var(--spacing);
+  margin-left: auto;
+  margin-right: auto;
+  width: 32px;
+  -webkit-app-region: no-drag;
+}
+
+.sidebar-full {
+  display: block;
+  margin: var(--spacing);
+  margin-left: auto;
+  margin-right: auto;
+  width: 24px;
+  -webkit-app-region: no-drag;
+}

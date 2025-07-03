@@ -1,6 +1,10 @@
 let compactSidebar = false
 let currentPage = "home"
 
+function updateSidebar() {
+    document.getElementById(currentPage).setAttribute("class", "active")
+}
+
 function toggleSidebar() {
     if (compactSidebar == true) {
         compactSidebar = false;
@@ -28,7 +32,6 @@ function toggleSidebar() {
                 #maelink-icon {
                     margin:var(--spacing);
                     margin-inline: auto;
-                    transform: translateY(2px);
                 }
 
                 .active {
@@ -57,6 +60,7 @@ function toggleSidebar() {
             </div>
         `
     }
+    updateSidebar();
 }
 
 // Window management
