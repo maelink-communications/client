@@ -6,8 +6,9 @@ const createWindow = () => {
   const win = new BrowserWindow({
     titleBarStyle: 'hidden',
     width: 1024,
-    height: 778,
-    icon: 'static/icons/icon512.png',
+    height: 768,
+    minWidth: 640,
+    minHeight: 480,
     transparent: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
