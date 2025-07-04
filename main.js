@@ -16,7 +16,7 @@ const createWindow = () => {
     }
   })
 
-  win.loadFile('client.html')
+  win.loadFile('signup.html')
 }
 
 app.whenReady().then(() => {
