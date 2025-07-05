@@ -10,6 +10,28 @@
   -webkit-app-region: drag;
 }
 
+.titlebar h1 {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text);
+  padding-left: 8px;
+  margin: 0;
+  line-height: 1;
+}
+
+.logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+}
+
 .decorations {
   display: flex;
   position: fixed;
