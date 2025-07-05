@@ -8,7 +8,8 @@
   --accent: linear-gradient(to bottom right, var(--accent1), var(--accent2));
   --accent1: #ff3737;
   --accent2: #ff1271;
-  --glass: rgba(0, 0, 0, 0.2);
+  --glass: rgba(62, 62, 62, 0.2);
+  --glass-alt: rgba(111, 111, 111, 0.2);
   --glass-light: rgba(255, 255, 255, 0.05);
 
   --pill: 24px;
@@ -136,7 +137,7 @@ input {
 }
 
 .modal input {
-  background-color: var(--glass);
+  background-color: var(--glass-alt);
   backdrop-filter: none;
 }
 
@@ -202,7 +203,29 @@ button:active {
 
 .center.content h2 {
   width: 100%;
+  font-size: xx-large;
+  text-align: left;
+
+  margin-top: auto;
   max-width: 100%;
+}
+
+.biglogo {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -250%);
+  width: 200px;
+  height: auto;
+  z-index: 2000;
+}
+
+.center.content p {
+  width: 100%;
+  font-size: medium;
+  text-align: left;
+  max-width: 100%;
+  margin-bottom: auto;
 }
 
 .center.content input,

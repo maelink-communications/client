@@ -98,6 +98,7 @@ if (document.getElementById("sidebar")) {
 const loginForm = `
     <div class="center content">
         <h2>Hello!</h2>
+        <p>Pick up right where you left off.</p>
         <input placeholder="Username" type="text">
         <input placeholder="Password" type="password">
         <button>Login</button>
@@ -108,6 +109,7 @@ const loginForm = `
 const signupForm = `
     <div class="center content">
         <h2>Welcome!</h2>
+        <p>Joining maelink is just a few clicks away.</p>
         <input placeholder="Username" type="text">
         <input placeholder="Password" type="password">
         <button>Join</button>
