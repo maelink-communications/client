@@ -80,7 +80,7 @@ if (window.api?.isElectron) {
     console.log("Electron");
 } else {
     console.log("Browser");
-    document.getElementById("titlebar").setAttribute("style", "display: none")
+    document.querySelector(".titlebar").setAttribute("style", "display: none; opacity: 0%;")
 }
 
 toggleSidebar()
