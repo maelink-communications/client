@@ -207,7 +207,6 @@ button:active {
   bottom: 32px;
   z-index: 2000;
   background: transparent;
-  backdrop-filter: blur(8px);
   display: flex;
   opacity: 50%;
   flex-direction: column;

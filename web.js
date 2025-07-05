@@ -9,7 +9,7 @@ function updateSidebar() {
 
 function toggleSidebar() {
     const sidebar = document.getElementById("sidebar");
-    if (!sidebar) return; // this is a warning to webdevs everywhere. PLEASE. DON'T JUST LET IT THROW AN ERROR AND EXPECT SHIT TO WORK AFTER IT.
+    if (!sidebar) return;
 
     if (compactSidebar == true) {
         compactSidebar = false;
