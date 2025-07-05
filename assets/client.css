@@ -25,7 +25,7 @@
   height: 65%;
   display: flex;
   align-items: center;
-  background-color: #202020d3;
+  background-color: #202020b6;
   justify-content: center;
   z-index: 10;
   backdrop-filter: blur(8px);
@@ -61,13 +61,9 @@
     filter: blur(12px);
     z-index: -1;
     background: url("img/PATTERN.png") 0% 0% / 5% repeat;
-    animation: 300s linear(0 0%, 1 100%) 0s infinite normal none running linear;
-    opacity: 0.5;
-    animation-name: linear, image-fadein;
-    animation-duration: 300s, 1s;
-    animation-timing-function: linear, ease;
-    animation-iteration-count: infinite, 1;
-    animation-fill-mode: none, forwards;
+    --pattern-speed: 300s;
+    animation: linear var(--pattern-speed) linear infinite, image-fadein 1s ease 1 forwards;
+    transition: --pattern-speed 0.5s cubic-bezier(0.4,0,0.2,1);
 }
 
 @keyframes linear {
@@ -109,6 +105,10 @@ a {
   justify-content: center;
   height: 100vh;
   width: calc(100vw + var(--sidebar-width));
+}
+
+.pill p { 
+  max-width: 80% !important;
 }
 
 .center h1, h2, h3, p, span {
@@ -199,4 +199,39 @@ button:active {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+}
+
+.pill {
+  position: fixed;
+  left: 32px;
+  bottom: 32px;
+  z-index: 2000;
+  background: transparent;
+  backdrop-filter: blur(8px);
+  display: flex;
+  opacity: 50%;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 100vh;
+  min-width: 700px;
+  color: var(--text);
+  gap: 8px;
+  text-align: left;
+  pointer-events: none;
+}
+
+.disclaimer {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0 0 4px 0;
+  letter-spacing: 2px;
+  color: #ff3737;
+  text-shadow: 0 2px 8px #000a;
+}
+
+.disclaimer2 {
+  font-size: 0.95rem;
+  margin: 0;
+  text-align: left;
+  line-height: 1.4;
 }
