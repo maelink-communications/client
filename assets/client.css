@@ -33,9 +33,9 @@
   z-index: 10;
   backdrop-filter: blur(48px);
   min-width: 600px;
-  min-height: 480px;
+  min-height: 380px;
   max-width: 600px;
-  max-height: 500px;
+  max-height: 380px;
 }
 
 .background {
@@ -186,6 +186,7 @@ button:active {
 }
 
 .textclar {
+  padding-bottom: 16px;
   opacity: 0.4;
 }
 
