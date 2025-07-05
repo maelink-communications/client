@@ -2,17 +2,21 @@ let compactSidebar = false
 let currentPage = "home"
 
 function updateSidebar() {
-    document.getElementById(currentPage).setAttribute("class", "active")
+    if (document.getElementById(currentPage)) {
+        document.getElementById(currentPage).setAttribute("class", "active");
+    }
 }
 
 function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    if (!sidebar) return; // this is a warning to webdevs everywhere. PLEASE. DON'T JUST LET IT THROW AN ERROR AND EXPECT SHIT TO WORK AFTER IT.
+
     if (compactSidebar == true) {
         compactSidebar = false;
     } else {
         compactSidebar = true;
     }
 
-    sidebar = document.getElementById("sidebar")
     if (compactSidebar == true) {
         sidebar.innerHTML = `
             <img onclick="toggleSidebar()" id="maelink-icon" class="sidebar-full" src="assets/img/icon.svg" alt="">
@@ -63,24 +67,66 @@ function toggleSidebar() {
     updateSidebar();
 }
 
-// Window management
-document.getElementById('close-button').addEventListener('click', () => {
-    window.api.sendWindowControl('close');
-});
-
-document.getElementById('max-button').addEventListener('click', () => {
-    window.api.sendWindowControl('maximize');
-});
-
-document.getElementById('min-button').addEventListener('click', () => {
-    window.api.sendWindowControl('minimize');
-});
+if (document.getElementById('close-button')) {
+    document.getElementById('close-button').addEventListener('click', () => {
+        window.api.sendWindowControl('close');
+    });
+}
+if (document.getElementById('max-button')) {
+    document.getElementById('max-button').addEventListener('click', () => {
+        window.api.sendWindowControl('maximize');
+    });
+}
+if (document.getElementById('min-button')) {
+    document.getElementById('min-button').addEventListener('click', () => {
+        window.api.sendWindowControl('minimize');
+    });
+}
 
 if (window.api?.isElectron) {
     console.log("Electron");
 } else {
     console.log("Browser");
-    document.querySelector(".titlebar").setAttribute("style", "display: none; opacity: 0%;")
+    const tb = document.querySelector(".titlebar");
+    if (tb) tb.setAttribute("style", "display: none; opacity: 0%;");
 }
 
-toggleSidebar()
+if (document.getElementById("sidebar")) {
+    toggleSidebar();
+}
+
+const loginForm = `
+    <div class="center content">
+        <h2>Hello!</h2>
+        <input placeholder="Username" type="text">
+        <input placeholder="Password" type="password">
+        <button>Login</button>
+        <a class="textclar" href="#" id="to-signup">Don't have an account yet?</a>
+    </div>
+`;
+
+const signupForm = `
+    <div class="center content">
+        <h2>Welcome!</h2>
+        <input placeholder="Username" type="text">
+        <input placeholder="Password" type="password">
+        <button>Join</button>
+        <a class="textclar" href="#" id="to-login">Already have an account?</a>
+    </div>
+`;
+
+function showLogin() {
+    document.getElementById('modal').innerHTML = loginForm;
+    document.getElementById('to-signup').onclick = showSignup;
+}
+
+function showSignup() {
+    document.getElementById('modal').innerHTML = signupForm;
+    document.getElementById('to-login').onclick = showLogin;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('modal')) {
+        showLogin();
+    }
+});
