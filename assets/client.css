@@ -11,8 +11,28 @@
 
   --pill: 24px;
   --size: 8px;
-  --spacing: 8px;
+  --spacing: 14px;
   --sidebar-width: 192px;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  border-radius: var(--pill);
+  height: 65%;
+  display: flex;
+  align-items: center;
+  background-color: #202020d3;
+  justify-content: center;
+  z-index: -1;
+  backdrop-filter: blur(8px);
+  min-width: 600px;
+  min-height: 480px;
+  max-width: 600px;
+  max-height: 500px;
 }
 
 .background {
@@ -42,6 +62,12 @@
     z-index: -1;
     background: url("img/PATTERN.png") 0% 0% / 5% repeat;
     animation: 300s linear(0 0%, 1 100%) 0s infinite normal none running linear;
+    opacity: 0.5;
+    animation-name: linear, image-fadein;
+    animation-duration: 300s, 1s;
+    animation-timing-function: linear, ease;
+    animation-iteration-count: infinite, 1;
+    animation-fill-mode: none, forwards;
 }
 
 @keyframes linear {
@@ -50,6 +76,15 @@
   }
   to {
     background-position: 100% 0%;
+  }
+}
+
+@keyframes image-fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.5;
   }
 }
 
@@ -88,12 +123,11 @@ a {
 
 input {
   padding: var(--spacing);
-  margin: var(--spacing);
-  background: var(--pri);
-  opacity: 0.6;
+  margin: 4px;
+  background: #3030308c;
   backdrop-filter: blur(8px);
   color: var(--text);
-  border-radius: var(--size);
+  border-radius: var(--pill);
   border: none;
   font-family: inherit;
   font-size: inherit;
@@ -117,25 +151,52 @@ button {
 
 @keyframes accent-shadow {
   0% {
-    border: solid 2px var(--accent1);
-     box-shadow: 0 0px 8px var(--accent1);
+    border: solid 2px #ff5b5b;
+     box-shadow: 0 0px 8px #ff5b5b;
   }
   50% {
-    border: solid 2px var(--accent2);
-     box-shadow: 0 0px 12px var(--accent2);
+    border: solid 2px var(--accent1);
+     box-shadow: 0 0px 12px var(--accent1);
   }
   100% {
-    border: solid 2px var(--accent1);
-    box-shadow: 0 0px 8px var(--accent1);
+    border: solid 2px #ff5b5b;
+    box-shadow: 0 0px 8px #ff5b5b;
   }
 }
 
 button:hover {
   animation: accent-shadow 1s infinite;
-  scale: 1.05;
-  background: var(--sec);
+  background: var(--accent1);
 }
 
 button:active {
   scale: 0.95;
+}
+
+.textclar {
+  opacity: 0.4;
+}
+
+.center.content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.center.content h2 {
+  width: 100%;
+  max-width: 100%;
+}
+
+.center.content input,
+.center.content button {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
