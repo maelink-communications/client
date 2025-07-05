@@ -8,6 +8,8 @@
   --accent: linear-gradient(to bottom right, var(--accent1), var(--accent2));
   --accent1: #ff3737;
   --accent2: #ff1271;
+  --glass: rgba(0, 0, 0, 0.2);
+  --glass-light: rgba(255, 255, 255, 0.05);
 
   --pill: 24px;
   --size: 8px;
@@ -25,10 +27,10 @@
   height: 65%;
   display: flex;
   align-items: center;
-  background-color: #202020b6;
+  background-color: var(--glass);
   justify-content: center;
   z-index: 10;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(48px);
   min-width: 600px;
   min-height: 480px;
   max-width: 600px;
@@ -133,6 +135,11 @@ input {
   font-size: inherit;
 }
 
+.modal input {
+  background-color: var(--glass);
+  backdrop-filter: none;
+}
+
 textarea:focus, input:focus, button:focus{
     outline: none;
 }
@@ -147,6 +154,10 @@ button {
   font-family: inherit;
   font-size: inherit;
   transition: cubic-bezier(0.19, 1, 0.22, 1) 0.25s;
+}
+
+.modal button {
+  background-color: var(--glass);
 }
 
 @keyframes accent-shadow {
