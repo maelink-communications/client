@@ -214,10 +214,12 @@ button:active {
   position: fixed;
   top: 40%;
   left: 50%;
-  transform: translate(-50%, -250%);
+  transform: translate(-50%, -450%);
   width: 200px;
   height: auto;
   z-index: 2000;
+  user-select: none;
+  pointer-events: none;
 }
 
 .center.content p {
