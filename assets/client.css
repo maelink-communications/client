@@ -22,29 +22,42 @@
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 45%);
   width: 50%;
-  border-radius: var(--pill);
   height: fit-content;
+  min-width: 600px;
+  max-width: 600px;
+  min-height: 380px;
+  max-height: 380px;
+  border-radius: var(--pill);
+  background-color: var(--glass);
+  backdrop-filter: blur(48px);
+  z-index: 10;
   display: flex;
   align-items: center;
-  background-color: var(--glass);
   justify-content: center;
-  z-index: 10;
-  backdrop-filter: blur(48px);
-  min-width: 600px;
-  border: solid 2px transparent;
-  border-image: linear-gradient(to bottom right, #6868686c, #3434342c)
-    1;
-  min-height: 380px;
-  max-width: 600px;
-  max-height: 380px;
-  mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
+  overflow: hidden;
+  position: relative;
+}
+
+.modal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  background: linear-gradient(to bottom right, #6363636c, #4343432b);
+  border-radius: inherit;
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: -1;
 }
 
 .background {
