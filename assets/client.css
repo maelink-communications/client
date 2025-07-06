@@ -22,7 +22,7 @@
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, 45%);
+  transform: translate(-50%, -50%);
   width: 50%;
   height: fit-content;
   min-width: 600px;
@@ -37,7 +37,6 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  position: relative;
 }
 
 .modal::before {
