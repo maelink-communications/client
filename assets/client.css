@@ -33,9 +33,18 @@
   z-index: 10;
   backdrop-filter: blur(48px);
   min-width: 600px;
+  border: solid 2px transparent;
+  border-image: linear-gradient(to bottom right, #6868686c, #3434342c)
+    1;
   min-height: 380px;
   max-width: 600px;
   max-height: 380px;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
 }
 
 .background {
@@ -51,22 +60,23 @@
 
 .titlebar {
   background: #23232380;
-
 }
 
 .image {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 14000px;
-    height: 14000px;
-    opacity: 50%;
-    filter: blur(12px);
-    z-index: -1;
-    background: url("img/PATTERN.png") 0% 0% / 5% repeat;
-    --pattern-speed: 300s;
-    animation: linear var(--pattern-speed) linear infinite, image-fadein 1s ease 1 forwards;
-    transition: --pattern-speed 0.5s cubic-bezier(0.4,0,0.2,1);
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 14000px;
+  height: 14000px;
+  opacity: 50%;
+  filter: blur(12px);
+  z-index: -1;
+  background: url("img/PATTERN.png") 0% 0% / 5% repeat;
+  --pattern-speed: 300s;
+  animation:
+    linear var(--pattern-speed) linear infinite,
+    image-fadein 1s ease 1 forwards;
+  transition: --pattern-speed 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes linear {
@@ -110,7 +120,7 @@ a {
   width: calc(100vw + var(--sidebar-width));
 }
 
-.pill p { 
+.pill p {
   max-width: 80% !important;
 }
 
@@ -141,8 +151,8 @@ input {
   backdrop-filter: none;
 }
 
-textarea:focus, input:focus, button:focus{
-    outline: none;
+textarea:focus, input:focus, button:focus {
+  outline: none;
 }
 
 button {
@@ -164,11 +174,11 @@ button {
 @keyframes accent-shadow {
   0% {
     border: solid 2px #ff5b5b;
-     box-shadow: 0 0px 8px #ff5b5b;
+    box-shadow: 0 0px 8px #ff5b5b;
   }
   50% {
     border: solid 2px var(--accent1);
-     box-shadow: 0 0px 12px var(--accent1);
+    box-shadow: 0 0px 12px var(--accent1);
   }
   100% {
     border: solid 2px #ff5b5b;
