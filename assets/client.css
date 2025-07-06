@@ -15,7 +15,6 @@
   --pill: 24px;
   --size: 8px;
   --spacing: 14px;
-  --sidebar-width: 192px;
 }
 
 .modal {
@@ -177,6 +176,7 @@ button {
   font-family: inherit;
   font-size: inherit;
   transition: cubic-bezier(0.19, 1, 0.22, 1) 0.25s;
+  cursor: pointer;
 }
 
 .modal button {
@@ -185,15 +185,15 @@ button {
 
 @keyframes accent-shadow {
   0% {
-    border: solid 2px #ff5b5b;
+    outline: solid 2px #ff5b5b;
     box-shadow: 0 0px 8px #ff5b5b;
   }
   50% {
-    border: solid 2px var(--accent1);
+    outline: solid 2px var(--accent1);
     box-shadow: 0 0px 12px var(--accent1);
   }
   100% {
-    border: solid 2px #ff5b5b;
+    outline: solid 2px #ff5b5b;
     box-shadow: 0 0px 8px #ff5b5b;
   }
 }
