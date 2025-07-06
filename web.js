@@ -1,5 +1,27 @@
+let serverAddress = "http://0.0.0.0:6060"
 let compactSidebar = false
 let currentPage = "home"
+
+async function joinMaelink(username, password) {
+    fetch(serverAddress, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            cmd: "reg",
+            user: username,
+            pswd: password 
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+};
 
 function updateSidebar() {
     if (document.getElementById(currentPage)) {
@@ -99,9 +121,9 @@ const loginForm = `
     <div class="center content">
         <h2>Hello!</h2>
         <p>Pick up right where you left off.</p>
-        <input placeholder="Username" type="text">
-        <input placeholder="Password" type="password">
-        <button>Login</button>
+        <input id="userInput" placeholder="Username" type="text">
+        <input id="passInput" placeholder="Password" type="password">
+        <button id="loginButton">Login</button>
         <a class="textclar" href="#" id="to-signup">Don't have an account yet?</a>
     </div>
 `;
@@ -110,9 +132,9 @@ const signupForm = `
     <div class="center content">
         <h2>Welcome!</h2>
         <p>Joining maelink is just a few clicks away.</p>
-        <input placeholder="Username" type="text">
-        <input placeholder="Password" type="password">
-        <button>Join</button>
+        <input id="userInput" placeholder="Username" type="text">
+        <input id="passInput" placeholder="Password" type="password">
+        <button id="signupButton" onclick="joinMaelink(document.getElementById('userInput'), document.getElementById('passInput'));">Join</button>
         <a class="textclar" href="#" id="to-login">Already have an account?</a>
     </div>
 `;
