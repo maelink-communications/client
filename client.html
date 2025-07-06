@@ -25,7 +25,31 @@
             <img id="close-button" class="close-button" src="titlebar/close.svg" alt="">
         </div>
     </div>
-    <div class="sidebar" id="sidebar"></div>
+    <div style="width: 56px; gap: 16px;" class="sidebar" id="sidebar">
+        <div style="display: flex; flex-wrap: nowrap; justify-content: flex-start; align-items: flex-end;">
+            <img onclick="toggleSidebar()" style="cursor: pointer; padding-left: 0.75em; margin-bottom: 0;" id="maelink-icon" src="assets/img/icon.svg" alt="">
+            <label style="margin-bottom: 0.3em; margin-left: 1em;">Maelink</label>
+        </div>
+        <img style="cursor: pointer; margin-left: 0.75em; width: 24px;" class="active" id="home" src="assets/img/home.svg">
+        <img style="cursor: pointer; margin-left: 1em; width: 24px;" src="assets/img/bubbles.svg">
+        <img style="cursor: pointer; margin-left: 1em; width: 24px;" src="assets/img/inbox.svg">
+        <style>
+
+
+            #maelink-icon {
+                margin:var(--spacing);
+                margin-inline: auto;
+            }
+
+            .active {
+                padding: 4px;
+                border-radius: var(--size);
+            }
+        </style>
+        <div class="sidebar-bottom" id="sidebar-bottom">
+            <img id="profile-icon" src="https://avatars.githubusercontent.com/u/80485413?v=4" alt="">
+        </div>
+    </div>
     <script src="web.js"></script>
 </body>
 </html>

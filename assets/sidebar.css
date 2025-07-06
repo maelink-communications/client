@@ -1,4 +1,4 @@
- .sidebar {
+.sidebar {
   margin: 0;
   padding: 0;
   width: var(--sidebar-width);
@@ -7,6 +7,11 @@
   height: 100vh;
   overflow: auto;
   -webkit-app-region: drag;
+  transition: width ease 0.5s;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-start;
 }
 
 .sidebar a {
@@ -24,11 +29,6 @@
 
 .sidebar img.active {
   background: var(--accent);
-  display: block;
-  margin: var(--spacing);
-  margin-left: auto;
-  margin-right: auto;
-  width: 24px;
 }
 
 .sidebar a:hover:not(.active) {
