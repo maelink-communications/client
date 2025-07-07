@@ -110,7 +110,8 @@ div.content {
   padding: var(--spacing);
   margin: 0 var(--spacing);
   border-radius: var(--size);
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
+  justify-content: flex-start;
 }
 
 .sidebar-header:hover {
@@ -145,13 +146,22 @@ div.content {
 }
 
 .sidebar.compact .sidebar-label {
-  display: none;
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+  transition: opacity 0.3s ease, width 0.3s ease;
+}
+
+.sidebar.extended .sidebar-label {
+  opacity: 1;
+  width: auto;
+  transition: opacity 0.3s ease 0.2s, width 0.3s ease 0.2s;
 }
 
 .sidebar.compact .sidebar-header.active::before {
   border-width: 1px;
 }
 
-.sidebar.extended .sidebar-header {
-  justify-content: flex-start;
+.sidebar.compact .sidebar-header {
+  padding: 8px 4px;
 }
