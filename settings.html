@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,14 +10,14 @@
     <link rel="stylesheet" href="titlebar/titlebar.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
 </head>
 <body>
     <div class="pill">
-    <h1 class="disclaimer">PRERELEASE</h1>
-    <p class="disclaimer2">This is a very early build of maelink.<br>
-        For testing and development purposes only.<br><br>
-        Current build date: 06.07.25 | codename belfast</p>
+        <h1 class="disclaimer">PRERELEASE</h1>
+        <p class="disclaimer2" id="build-info"></p>
     </div>
     <div class="titlebar" id="titlebar">
         <div class="decorations">
@@ -35,6 +36,7 @@
         <img onclick="location.replace('client.html')" src="assets/img/back.svg" alt="">
     </div>
     <div class="content"></div>
+    <script src="config.js"></script>
     <script src="web.js"></script>
 </body>
 </html>
