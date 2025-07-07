@@ -157,9 +157,25 @@ input {
   font-size: inherit;
 }
 
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #3030308c inset !important;
+  -webkit-text-fill-color: var(--text) !important;
+  transition: background-color 5000s ease-in-out 0s;
+  font-family: inherit !important;
+  font-size: inherit !important;
+}
+
 .modal input {
   background-color: var(--glass-alt);
   backdrop-filter: none;
+}
+
+.modal input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--glass-alt) inset !important;
+  -webkit-text-fill-color: var(--text) !important;
+  transition: background-color 5000s ease-in-out 0s;
+  font-family: inherit !important;
+  font-size: inherit !important;
 }
 
 textarea:focus, input:focus, button:focus {
@@ -292,4 +308,33 @@ button:active {
   margin: 0;
   text-align: left;
   line-height: 1.4;
+}
+
+.error-message {
+  position: fixed;
+  top: calc(50% + 220px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 55, 55, 0.1);
+  border: 1px solid rgba(255, 55, 55, 0.3);
+  border-radius: var(--pill);
+  padding: var(--spacing);
+  color: #ff5555;
+  font-size: 0.9rem;
+  text-align: center;
+  backdrop-filter: blur(8px);
+  animation: error-fadein 0.3s ease;
+  z-index: 11;
+  width: 400px;
+}
+
+@keyframes error-fadein {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

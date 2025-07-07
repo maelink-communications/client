@@ -1,27 +1,5 @@
-let serverAddress = "http://0.0.0.0:6060"
 let compactSidebar = false
 let currentPage = "home"
-
-async function joinMaelink(username, password) {
-    fetch(serverAddress, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            cmd: "reg",
-            user: username,
-            pswd: password 
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-};
 
 function updateSidebar() {
     if (document.getElementById(currentPage)) {
@@ -79,8 +57,8 @@ const loginForm = `
     <div class="center content">
         <h2>Hello!</h2>
         <p>Pick up right where you left off.</p>
-        <input id="userInput" placeholder="Username" type="text">
-        <input id="passInput" placeholder="Password" type="password">
+        <input id="userInput" placeholder="Username" type="text" autocomplete="nope">
+        <input id="passInput" placeholder="Password" type="password" autocomplete="new-password">
         <button id="loginButton">Login</button>
         <a class="textclar" href="#" id="to-signup">Don't have an account yet?</a>
     </div>
@@ -90,8 +68,8 @@ const signupForm = `
     <div class="center content">
         <h2>Welcome!</h2>
         <p>Joining maelink is just a few clicks away.</p>
-        <input id="userInput" placeholder="Username" type="text">
-        <input id="passInput" placeholder="Password" type="password">
+        <input id="userInput" placeholder="Username" type="text" autocomplete="nope">
+        <input id="passInput" placeholder="Password" type="password" autocomplete="new-password">
         <button id="signupButton" onclick="joinMaelink(document.getElementById('userInput'), document.getElementById('passInput'));">Join</button>
         <a class="textclar" href="#" id="to-login">Already have an account?</a>
     </div>
@@ -105,6 +83,22 @@ function showLogin() {
 function showSignup() {
     document.getElementById('modal').innerHTML = signupForm;
     document.getElementById('to-login').onclick = showLogin;
+}
+
+function showError(reason) {
+    const existingError = document.querySelector('.error-message');
+    if (existingError) existingError.remove();
+    
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    
+    if (reason === 'userExists') {
+        errorDiv.textContent = 'This username is already taken. Please choose a different one.';
+    } else {
+        errorDiv.textContent = `Error: ${reason}`;
+    }
+    
+    document.body.appendChild(errorDiv);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
