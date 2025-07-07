@@ -35,7 +35,7 @@ function toggleSidebar() {
 
     if (compactSidebar == true) {
         compactSidebar = false;
-        sidebar.style.width = "152px"
+        sidebar.style.width = "132px"
     } else {
         compactSidebar = true;
         sidebar.style.width = "56px"
