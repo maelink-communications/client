@@ -59,7 +59,7 @@ const loginForm = `
         <p>Pick up right where you left off.</p>
         <input id="userInput" placeholder="Username" type="text" autocomplete="nope">
         <input id="passInput" placeholder="Password" type="password" autocomplete="new-password">
-        <button id="loginButton">Login</button>
+        <button id="loginButton" onclick="logMaelink(document.getElementById('userInput'), document.getElementById('passInput'));">Login</button>
         <a class="textclar" href="#" id="to-signup">Don't have an account yet?</a>
     </div>
 `;
@@ -95,7 +95,7 @@ function showError(reason) {
     if (reason === 'userExists') {
         errorDiv.textContent = 'This username is already taken. Please choose a different one.';
     } else {
-        errorDiv.textContent = `Error: ${reason}`;
+        errorDiv.textContent = `Oops! We ran into an error: ${reason}`;
     }
     
     document.body.appendChild(errorDiv);
