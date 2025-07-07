@@ -30,6 +30,13 @@
 </head>
 
 <body>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('username') && localStorage.getItem('session_token')) {
+                window.location.href = 'client.html';
+            }
+        });
+    </script>
     <div class="pill">
         <h1 class="disclaimer">PRERELEASE</h1>
         <p class="disclaimer2" id="build-info"></p>
@@ -51,4 +58,5 @@
     <script src="web.js"></script>
     <script src="comm.js"></script>
 </body>
+
 </html>

@@ -94,6 +94,8 @@ function showError(reason) {
     
     if (reason === 'userExists') {
         errorDiv.textContent = 'This username is already taken. Please choose a different one.';
+    } else if (reason === 'userNotFound') {
+        errorDiv.textContent = 'We couldn\'t find an account with that username. Please check that you entered it correctly.';
     } else {
         errorDiv.textContent = `Oops! We ran into an error: ${reason}`;
     }

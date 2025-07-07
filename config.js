@@ -6,8 +6,8 @@ const buildInfo = {
 const serverAddress = "http://0.0.0.0:6060";
 const serverWS = "ws://0.0.0.0:8080";
 
-buildInfo.message = "This is a very early build of maelink.<br>" +
-                   "For testing and development purposes only.<br><br>" +
+buildInfo.message = "This is a prerelease build of maelink.<br>" +
+                   "Not to be used in production.<br><br>" +
                    `Current build date: ${buildInfo.buildDate} | codename ${buildInfo.codename}`;
 
 if (document.getElementById('build-info')) {
