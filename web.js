@@ -35,10 +35,14 @@ function toggleSidebar() {
 
     if (compactSidebar == true) {
         compactSidebar = false;
-        sidebar.style.width = "132px"
+        sidebar.style.width = "var(--sidebar-width)";
+        sidebar.classList.remove('compact');
+        sidebar.classList.add('extended');
     } else {
         compactSidebar = true;
-        sidebar.style.width = "56px"
+        sidebar.style.width = "56px";
+        sidebar.classList.remove('extended');
+        sidebar.classList.add('compact');
     }
 
 }

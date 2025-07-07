@@ -5,14 +5,12 @@
   background-color: var(--pri);
   position: fixed;
   height: 100vh;
-  overflow: auto;
+  overflow: hidden;
   -webkit-app-region: drag;
   transition: width ease 0.5s;
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  gap: 16px
+  gap: 16px;
 }
 
 .sidebar a {
@@ -43,7 +41,7 @@
   position: absolute;
   left: 0;
   bottom: 0;
-  width: var(--sidebar-width);
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,13 +49,14 @@
   border-top-left-radius: var(--size);
   border-top-right-radius: var(--size);
   -webkit-app-region: no-drag;
+  padding: var(--spacing);
+  box-sizing: border-box;
 }
 
 .sidebar-bottom img {
   width: calc(var(--size) * 4);
-  margin: var(--spacing);
-  margin-inline: calc(var(--sidebar-width) / 16);
   border-radius: var(--size);
+  flex-shrink: 0;
 }
 
 div.content {
@@ -103,4 +102,56 @@ div.content {
   margin-right: auto;
   width: 24px;
   -webkit-app-region: no-drag;
+}
+
+.sidebar-header {
+  position: relative;
+  cursor: pointer;
+  padding: var(--spacing);
+  margin: 0 var(--spacing);
+  border-radius: var(--size);
+  transition: all 0.3s ease;
+}
+
+.sidebar-header:hover {
+  background-color: var(--sec);
+}
+
+.sidebar-header.active {
+  background: var(--accent);
+}
+
+.sidebar-header.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid var(--accent1);
+  border-radius: var(--size);
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+:root {
+  --sidebar-width: 240px;
+}
+
+.sidebar.compact .sidebar-header {
+  justify-content: center;
+  margin: 0 4px;
+  padding: 8px;
+}
+
+.sidebar.compact .sidebar-label {
+  display: none;
+}
+
+.sidebar.compact .sidebar-header.active::before {
+  border-width: 1px;
+}
+
+.sidebar.extended .sidebar-header {
+  justify-content: flex-start;
 }

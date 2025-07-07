@@ -27,8 +27,8 @@
     </div>
     <div class="sidebar" id="sidebar">
     <img onclick="toggleSidebar()" id="maelink-icon" src="assets/img/icon.svg" alt="Icon">
-    <div class="sidebar-header">
-        <img class="sidebar-icon active" id="home" src="assets/img/home.svg" alt="Home">
+    <div class="sidebar-header active">
+        <img class="sidebar-icon" id="home" src="assets/img/home.svg" alt="Home">
         <label class="sidebar-label">Home</label>
     </div>
     <div class="sidebar-header">
@@ -45,21 +45,20 @@
                 display: flex;
                 flex-wrap: nowrap;
                 justify-content: flex-start;
-                align-items: flex-end;
+                align-items: center;
+                gap: 1em;
             }
 
             .sidebar-label {
-                margin-bottom: 0.66em;
-                margin-left: 1em;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                flex: 1;
             }
 
             .sidebar-icon {
-                cursor: pointer;
-                margin-left: 1em;
                 width: 24px;
+                flex-shrink: 0;
             }
             </style>
         <div class="sidebar-bottom" id="sidebar-bottom">
