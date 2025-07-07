@@ -16,7 +16,7 @@
     <h1 class="disclaimer">PRERELEASE</h1>
     <p class="disclaimer2">This is a very early build of maelink.<br>
         For testing and development purposes only.<br><br>
-        Current build date: 06.07.25 | codename belfast</p>
+        Current build date: 07.07.25 | codename belfast</p>
     </div>
     <div class="titlebar" id="titlebar">
         <div class="decorations">
@@ -25,27 +25,43 @@
             <img id="close-button" class="close-button" src="titlebar/close.svg" alt="">
         </div>
     </div>
-    <div style="width: 56px; gap: 16px;" class="sidebar" id="sidebar">
-        <div style="display: flex; flex-wrap: nowrap; justify-content: flex-start; align-items: flex-end;">
-            <img onclick="toggleSidebar()" style="cursor: pointer; padding-left: 0.75em; margin-bottom: 0;" id="maelink-icon" src="assets/img/icon.svg" alt="">
-            <label style="margin-bottom: 0.3em; margin-left: 1em;">Maelink</label>
-        </div>
-        <img style="cursor: pointer; margin-left: 0.75em; width: 24px;" class="active" id="home" src="assets/img/home.svg">
-        <img style="cursor: pointer; margin-left: 1em; width: 24px;" src="assets/img/bubbles.svg">
-        <img style="cursor: pointer; margin-left: 1em; width: 24px;" src="assets/img/inbox.svg">
+    <div class="sidebar" id="sidebar">
+    <img onclick="toggleSidebar()" id="maelink-icon" src="assets/img/icon.svg" alt="Icon">
+    <div class="sidebar-header">
+        <img class="sidebar-icon active" id="home" src="assets/img/home.svg" alt="Home">
+        <label class="sidebar-label">Home</label>
+    </div>
+    <div class="sidebar-header">
+        <img class="sidebar-icon" src="assets/img/bubbles.svg" alt="Bubbles">
+        <label class="sidebar-label">Bubbles</label>
+    </div>
+    <div class="sidebar-header">
+        <img class="sidebar-icon" src="assets/img/inbox.svg" alt="Inbox">
+        <label class="sidebar-label">Inbox</label>
+    </div>
         <style>
 
-
-            #maelink-icon {
-                margin:var(--spacing);
-                margin-inline: auto;
+            .sidebar-header {
+                display: flex;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                align-items: flex-end;
             }
 
-            .active {
-                padding: 4px;
-                border-radius: var(--size);
+            .sidebar-label {
+                margin-bottom: 0.66em;
+                margin-left: 1em;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
-        </style>
+
+            .sidebar-icon {
+                cursor: pointer;
+                margin-left: 1em;
+                width: 24px;
+            }
+            </style>
         <div class="sidebar-bottom" id="sidebar-bottom">
             <img id="profile-icon" src="https://avatars.githubusercontent.com/u/80485413?v=4" alt="">
         </div>

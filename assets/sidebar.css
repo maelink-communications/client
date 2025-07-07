@@ -12,6 +12,7 @@
   flex-direction: column;
   flex-wrap: wrap;
   align-content: flex-start;
+  gap: 16px
 }
 
 .sidebar a {
@@ -28,6 +29,9 @@
 }
 
 .sidebar img.active {
+  border-radius: var(--size);
+  padding: 0.5em;
+  margin-left: 0.5em;
   background: var(--accent);
 }
 
@@ -86,6 +90,10 @@ div.content {
   margin-right: auto;
   width: 32px;
   -webkit-app-region: no-drag;
+  cursor: pointer;
+  padding-left: 0.75em;
+  margin-bottom: 0;
+  margin-left: 0;
 }
 
 .sidebar-full {
