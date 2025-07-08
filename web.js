@@ -59,7 +59,7 @@ const loginForm = `
         <p>Pick up right where you left off.</p>
         <input id="userInput" placeholder="Username" type="text" autocomplete="nope">
         <input id="passInput" placeholder="Password" type="password" autocomplete="new-password">
-        <button id="loginButton" onclick="logMaelink(document.getElementById('userInput'), document.getElementById('passInput'));">Login</button>
+        <button id="loginButton" onclick="console.log('clicked'); logMaelink(document.getElementById('userInput'), document.getElementById('passInput'));">Login</button>
         <a class="textclar" href="#" id="to-signup">Don't have an account yet?</a>
     </div>
 `;
@@ -70,7 +70,7 @@ const signupForm = `
         <p>Joining maelink is just a few clicks away.</p>
         <input id="userInput" placeholder="Username" type="text" autocomplete="nope">
         <input id="passInput" placeholder="Password" type="password" autocomplete="new-password">
-        <button id="signupButton" onclick="joinMaelink(document.getElementById('userInput'), document.getElementById('passInput'));">Join</button>
+        <button id="signupButton" onclick="console.log('clicked'); joinMaelink(document.getElementById('userInput'), document.getElementById('passInput'));">Join</button>
         <a class="textclar" href="#" id="to-login">Already have an account?</a>
     </div>
 `;
@@ -96,6 +96,8 @@ function showError(reason) {
         errorDiv.textContent = 'This username is already taken. Please choose a different one.';
     } else if (reason === 'userNotFound') {
         errorDiv.textContent = 'We couldn\'t find an account with that username. Please check that you entered it correctly.';
+    } else if (reason === 'cannotConnect') {
+        errorDiv.textContent = 'Could not connect to the server. Please check your internet connection.';
     } else {
         errorDiv.textContent = `Oops! We ran into an error: ${reason}`;
     }

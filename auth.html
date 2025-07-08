@@ -32,6 +32,7 @@
 <body>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            connect();
             if (localStorage.getItem('username') && localStorage.getItem('session_token')) {
                 window.location.href = 'client.html';
             }
@@ -58,5 +59,4 @@
     <script src="web.js"></script>
     <script src="comm.js"></script>
 </body>
-
 </html>
