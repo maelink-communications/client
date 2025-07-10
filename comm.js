@@ -1,5 +1,7 @@
 let ws;
 
+let pendingAction = null;
+
 function connect() {
     if (!ws) {
         ws = new WebSocket(serverWS);
@@ -7,7 +9,27 @@ function connect() {
     ws.onerror = () => {
         showError(`cannotConnect`);
     }
-    return;
+    
+    ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.cmd === 'welcome') {
+            ws.send(JSON.stringify({
+                cmd: 'client_info',
+                client: "maelink_gen2-electron"
+            }));
+        } else if (data.error) {
+            showError(data.reason);
+        } else {
+            if (pendingAction === 'login' || pendingAction === 'register') {
+                if (pendingAction === 'login') {
+                    localStorage.setItem('username', data.user);
+                    localStorage.setItem('session_token', data.token);
+                }
+                window.location.href = 'client.html';
+                pendingAction = null;
+            }
+        }
+    }
 }
 
 async function joinMaelink(username, password) {
@@ -34,20 +56,12 @@ async function joinMaelink(username, password) {
     await waitForWebSocket();
     console.log("WebSocket is open, sending signup request...");
     
+    pendingAction = 'register';
     ws.send(JSON.stringify({
         cmd: 'reg',
         user: username.value,
         pswd: password.value
     }));
-    
-    ws.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        if (data.error) {
-            showError(data.reason);
-        } else {
-            window.location.href = 'client.html';
-        }
-    }
 }
 
 async function logMaelink(username, password) {
@@ -73,20 +87,10 @@ async function logMaelink(username, password) {
     await waitForWebSocket();
     console.log("WebSocket is open, sending login request...");
 
+    pendingAction = 'login';
     ws.send(JSON.stringify({
         cmd: 'login_pswd',
         user: username.value,
         pswd: password.value
     }));
-
-    ws.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        if (data.error) {
-            showError(data.reason);
-        } else {
-            localStorage.setItem('username', username.value);
-            localStorage.setItem('session_token', data.token);
-            window.location.href = 'client.html';
-        }
-    }
 }
