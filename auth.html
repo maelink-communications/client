@@ -116,6 +116,18 @@
             document.body.appendChild(errorDiv);
         }
 
+        function showErrorNorm(reason) {
+            const existingError = document.querySelector('.error-message');
+            if (existingError) existingError.remove();
+            
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            
+                errorDiv.textContent = `${reason}`;
+            
+            document.body.appendChild(errorDiv);
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             connect();
             if (localStorage.getItem('username') && localStorage.getItem('session_token')) {

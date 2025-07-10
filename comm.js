@@ -11,6 +11,11 @@ function connect() {
 }
 
 async function joinMaelink(username, password) {
+    if (!username.value || !password.value) {
+        showErrorNorm("Please enter a username and password.");
+        return;
+    }
+
     if (!ws) {
         ws = new WebSocket(serverWS);
     }
@@ -46,6 +51,12 @@ async function joinMaelink(username, password) {
 }
 
 async function logMaelink(username, password) {
+    if (!username.value || !password.value) {
+        showErrorNorm("Please enter a username and password.");
+        return;
+    }
+
+
     if (!ws) {
         ws = new WebSocket(serverWS);
     }
