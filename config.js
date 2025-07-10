@@ -1,5 +1,5 @@
 const buildInfo = {
-    buildDate: "07.07.25",
+    buildDate: "10.07.25",
     codename: "belfast"
 };
 

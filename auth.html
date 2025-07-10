@@ -31,16 +31,117 @@
 
 <body>
     <script>
+        const loginForm = `
+            <div class="center content">
+                <h2>Hello!</h2>
+                <p>Pick up right where you left off.</p>
+                <input id="userInput" placeholder="Username" type="text" autocomplete="nope">
+                <div class="password-container">
+                    <input id="passInput" placeholder="Password" type="password" autocomplete="new-password">
+                    <button type="button" class="password-toggle" onclick="togglePassword('passInput', this)">
+                        <img src="assets/img/eyeclosed.svg" alt="Show password">
+                    </button>
+                </div>
+                <button id="loginButton">Login</button>
+                <a class="textclar" href="#" id="to-signup">Don't have an account yet?</a>
+            </div>
+        `;
+
+        const signupForm = `
+            <div class="center content">
+                <h2>Welcome!</h2>
+                <p>Joining maelink is just a few clicks away.</p>
+                <input id="userInput" placeholder="Username" type="text" autocomplete="nope">
+                <div class="password-container">
+                    <input id="passInput" placeholder="Password" type="password" autocomplete="new-password">
+                    <button type="button" class="password-toggle" onclick="togglePassword('passInput', this)">
+                        <img src="assets/img/eyeclosed.svg" alt="Show password">
+                    </button>
+                </div>
+                <button id="signupButton">Join</button>
+                <a class="textclar" href="#" id="to-login">Already have an account?</a>
+            </div>
+        `;
+
+        function showLogin() {
+            document.getElementById('modal').innerHTML = loginForm;
+            document.getElementById('to-signup').onclick = showSignup;
+            document.getElementById('loginButton').onclick = () => {
+                logMaelink(document.getElementById('userInput'), document.getElementById('passInput'));
+            };
+        }
+
+        function showSignup() {
+            document.getElementById('modal').innerHTML = signupForm;
+            document.getElementById('to-login').onclick = showLogin;
+            document.getElementById('signupButton').onclick = () => {
+                joinMaelink(document.getElementById('userInput'), document.getElementById('passInput'));
+            };
+        }
+
+        function togglePassword(inputId, button) {
+            const input = document.getElementById(inputId);
+            const img = button.querySelector('img');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                img.src = 'assets/img/eye.svg';
+                img.alt = 'Hide password';
+            } else {
+                input.type = 'password';
+                img.src = 'assets/img/eyeclosed.svg';
+                img.alt = 'Show password';
+            }
+        }
+
+        function showError(reason) {
+            const existingError = document.querySelector('.error-message');
+            if (existingError) existingError.remove();
+            
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            
+            if (reason === 'userExists') {
+                errorDiv.textContent = 'This username is already taken. Please choose a different one.';
+            } else if (reason === 'userNotFound') {
+                errorDiv.textContent = 'We couldn\'t find an account with that username. Please check that you entered it correctly.';
+            } else if (reason === 'cannotConnect') {
+                errorDiv.textContent = 'Could not connect to the server. Please check your internet connection.';
+                } else if (reason === 'badPswd') {
+                errorDiv.textContent = 'The credentials you entered are incorrect. Please try again.';
+            } else {
+                errorDiv.textContent = `Oops! We ran into an error: ${reason}`;
+            }
+            
+            document.body.appendChild(errorDiv);
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             connect();
             if (localStorage.getItem('username') && localStorage.getItem('session_token')) {
                 window.location.href = 'client.html';
+            } else {
+                showLogin();
             }
         });
     </script>
     <div class="pill">
-        <h1 class="disclaimer">PRERELEASE</h1>
-        <p class="disclaimer2" id="build-info"></p>
+            <h1 class="disclaimer" style="display: none;">PRERELEASE</h1>
+    <p class="disclaimer2" id="build-info" style="display: none;"></p>
+    <script>
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'i') {
+                document.querySelector('.disclaimer').style.display = 'block';
+                document.querySelector('.disclaimer2').style.display = 'block';
+            }
+        });
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'Control' || e.key === 'i') {
+                document.querySelector('.disclaimer').style.display = 'none';
+                document.querySelector('.disclaimer2').style.display = 'none';
+            }
+        });
+    </script>
     </div>
     <div class="image"></div>
     <div class="background"></div>

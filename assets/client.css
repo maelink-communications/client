@@ -270,7 +270,8 @@ button:active {
 }
 
 .center.content input,
-.center.content button {
+.center.content button,
+.center.content .password-container {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
@@ -308,6 +309,50 @@ button:active {
   margin: 0;
   text-align: left;
   line-height: 1.4;
+}
+
+.password-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin: 4px;
+}
+
+.password-container input {
+  width: 100%;
+  padding-right: 50px;
+  margin: 0;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 8px;
+  background: #00000000 !important;
+  border: none;
+  margin: 0px !important;
+  border-radius: 50%;
+  width: 32px !important;
+  height: 32px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  transition: background 0.2s ease;
+}
+
+.password-toggle:hover {
+  background: var(--glass-alt) !important;
+  animation: none;
+}
+
+.password-toggle img {
+  width: 16px;
+  margin: 0 !important;
+  height: 16px;
+  opacity: 0.7;
 }
 
 .error-message {

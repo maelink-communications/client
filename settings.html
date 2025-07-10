@@ -16,8 +16,22 @@
 </head>
 <body>
     <div class="pill">
-        <h1 class="disclaimer">PRERELEASE</h1>
-        <p class="disclaimer2" id="build-info"></p>
+            <h1 class="disclaimer" style="display: none;">PRERELEASE</h1>
+    <p class="disclaimer2" id="build-info" style="display: none;"></p>
+    <script>
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'i') {
+                document.querySelector('.disclaimer').style.display = 'block';
+                document.querySelector('.disclaimer2').style.display = 'block';
+            }
+        });
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'Control' || e.key === 'i') {
+                document.querySelector('.disclaimer').style.display = 'none';
+                document.querySelector('.disclaimer2').style.display = 'none';
+            }
+        });
+    </script>
     </div>
     <div class="titlebar" id="titlebar">
         <div class="decorations">
