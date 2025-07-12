@@ -60,7 +60,7 @@ async function joinMaelink(username, password) {
     ws.send(JSON.stringify({
         cmd: 'reg',
         user: username.value,
-        pswd: password.value
+        pswd: md5(password.value)
     }));
 }
 
@@ -91,6 +91,6 @@ async function logMaelink(username, password) {
     ws.send(JSON.stringify({
         cmd: 'login_pswd',
         user: username.value,
-        pswd: password.value
+        pswd: md5(password.value)
     }));
 }
