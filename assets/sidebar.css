@@ -5,6 +5,7 @@
   background-color: var(--pri);
   position: fixed;
   height: 100vh;
+  z-index: 9999999;
   overflow: hidden;
   -webkit-app-region: drag;
   transition: width ease 0.5s;

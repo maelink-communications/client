@@ -3,10 +3,11 @@ const path = require('path');
 let isWinMaximized = false
 
 const createWindow = () => {
+  const iconPath = path.join(__dirname, 'assets', 'img', 'electron-favicon.png');
   const win = new BrowserWindow({
     titleBarStyle: 'hidden',
     width: 1024,
-    icon: path.join(__dirname, 'assets', 'img', 'logo.png'),
+    icon: iconPath,
     height: 768,
     minWidth: 640,
     minHeight: 480,
@@ -32,7 +33,7 @@ app.whenReady().then(() => {
 })
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') { // electron doesnt support macos so dont bother with it
+  if (process.platform !== 'darwin') { // we dont support macos so dont bother with it
     app.quit()
   }
 })

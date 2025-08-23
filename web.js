@@ -52,3 +52,48 @@ if (window.api?.isElectron) {
 if (document.getElementById("sidebar")) {
     toggleSidebar();
 }
+
+let connectionCheckInterval;
+let connectionAttempts = 0;
+
+function showLoadingScreen() {
+    const loadingScreen = document.getElementById('loading-screen');
+    const downtimeScreen = document.getElementById('downtime-screen');
+    if (loadingScreen) loadingScreen.style.display = 'flex';
+    if (downtimeScreen) downtimeScreen.style.display = 'none';
+}
+
+function showDowntimeScreen() {
+    const loadingScreen = document.getElementById('loading-screen');
+    const downtimeScreen = document.getElementById('downtime-screen');
+    if (loadingScreen) loadingScreen.style.display = 'none';
+    if (downtimeScreen) downtimeScreen.style.display = 'flex';
+}
+
+function hideAllScreens() {
+    const loadingScreen = document.getElementById('loading-screen');
+    const downtimeScreen = document.getElementById('downtime-screen');
+    if (loadingScreen) loadingScreen.style.display = 'none';
+    if (downtimeScreen) downtimeScreen.style.display = 'none';
+}
+
+function checkConnection() {
+    if (window.ws && window.ws.readyState === WebSocket.OPEN) {
+        hideAllScreens();
+        connectionAttempts = 0;
+    } else if (window.ws && window.ws.readyState === WebSocket.CONNECTING) {
+        showLoadingScreen();
+    } else {
+        connectionAttempts++;
+        if (connectionAttempts > 5) {
+            showDowntimeScreen();
+        } else {
+            showLoadingScreen();
+        }
+    }
+}
+
+if (document.getElementById('loading-screen')) {
+    showLoadingScreen();
+    connectionCheckInterval = setInterval(checkConnection, 500);
+}

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,33 +10,40 @@
     <link rel="stylesheet" href="titlebar/titlebar.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             if (!localStorage.getItem('username') || !localStorage.getItem('session_token')) {
                 window.location.href = 'auth.html';
+            } else {
+                if (typeof connect === 'function') {
+                    connect();
+                }
             }
         });
     </script>
     <div class="pill">
-    <h1 class="disclaimer" style="display: none;">PRERELEASE</h1>
-    <p class="disclaimer2" id="build-info" style="display: none;"></p>
-    <script>
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.key === 'i') {
-                document.querySelector('.disclaimer').style.display = 'block';
-                document.querySelector('.disclaimer2').style.display = 'block';
-            }
-        });
-        document.addEventListener('keyup', (e) => {
-            if (e.key === 'Control' || e.key === 'i') {
-                document.querySelector('.disclaimer').style.display = 'none';
-                document.querySelector('.disclaimer2').style.display = 'none';
-            }
-        });
-    </script>
+        <h1 class="disclaimer" style="display: none;">PRERELEASE</h1>
+        <p class="disclaimer2" id="build-info" style="display: none;"></p>
+        <script>
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'i') {
+                    document.querySelector('.disclaimer').style.display = 'block';
+                    document.querySelector('.disclaimer2').style.display = 'block';
+                }
+            });
+            document.addEventListener('keyup', (e) => {
+                if (e.key === 'Control' || e.key === 'i') {
+                    document.querySelector('.disclaimer').style.display = 'none';
+                    document.querySelector('.disclaimer2').style.display = 'none';
+                }
+            });
+        </script>
     </div>
     <div class="titlebar" id="titlebar">
         <div class="decorations">
@@ -45,21 +53,20 @@
         </div>
     </div>
     <div class="sidebar" id="sidebar">
-    <img onclick="toggleSidebar()" id="maelink-icon" src="assets/img/icon.svg" alt="Icon">
-    <div class="sidebar-header active">
-        <img class="sidebar-icon" id="home" src="assets/img/home.svg" alt="Home">
-        <label class="sidebar-label">Home</label>
-    </div>
-    <div class="sidebar-header">
-        <img class="sidebar-icon" src="assets/img/bubbles.svg" alt="Bubbles">
-        <label class="sidebar-label">Bubbles</label>
-    </div>
-    <div class="sidebar-header">
-        <img class="sidebar-icon" src="assets/img/inbox.svg" alt="Inbox">
-        <label class="sidebar-label">Inbox</label>
-    </div>
+        <img onclick="toggleSidebar()" id="maelink-icon" src="assets/img/icon.svg" alt="Icon">
+        <div class="sidebar-header active">
+            <img class="sidebar-icon" id="home" src="assets/img/home.svg" alt="Home">
+            <label class="sidebar-label">Home</label>
+        </div>
+        <div class="sidebar-header">
+            <img class="sidebar-icon" src="assets/img/bubbles.svg" alt="Bubbles">
+            <label class="sidebar-label">Bubbles</label>
+        </div>
+        <div class="sidebar-header">
+            <img class="sidebar-icon" src="assets/img/inbox.svg" alt="Inbox">
+            <label class="sidebar-label">Inbox</label>
+        </div>
         <style>
-
             .sidebar-header {
                 display: flex;
                 flex-wrap: nowrap;
@@ -68,7 +75,7 @@
                 gap: 1em;
                 transition: justify-content 0.5s ease;
             }
-            
+
             .sidebar.compact .sidebar-header {
                 display: flex !important;
                 flex-direction: row !important;
@@ -76,7 +83,7 @@
                 align-items: center !important;
                 padding: 8px 4px;
             }
-            
+
             .sidebar.compact .sidebar-icon {
                 margin-left: 8px;
             }
@@ -92,12 +99,226 @@
                 width: 24px;
                 flex-shrink: 0;
             }
-            </style>
+        </style>
         <div class="sidebar-bottom" id="sidebar-bottom">
             <img id="profile-icon" src="https://avatars.githubusercontent.com/u/80485413?v=4" alt="">
         </div>
     </div>
+    <div class="toast" id="loading-toast" style="display: none;">
+        <div class="toast-content">
+            <div class="loading-spinner"></div>
+            <span>Loading feed...</span>
+        </div>
+    </div>
+    <div class="main-content" id="main-content" style="left: 66px; width: calc(100% - 66px);">
+        <div class="downtime-screen" id="downtime-screen" style="display: none; justify-content: center;">
+            <div class="downtime-content">
+                <img src="assets/img/downtime.svg" alt="Server downtime">
+                <h2>Oops! Could not get to your feed.</h2>
+                <p>We're having trouble connecting to the server. Trying to reconnect...</p>
+                <div class="reconnect-status" id="reconnect-status">Reconnecting...</div>
+            </div>
+        </div>
+        <div class="feed" id="feed"></div>
+    </div>
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgb(16, 16, 16);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast-content {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .loading-spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ffffff40;
+            border-top: 2px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .feed {
+            width: 95%;
+            display: block !important;
+            text-align: left !important;
+        }
+
+        .main-content {
+            margin-left: 0 !important;
+            padding: 20px !important;
+            padding-top: 60px !important;
+            display: block !important;
+            position: fixed !important;
+            top: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            overflow-y: auto !important;
+        }
+
+        .downtime-content img[src="assets/img/downtime.svg"] {
+            pointer-events: none !important;
+            -webkit-user-drag: none !important;
+            -khtml-user-drag: none !important;
+            -moz-user-drag: none !important;
+            -o-user-drag: none !important;
+            user-drag: none !important;
+            user-select: none !important;
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+        }
+
+        .skeleton-post {
+            background: #2a2a2a;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            gap: 12px;
+            animation: pulse 1.5s ease-in-out infinite;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .skeleton-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #404040;
+        }
+
+        .skeleton-content {
+            flex: 1;
+        }
+
+        .skeleton-line {
+            height: 12px;
+            background: #404040;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .skeleton-line-short {
+            width: 30%;
+        }
+
+        .skeleton-line-medium {
+            width: 60%;
+        }
+
+        .skeleton-line-long {
+            width: 90%;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .skeleton-post.hidden {
+            display: none;
+        }
+        .downtime-screen {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .downtime-screen.show {
+            opacity: 1;
+        }
+    </style>
+    <script>
+        function updateMainContentPosition() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            if (sidebar && mainContent) {
+                let startTime = Date.now();
+                const checkWidth = () => {
+                    const sidebarWidth = sidebar.offsetWidth;
+                    mainContent.style.left = (sidebarWidth + 10) + 'px';
+                    mainContent.style.width = `calc(100% - ${sidebarWidth + 10}px)`;
+
+                    if (Date.now() - startTime < 500) {
+                        requestAnimationFrame(checkWidth);
+                    }
+                };
+                checkWidth();
+            }
+        }
+
+        function generateSkeletonPosts() {
+            const feed = document.getElementById('feed');
+            const screenHeight = window.innerHeight;
+            const postHeight = 120;
+            const postsNeeded = Math.ceil(screenHeight / postHeight) + 2;
+            
+            for (let i = 0; i < postsNeeded; i++) {
+                const post = document.createElement('div');
+                post.className = 'skeleton-post';
+                post.innerHTML = `
+                    <div class="skeleton-avatar"></div>
+                    <div class="skeleton-content">
+                        ${Array.from({length: Math.floor(Math.random() * 3) + 2}, () => 
+                            `<div class="skeleton-line" style="width: ${Math.floor(Math.random() * 60) + 30}%"></div>`
+                        ).join('')}
+                    </div>
+                `;
+                feed.appendChild(post);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            generateSkeletonPosts();
+            setTimeout(updateMainContentPosition, 100);
+        });
+
+        const observer = new MutationObserver(updateMainContentPosition);
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar) {
+                observer.observe(sidebar, { attributes: true, attributeFilter: ['class'] });
+            }
+        });
+    </script>
     <script src="config.js"></script>
     <script src="web.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
+    <script src="comm.js"></script>
 </body>
+
 </html>

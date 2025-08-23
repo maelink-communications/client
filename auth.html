@@ -94,29 +94,7 @@
             }
         }
 
-        function showReloadButton() {
-            if (document.querySelector('.reload-button')) return;
-            
-            const reloadBtn = document.createElement('button');
-            reloadBtn.className = 'reload-button';
-            reloadBtn.innerHTML = '↻';
-            reloadBtn.onclick = async () => {
-                try {
-                    ws = new WebSocket(serverWS);
-                    await new Promise((resolve, reject) => {
-                        ws.onopen = resolve;
-                        ws.onerror = reject;
-                        setTimeout(reject, 3000);
-                    });
-                    const existingError = document.querySelector('.error-message');
-                    if (existingError) existingError.remove();
-                    reloadBtn.remove();
-                } catch {
-                    showError('cannotConnect');
-                }
-            };
-            document.body.appendChild(reloadBtn);
-        }
+
 
         function showError(reason) {
             const existingError = document.querySelector('.error-message');
@@ -131,7 +109,6 @@
                 errorDiv.textContent = 'We couldn\'t find an account with that username. Please check that you entered it correctly.';
             } else if (reason === 'cannotConnect') {
                 errorDiv.textContent = 'Could not connect to the server. Please check your internet connection.';
-                showReloadButton();
             } else if (reason === 'badPswd') {
                 errorDiv.textContent = 'The credentials you entered are incorrect. Please try again.';
             } else {
@@ -195,6 +172,7 @@
     <div class="modal" id="modal"></div>
     <script src="config.js"></script>
     <script src="web.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
     <script src="comm.js"></script>
 </body>
 </html>

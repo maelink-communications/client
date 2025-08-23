@@ -281,7 +281,7 @@ button:active {
   position: fixed;
   left: 32px;
   bottom: 32px;
-  z-index: 2000;
+  z-index: 200000000;
   background: transparent;
   display: flex;
   opacity: 50%;
@@ -297,6 +297,7 @@ button:active {
 
 .disclaimer {
   font-size: 1.1rem;
+  z-index: 200000000;
   font-weight: bold;
   margin: 0 0 4px 0;
   letter-spacing: 2px;
@@ -306,6 +307,7 @@ button:active {
 
 .disclaimer2 {
   font-size: 0.95rem;
+  z-index: 200000000;
   margin: 0;
   text-align: left;
   line-height: 1.4;
@@ -408,4 +410,112 @@ button:active {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
   }
+}
+
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-content {
+  text-align: center;
+  color: var(--text);
+}
+
+.loading-content img {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 24px;
+  opacity: 0.8;
+}
+
+.loading-content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.loading-content p {
+  font-size: 1rem;
+  margin-bottom: 24px;
+  opacity: 0.8;
+}
+
+.loading-bar {
+  width: 200px;
+  height: 4px;
+  background: var(--glass-alt);
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.loading-progress {
+  height: 100%;
+  background: var(--accent1);
+  border-radius: 2px;
+  animation: progress 2s ease-in-out infinite;
+}
+
+@keyframes progress {
+  0% { width: 0%; }
+  50% { width: 70%; }
+  100% { width: 100%; }
+}
+
+.downtime-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.downtime-content {
+  text-align: center;
+  color: var(--text);
+}
+
+.downtime-content img {
+  width: 240px;
+  margin-bottom: 24px;
+  opacity: 0.7;
+}
+
+.downtime-content h2 {
+  font-size: 2rem;
+  margin-bottom: 16px;
+  max-width: 100%;
+  color: var(--accent1);
+}
+
+.downtime-content p {
+  font-size: 1.1rem;
+  margin-bottom: 24px;
+  justify-self: center;
+  opacity: 0.8;
+}
+
+.reconnect-status {
+  font-size: 0.9rem;
+  opacity: 0.4;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
 }
