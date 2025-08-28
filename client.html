@@ -73,7 +73,7 @@
                 justify-content: flex-start;
                 align-items: center;
                 gap: 1em;
-                transition: justify-content 0.5s ease;
+                transition: margin 0.5s ease;
             }
 
             .sidebar.compact .sidebar-header {
@@ -81,7 +81,6 @@
                 flex-direction: row !important;
                 justify-content: flex-start !important;
                 align-items: center !important;
-                padding: 8px 4px;
             }
 
             .sidebar.compact .sidebar-icon {
@@ -100,8 +99,21 @@
                 flex-shrink: 0;
             }
         </style>
+        <div class="user-menu" id="user-menu" style="display: none;">
+            <div class="user-menu-header">
+                <img class="user-menu-avatar" src="https://avatars.githubusercontent.com/u/80485413?v=4" alt="">
+                <div class="user-menu-info">
+                    <div class="user-menu-display-name" id="menu-display-name">Display Name</div>
+                    <div class="user-menu-username" id="menu-username">//username</div>
+                </div>
+                <div class="user-menu-actions">
+                    <img class="user-menu-icon" src="assets/img/options.svg" onclick="window.location.href='/options'" alt="Options">
+                    <img class="user-menu-icon" src="assets/img/logout.svg" onclick="logout()" alt="Logout">
+                </div>
+            </div>
+        </div>
         <div class="sidebar-bottom" id="sidebar-bottom">
-            <img id="profile-icon" src="https://avatars.githubusercontent.com/u/80485413?v=4" alt="">
+            <img id="profile-icon" src="https://avatars.githubusercontent.com/u/80485413?v=4" alt="" onclick="toggleUserMenu()">
         </div>
     </div>
     <div class="toast" id="loading-toast" style="display: none;">
@@ -190,7 +202,6 @@
             -khtml-user-drag: none !important;
             -moz-user-drag: none !important;
             -o-user-drag: none !important;
-            user-drag: none !important;
             user-select: none !important;
             -webkit-user-select: none !important;
             -moz-user-select: none !important;
@@ -312,6 +323,36 @@
             const sidebar = document.getElementById('sidebar');
             if (sidebar) {
                 observer.observe(sidebar, { attributes: true, attributeFilter: ['class'] });
+            }
+        });
+    </script>
+    <script>
+        function toggleUserMenu() {
+            const menu = document.getElementById('user-menu');
+            
+            if (menu.classList.contains('show')) {
+                menu.classList.remove('show');
+            } else {
+                menu.style.display = 'block';
+                menu.offsetHeight;
+                menu.classList.add('show');
+                const username = localStorage.getItem('username') || 'username';
+                document.getElementById('menu-display-name').textContent = username;
+                document.getElementById('menu-username').innerHTML = `<span style="color: #dc3545;">//</span>${username}`;
+            }
+        }
+        
+        function logout() {
+            localStorage.removeItem('session_token');
+            localStorage.removeItem('username');
+            window.location.reload();
+        }
+        
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('user-menu');
+            const profileIcon = document.getElementById('profile-icon');
+            if (!menu.contains(e.target) && e.target !== profileIcon) {
+                menu.classList.remove('show');
             }
         });
     </script>

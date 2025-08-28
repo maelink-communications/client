@@ -7,7 +7,6 @@
   height: 100vh;
   z-index: 9999999;
   overflow: hidden;
-  -webkit-app-region: drag;
   transition: width ease 0.5s;
   display: flex;
   flex-direction: column;
@@ -20,7 +19,6 @@
   text-decoration: none;
   margin: var(--spacing);
   border-radius: var(--size);
-  -webkit-app-region: no-drag;
 }
 
 .sidebar a.active {
@@ -85,15 +83,21 @@ div.content {
 
 #maelink-icon {
   display: block;
-  margin: var(--spacing);
+  width: 32px;
+  margin-top: 5px;
   margin-left: auto;
   margin-right: auto;
-  width: 32px;
   -webkit-app-region: no-drag;
   cursor: pointer;
   padding-left: 0.75em;
   margin-bottom: 0;
-  margin-left: 0;
+  padding: 8px;
+  border-radius: var(--size);
+  transition: background-color 0.2s ease;
+}
+
+#maelink-icon:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .sidebar-full {
@@ -111,12 +115,12 @@ div.content {
   padding: var(--spacing);
   margin: 0 var(--spacing);
   border-radius: var(--size);
-  transition: all 0.5s ease;
+  transition: all 0.5s ease, margin 0.5s ease, padding 0.5s ease;
   justify-content: flex-start;
 }
 
-.sidebar-header:hover {
-  background-color: var(--sec);
+.sidebar .sidebar-header:hover:not(.active) {
+  background-color: var(--sec) !important;
 }
 
 .sidebar-header.active {
@@ -130,7 +134,6 @@ div.content {
   left: 0;
   right: 0;
   bottom: 0;
-  border: 2px solid var(--accent1);
   border-radius: var(--size);
   pointer-events: none;
   transition: all 0.3s ease;
@@ -143,7 +146,8 @@ div.content {
 .sidebar.compact .sidebar-header {
   justify-content: center;
   margin: 0 4px;
-  padding: 8px;
+  gap: 1em;
+  padding: 14px 4px;
 }
 
 .sidebar.compact .sidebar-label {
@@ -156,6 +160,7 @@ div.content {
 .sidebar.extended .sidebar-label {
   opacity: 1;
   width: auto;
+  cursor: pointer;
   transition: opacity 0.3s ease 0.2s, width 0.3s ease 0.2s;
 }
 
@@ -163,6 +168,77 @@ div.content {
   border-width: 1px;
 }
 
-.sidebar.compact .sidebar-header {
-  padding: 8px 4px;
+.user-menu {
+  position: fixed;
+  bottom: 65px;
+  width: 220px;
+  height: 50px;
+  background: var(--pri);
+  border: 2px solid var(--sec);
+  border-radius: var(--size);
+  padding: 8px;
+  z-index: 10000;
+  left: 8px;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: left 0.5s ease, bottom 0.5s ease, opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.user-menu.show {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.sidebar.compact .user-menu {
+  bottom: 10px;
+  left: calc(66px + 5px);
+}
+
+.user-menu-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+}
+
+.user-menu-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.user-menu-info {
+  flex: 1;
+}
+
+.user-menu-display-name {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 16px;
+}
+
+.user-menu-username {
+  color: var(--text);
+  opacity: 0.6;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.user-menu-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.user-menu-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.user-menu-icon:hover {
+  opacity: 1;
 }

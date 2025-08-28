@@ -11,7 +11,7 @@ function showToast(message) {
     if (toast) {
         toast.querySelector('span').textContent = message;
         toast.style.display = 'block';
-        setTimeout(() => toast.classList.add('show'), 10);
+        requestAnimationFrame(() => toast.classList.add('show'));
     }
 }
 
@@ -19,7 +19,9 @@ function hideToast() {
     const toast = document.getElementById('loading-toast');
     if (toast) {
         toast.classList.remove('show');
-        setTimeout(() => toast.style.display = 'none', 300);
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 300);
     }
 }
 
@@ -38,7 +40,7 @@ function connect() {
         window.ws = ws;
     }
 
-    showToast('Loading feed...');
+    showToast('Loading...');
 
     ws.onopen = () => {
         if (reconnectInterval) {
@@ -48,7 +50,7 @@ function connect() {
         const existingError = document.querySelector('.error-message');
         if (existingError) existingError.remove();
 
-        hideToast();
+        setTimeout(() => hideToast(), 500);
         const downtimeScreen = document.getElementById('downtime-screen');
         if (downtimeScreen) {
             downtimeScreen.classList.remove('show');
