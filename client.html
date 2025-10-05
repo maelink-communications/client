@@ -101,19 +101,24 @@
         </style>
         <div class="user-menu" id="user-menu" style="display: none;">
             <div class="user-menu-header">
-                <img class="user-menu-avatar" src="https://avatars.githubusercontent.com/u/80485413?v=4" alt="">
+                <img class="user-menu-avatar"
+                    src="https://avatars.githubusercontent.com/u/145933633?s=400&u=3970a0e8c57c9c793ada88a6f08c5247a65d9566&v=4"
+                    alt="">
                 <div class="user-menu-info">
                     <div class="user-menu-display-name" id="menu-display-name">Display Name</div>
                     <div class="user-menu-username" id="menu-username">//username</div>
                 </div>
                 <div class="user-menu-actions">
-                    <img class="user-menu-icon" src="assets/img/options.svg" onclick="window.location.href='/options'" alt="Options">
+                    <img class="user-menu-icon" src="assets/img/options.svg"
+                        onclick="window.location.href='/options.html'" alt="Options">
                     <img class="user-menu-icon" src="assets/img/logout.svg" onclick="logout()" alt="Logout">
                 </div>
             </div>
         </div>
         <div class="sidebar-bottom" id="sidebar-bottom">
-            <img id="profile-icon" src="https://avatars.githubusercontent.com/u/80485413?v=4" alt="" onclick="toggleUserMenu()">
+            <img id="profile-icon"
+                src="https://avatars.githubusercontent.com/u/145933633?s=400&u=3970a0e8c57c9c793ada88a6f08c5247a65d9566&v=4"
+                alt="" onclick="toggleUserMenu()">
         </div>
     </div>
     <div class="toast" id="loading-toast" style="display: none;">
@@ -122,13 +127,26 @@
             <span>Loading feed...</span>
         </div>
     </div>
-    <div class="main-content" id="main-content" style="left: 66px; width: calc(100% - 66px);">
+    <div class="main-content" id="main-content" style="left: 66px; width: calc(100% - 66px); padding-top: 20px;">
         <div class="downtime-screen" id="downtime-screen" style="display: none; justify-content: center;">
             <div class="downtime-content">
                 <img src="assets/img/downtime.svg" alt="Server downtime">
                 <h2>Oops! Could not get to your feed.</h2>
                 <p>We're having trouble connecting to the server. Trying to reconnect...</p>
                 <div class="reconnect-status" id="reconnect-status">Reconnecting...</div>
+            </div>
+        </div>
+        <div id="composer-placeholder-container">
+            <div class="composer" id="composer">
+                <textarea id="composer-text" placeholder="What's happening?" rows="3"></textarea>
+                <div class="composer-actions">
+                    <div class="composer-buttons">
+                        <button id="composer-cancel" class="secondary">Cancel</button>
+                        <button id="composer-submit" class="primary">Post</button>
+                    </div>
+                </div>
+                <!-- custom dark resizer shown only when expanded -->
+                <div class="composer-resizer" id="composer-resizer" aria-hidden="true"></div>
             </div>
         </div>
         <div class="feed" id="feed"></div>
@@ -265,10 +283,12 @@
         .skeleton-post.hidden {
             display: none;
         }
+
         .downtime-screen {
             opacity: 0;
             transition: opacity 0.2s ease;
         }
+
         .downtime-screen.show {
             opacity: 1;
         }
@@ -280,9 +300,25 @@
             if (sidebar && mainContent) {
                 let startTime = Date.now();
                 const checkWidth = () => {
-                    const sidebarWidth = sidebar.offsetWidth;
-                    mainContent.style.left = (sidebarWidth + 10) + 'px';
-                    mainContent.style.width = `calc(100% - ${sidebarWidth + 10}px)`;
+                    const sidebarRect = sidebar.getBoundingClientRect();
+                    const leftPx = Math.ceil(sidebarRect.width + 10);
+                    const mainRect = mainContent.getBoundingClientRect();
+                    const availableWidth = Math.max(280, Math.floor(window.innerWidth - leftPx - 10));
+                    mainContent.style.left = leftPx + 'px';
+                    mainContent.style.width = availableWidth + 'px';
+
+                    // align and pin the composer to the top of the main content area
+                    const composerHolder = document.getElementById('composer-placeholder-container');
+                    if (composerHolder) {
+                        // place composer fixed at the top of the main content area and match its computed left/width
+                        const mainTop = Math.ceil(mainContent.getBoundingClientRect().top);
+                        composerHolder.style.position = 'fixed';
+                        composerHolder.style.top = (mainTop + 12) + 'px';
+                        composerHolder.style.left = leftPx + 'px';
+                        composerHolder.style.width = (availableWidth) + 'px';
+                        composerHolder.style.boxSizing = 'border-box';
+                        composerHolder.style.zIndex = 40;
+                    }
 
                     if (Date.now() - startTime < 500) {
                         requestAnimationFrame(checkWidth);
@@ -292,30 +328,104 @@
             }
         }
 
+        // ensure composer is repositioned on resize
+        window.addEventListener('resize', () => {
+            requestAnimationFrame(updateMainContentPosition);
+        });
+
         function generateSkeletonPosts() {
             const feed = document.getElementById('feed');
             const screenHeight = window.innerHeight;
             const postHeight = 120;
             const postsNeeded = Math.ceil(screenHeight / postHeight) + 2;
-            
+
             for (let i = 0; i < postsNeeded; i++) {
                 const post = document.createElement('div');
                 post.className = 'skeleton-post';
                 post.innerHTML = `
                     <div class="skeleton-avatar"></div>
                     <div class="skeleton-content">
-                        ${Array.from({length: Math.floor(Math.random() * 3) + 2}, () => 
-                            `<div class="skeleton-line" style="width: ${Math.floor(Math.random() * 60) + 30}%"></div>`
-                        ).join('')}
+                        ${Array.from({ length: Math.floor(Math.random() * 3) + 2 }, () =>
+                    `<div class="skeleton-line" style="width: ${Math.floor(Math.random() * 60) + 30}%"></div>`
+                ).join('')}
                     </div>
                 `;
                 feed.appendChild(post);
             }
         }
-        
+
+        function escapeHtml(str) {
+            if (str === null || typeof str === 'undefined') return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function renderPost(postData) {
+            const feed = document.getElementById('feed');
+            if (!feed) return;
+
+            const {
+                id = null,
+                avatar = 'assets/img/default-avatar.png',
+                display_name = null,
+                name = 'username',
+                content = '',
+                timestamp = Date.now(),
+                debug = {}
+            } = postData;
+
+            const post = document.createElement('div');
+            post.className = 'post';
+            post.dataset.postId = id || '';
+
+            post.innerHTML = `
+                <div class="post-left">
+                    <img class="post-avatar" src="${escapeHtml(avatar)}" alt="${escapeHtml(name)}">
+                </div>
+                <div class="post-body">
+                    <div class="post-header">
+                        <div class="post-display-name">${escapeHtml(display_name || name)}</div>
+                        <div class="post-username">//${escapeHtml(name)}</div>
+                    </div>
+                    <div class="post-content">${escapeHtml(content)}</div>
+                    <div class="post-footer">
+                        <div class="post-timestamp">${escapeHtml(new Date(timestamp).toLocaleString())}</div>
+                        <div class="post-debug">${escapeHtml(JSON.stringify(Object.assign({ id }, debug)))}</div>
+                    </div>
+                </div>
+            `;
+            feed.appendChild(post);
+        }
+
+        function renderPosts(postsArray) {
+            const feed = document.getElementById('feed');
+            if (!feed) return;
+            feed.innerHTML = '';
+
+            if (!Array.isArray(postsArray) || postsArray.length === 0) {
+                return;
+            }
+
+            for (const p of postsArray) {
+                renderPost(p);
+            }
+        }
+
+        // example usage:
+        // replace showSkeletonPosts() usage with rendering real posts when available:
+        // showSkeletonPosts(); // keep for placeholders
+        // later when data arrives:
+        // renderPosts([{ id: '1', avatar: '...', display_name: 'Alice', name: 'alice', content: 'Hello', timestamp: 1620000000000, debug: { source: 'ws' } }]);
+
+
         document.addEventListener('DOMContentLoaded', () => {
             generateSkeletonPosts();
             setTimeout(updateMainContentPosition, 100);
+            if (typeof initComposer === 'function') initComposer();
         });
 
         const observer = new MutationObserver(updateMainContentPosition);
@@ -329,7 +439,7 @@
     <script>
         function toggleUserMenu() {
             const menu = document.getElementById('user-menu');
-            
+
             if (menu.classList.contains('show')) {
                 menu.classList.remove('show');
             } else {
@@ -341,13 +451,13 @@
                 document.getElementById('menu-username').innerHTML = `<span style="color: #dc3545;">//</span>${username}`;
             }
         }
-        
+
         function logout() {
             localStorage.removeItem('session_token');
             localStorage.removeItem('username');
             window.location.reload();
         }
-        
+
         document.addEventListener('click', (e) => {
             const menu = document.getElementById('user-menu');
             const profileIcon = document.getElementById('profile-icon');
@@ -360,6 +470,147 @@
     <script src="web.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
     <script src="comm.js"></script>
+    <style>
+        .user-menu {
+            width: 300px;
+            min-height: 80px;
+            padding: 14px;
+            background: #434343;
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+            border-radius: 12px;
+            position: fixed;
+            display: none;
+            pointer-events: none;
+            z-index: 10000;
+            color: #ffffff;
+            backdrop-filter: blur(4px);
+            top: auto;
+            left: auto;
+            right: auto;
+        }
+
+        .user-menu.show {
+            display: block;
+            pointer-events: auto;
+        }
+
+        .user-menu-header {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .user-menu-quote {
+            opacity: 50%;
+        }
+
+        .user-menu-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 3px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+        }
+
+        .user-menu-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+            overflow: hidden;
+        }
+
+        .user-menu-display-name {
+            font-weight: 700;
+            font-size: 18px;
+            line-height: 1;
+            color: #ffffff;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .user-menu-username {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.9);
+            opacity: 0.9;
+        }
+
+        .user-menu-actions {
+            display: flex;
+            gap: 8px;
+            align-items: start;
+            margin-left: auto;
+        }
+
+        .user-menu-icon {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.25));
+        }
+
+        .user-menu .controls {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .user-menu .btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .user-menu .tag-new {
+            margin-left: auto;
+            background: #ff2f7a;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 6px;
+        }
+
+        .user-menu .row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 8px;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.06);
+            color: rgba(0, 0, 0, 0.75);
+            font-size: 13px;
+        }
+
+        @media (max-height: 380px) {
+            .user-menu {
+                bottom: 48px;
+                left: 8px;
+            }
+
+            .user-menu-avatar {
+                width: 56px;
+                height: 56px;
+            }
+
+            .user-menu {
+                width: 280px;
+                min-height: 160px;
+            }
+        }
+    </style>
 </body>
 
 </html>

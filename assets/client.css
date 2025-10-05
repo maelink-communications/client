@@ -17,6 +17,148 @@
   --spacing: 14px;
 }
 
+.post {
+  background: #2a2a2a;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+  align-items: flex-start;
+}
+.post-left {
+  flex: 0 0 56px;
+}
+.post-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.post-body {
+  flex: 1;
+}
+.post-header {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+}
+.post-display-name {
+  font-weight: 700;
+}
+.post-username {
+  opacity: 0.6;
+}
+.post-content {
+  margin-top: 8px;
+  white-space: pre-wrap;
+}
+.post-footer {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+.composer {
+  position: relative;
+  margin: 16px auto;
+  width: calc(100% - 40px);
+  max-width: 820px;
+  background: var(--pri);
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.composer textarea::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+.composer textarea::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 8px;
+}
+.composer textarea {
+  scrollbar-color: rgba(0, 0, 0, 0.6) transparent;
+}
+.composer.compact textarea::-webkit-scrollbar {
+  display: none;
+}
+.composer textarea {
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 42px;
+  max-height: 480px;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--glass);
+  color: var(--text);
+  border: none;
+  font-family: inherit;
+  resize: none;
+}
+
+.composer.compact {
+  height: 56px;
+  padding: 8px;
+  overflow: hidden;
+}
+.composer.compact textarea {
+  height: 36px;
+  opacity: 0.95;
+  cursor: text;
+}
+.composer.expanded {
+  max-height: 420px;
+}
+.composer {
+  transition: all 180ms ease;
+}
+
+.composer-resizer {
+  height: 4px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.25));
+  border-radius: 6px;
+  cursor: ns-resize;
+  display: none;
+  margin-top: 8px;
+}
+.composer.expanded .composer-resizer {
+  display: block;
+}
+
+.composer.compact {
+  border-radius: 999px;
+  padding: 6px 10px;
+  width: calc(100% - 20px);
+}
+.composer.compact .composer-actions { display: none !important; }
+.composer.compact textarea {
+  border-radius: 999px;
+  padding: 12px 18px;
+  min-height: 44px;
+  height: auto;
+  background: var(--glass);
+}
+
+#composer-placeholder-container {
+  position: sticky;
+  top: 12px;
+  z-index: 40;
+}
+#composer-placeholder-container .composer {
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+}
+
 .modal {
   position: fixed;
   top: 50%;
@@ -138,11 +280,20 @@ a {
 .center h1, h2, h3, p, span {
   margin: 0;
   max-width: 320px;
-  text-align: center;
+  text-align: left;
 }
 
 .center img {
   margin: 16px;
+}
+
+h2 {
+  font-size: 1.75em;
+  margin-top: 12px;
+}
+
+p {
+  margin-bottom: 12px;
 }
 
 input {
@@ -224,7 +375,6 @@ button:active {
 }
 
 .textclar {
-  padding-bottom: 16px;
   opacity: 0.4;
 }
 
@@ -318,7 +468,6 @@ button:active {
   width: 100%;
   display: flex;
   align-items: center;
-  margin: 4px;
 }
 
 .password-container input {
@@ -401,6 +550,56 @@ button:active {
   width: 400px;
 }
 
+.composer {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 120px);
+  max-width: 1200px;
+  background: var(--pri);
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 1000;
+}
+
+.composer textarea {
+  width: calc(100% - 24px);
+  min-height: 64px;
+  max-height: 240px;
+  resize: vertical;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--text);
+  border: none;
+  font-family: inherit;
+}
+
+.composer-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.composer-buttons button {
+  margin-left: 8px;
+}
+
+.composer .primary {
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  color: white;
+}
+
+.composer .secondary {
+  background: var(--bg);
+  color: var(--text);
+}
+
 @keyframes error-fadein {
   from {
     opacity: 0;
@@ -466,9 +665,15 @@ button:active {
 }
 
 @keyframes progress {
-  0% { width: 0%; }
-  50% { width: 70%; }
-  100% { width: 100%; }
+  0% {
+    width: 0%;
+  }
+  50% {
+    width: 70%;
+  }
+  100% {
+    width: 100%;
+  }
 }
 
 .downtime-screen {
@@ -516,6 +721,10 @@ button:active {
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
 }

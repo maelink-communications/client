@@ -26,13 +26,80 @@
         .decorations img {
             background: var(--glass-alt);
         }
+
+        .modal {
+            width: min(560px, 92%);
+            max-width: 640px;
+            min-width: 280px;
+            min-height: 0 !important;
+            height: auto !important;
+            max-height: calc(100vh - 48px) !important;
+            overflow: auto !important;
+            display: block !important;
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            z-index: 9999 !important;
+            padding: 18px !important;
+            box-sizing: border-box !important;
+        }
+
+        .modal .center {
+            height: auto !important;
+        }
+
+        .auth-anchor .modal {
+            position: relative !important;
+            transform: none !important;
+            pointer-events: auto !important;
+            display: block !important;
+        }
+
+        .auth-anchor .modal {
+            min-height: 0 !important;
+            height: auto !important;
+            max-height: calc(100vh - 48px) !important;
+            overflow: auto !important;
+            padding: 22px !important;
+        }
+
+        .auth-anchor .modal .center.content {
+            padding-bottom: 22px !important;
+        }
+
+        .biglogo.auth {
+            pointer-events: none;
+            width: 160px;
+        }
+
+        .auth-inner {
+            display: flex;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 6px 0 12px 0;
+            flex-direction: column;
+        }
+
+        .auth-inner input {
+            margin: 8px 0;
+        }
+
+        .auth-inner button {
+            margin: 6px 0;
+        }
+
+        .auth-inner .textclar {
+            margin-top: 8px;
+            align-self: center;
+        }
     </style>
 </head>
 
 <body>
     <script>
         const loginForm = `
-            <div class="center content">
+            <div class="auth-inner content">
                 <h2>Hello!</h2>
                 <p>Pick up right where you left off.</p>
                 <input id="userInput" placeholder="Username" type="text" autocomplete="nope">
@@ -48,7 +115,7 @@
         `;
 
         const signupForm = `
-            <div class="center content">
+            <div class="auth-inner content">
                 <h2>Welcome!</h2>
                 <p>Joining maelink is just a few clicks away.</p>
                 <input id="userInput" placeholder="Username" type="text" autocomplete="nope">
@@ -58,6 +125,7 @@
                         <img src="assets/img/eyeclosed.svg" alt="Show password">
                     </button>
                 </div>
+                <input id="codeInput" placeholder="Verification code" type="text" autocomplete="nope">
                 <button id="signupButton">Join</button>
                 <a class="textclar" href="#" id="to-login">Already have an account?</a>
             </div>
@@ -69,20 +137,22 @@
             document.getElementById('loginButton').onclick = () => {
                 logMaelink(document.getElementById('userInput'), document.getElementById('passInput'));
             };
+            requestAnimationFrame(repositionLogo);
         }
 
         function showSignup() {
             document.getElementById('modal').innerHTML = signupForm;
             document.getElementById('to-login').onclick = showLogin;
             document.getElementById('signupButton').onclick = () => {
-                joinMaelink(document.getElementById('userInput'), document.getElementById('passInput'));
+                joinMaelink(document.getElementById('userInput'), document.getElementById('passInput'), document.getElementById('codeInput'));
             };
+            requestAnimationFrame(repositionLogo);
         }
 
         function togglePassword(inputId, button) {
             const input = document.getElementById(inputId);
             const img = button.querySelector('img');
-            
+
             if (input.type === 'password') {
                 input.type = 'text';
                 img.src = 'assets/img/eye.svg';
@@ -99,10 +169,10 @@
         function showError(reason) {
             const existingError = document.querySelector('.error-message');
             if (existingError) existingError.remove();
-            
+
             const errorDiv = document.createElement('div');
             errorDiv.className = 'error-message';
-            
+
             if (reason === 'userExists') {
                 errorDiv.textContent = 'This username is already taken. Please choose a different one.';
             } else if (reason === 'userNotFound') {
@@ -111,22 +181,25 @@
                 errorDiv.textContent = 'Could not connect to the server. Please check your internet connection.';
             } else if (reason === 'badPswd') {
                 errorDiv.textContent = 'The credentials you entered are incorrect. Please try again.';
+            } else if (reason === 'badCode') {
+                errorDiv.textContent = 'The verification code you entered is incorrect.';
             } else {
-                errorDiv.textContent = `Oops! We ran into an error: ${reason}`;
+                errorDiv.textContent = `We ran into an error. If this persists, please show this to support: ${reason}`;
+                console.error('Authentication error:', reason);
             }
-            
+
             document.body.appendChild(errorDiv);
         }
 
         function showErrorNorm(reason) {
             const existingError = document.querySelector('.error-message');
             if (existingError) existingError.remove();
-            
+
             const errorDiv = document.createElement('div');
             errorDiv.className = 'error-message';
-            
-                errorDiv.textContent = `${reason}`;
-            
+
+            errorDiv.textContent = `${reason}`;
+
             document.body.appendChild(errorDiv);
         }
 
@@ -137,25 +210,51 @@
             } else {
                 showLogin();
             }
+            const big = document.getElementById('biglogo');
+            if (big) big.classList.add('auth');
+            requestAnimationFrame(repositionLogo);
+            const modalEl = document.querySelector('.modal');
+            if (modalEl) {
+                const mo = new MutationObserver(() => requestAnimationFrame(repositionLogo));
+                mo.observe(modalEl, { childList: true, subtree: true });
+            }
         });
+    </script>
+    <script>
+        function repositionLogo() {
+            const modal = document.querySelector('.modal');
+            const logo = document.getElementById('biglogo');
+            if (!modal || !logo) return;
+            const modalRect = modal.getBoundingClientRect();
+            const logoRect = logo.getBoundingClientRect();
+            let newTop = modalRect.top + window.scrollY - logoRect.height - 18;
+            const minTop = 8 + window.scrollY;
+            if (newTop < minTop) newTop = minTop;
+            logo.style.top = newTop + 'px';
+            logo.style.left = '50%';
+            logo.style.transform = 'translateX(-50%)';
+        }
+
+        window.addEventListener('resize', () => requestAnimationFrame(repositionLogo));
+        window.addEventListener('load', () => requestAnimationFrame(repositionLogo));
     </script>
     <div class="pill">
-            <h1 class="disclaimer" style="display: none;">PRERELEASE</h1>
-    <p class="disclaimer2" id="build-info" style="display: none;"></p>
-    <script>
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.key === 'i') {
-                document.querySelector('.disclaimer').style.display = 'block';
-                document.querySelector('.disclaimer2').style.display = 'block';
-            }
-        });
-        document.addEventListener('keyup', (e) => {
-            if (e.key === 'Control' || e.key === 'i') {
-                document.querySelector('.disclaimer').style.display = 'none';
-                document.querySelector('.disclaimer2').style.display = 'none';
-            }
-        });
-    </script>
+        <h1 class="disclaimer" style="display: none;">PRERELEASE</h1>
+        <p class="disclaimer2" id="build-info" style="display: none;"></p>
+        <script>
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'i') {
+                    document.querySelector('.disclaimer').style.display = 'block';
+                    document.querySelector('.disclaimer2').style.display = 'block';
+                }
+            });
+            document.addEventListener('keyup', (e) => {
+                if (e.key === 'Control' || e.key === 'i') {
+                    document.querySelector('.disclaimer').style.display = 'none';
+                    document.querySelector('.disclaimer2').style.display = 'none';
+                }
+            });
+        </script>
     </div>
     <div class="image"></div>
     <div class="background"></div>
@@ -175,4 +274,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
     <script src="comm.js"></script>
 </body>
+
 </html>

@@ -2,7 +2,7 @@
 // REMOVE ALL VALUES RELATED TO PRERELEASE WHEN PREPARING FOR PROD!
 
 const buildInfo = {
-    buildDate: "24.08.25"
+    buildDate: "05.10.25"
 };
 
 const serverAddress = "http://127.0.0.1:6060"; // REST API server
