@@ -160,14 +160,14 @@
   max-width: none !important;
 
   box-sizing: border-box;
-  width: calc(100vw - 56px - var(--composer-padding)) !important;
-  transform: translateX(calc(-50vw + 56px + var(--composer-padding) / 2));
+  width: calc(100vw - 56px - var(--composer-margin)) !important;
+  transform: translateX(calc(-50vw + 56px + var(--composer-margin) / 2));
   transition: ease 0.5s;
 }
 
 .sidebar.extended ~ #composer-placeholder-container .composer {
-  width: calc(100vw - var(--sidebar-width) - var(--composer-padding)) !important;
-  transform: translateX(calc(-50vw + var(--sidebar-width) + var(--composer-padding) / 2));
+  width: calc(100vw - var(--sidebar-width) - var(--composer-margin)) !important;
+  transform: translateX(calc(-50vw + var(--sidebar-width) + var(--composer-margin) / 2));
 }
 
 .modal {
