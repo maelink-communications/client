@@ -67,7 +67,6 @@ window.hideSkeletonPosts = hideSkeletonPosts;
 
 async function fetchFeed() {
     try {
-        const token = localStorage.getItem('session_token');
         const url = `${serverAddress.replace(/\/$/, '')}/api/feed`;
         const res = await fetch(url, {
             method: 'GET',
@@ -75,13 +74,6 @@ async function fetchFeed() {
                 'Accept': 'application/json'
             }
         });
-
-        if (res.status === 401 || res.status === 403) {
-            localStorage.removeItem('session_token');
-            localStorage.removeItem('username');
-            window.location.href = 'auth.html';
-            return false;
-        }
 
         if (!res.ok) {
             console.warn('Failed to fetch feed:', res.status);
@@ -93,7 +85,7 @@ async function fetchFeed() {
         const postsArray = Array.isArray(postsRaw) ? postsRaw : (postsRaw.posts || []);
 
         const mapped = (postsArray || []).map(p => ({
-            id: p.id || p.ts || null,
+            id: p.uuid || p.ts || null,
             avatar: p.avatar || 'assets/img/default-avatar.png',
             display_name: p.display_name || p.displayName || p.display || p.user || p.name || null,
             name: p.user || p.user || p.author || p.name || null,
@@ -159,7 +151,6 @@ function initComposer() {
     if (!textarea || !submit || !cancel || !composer) return;
 
     composer.classList.add('compact');
-    // ensure actions are hidden and not tabbable when starting compact
     const actions = composer.querySelector('.composer-actions');
     if (actions) {
         actions.style.display = 'none';
@@ -202,7 +193,6 @@ function initComposer() {
         if (e.target && (e.target.id === 'composer-submit' || e.target.id === 'composer-cancel')) return;
         composer.classList.remove('compact');
         composer.classList.add('expanded');
-        composer.style.maxHeight = composer.style.maxHeight || '320px';
         // show actions when expanded
         const actions = composer.querySelector('.composer-actions');
         if (actions) {
@@ -217,7 +207,6 @@ function initComposer() {
     textarea.addEventListener('focus', () => {
         composer.classList.remove('compact');
         composer.classList.add('expanded');
-        composer.style.maxHeight = composer.style.maxHeight || '320px';
         // show actions when focused/expanded
         const actions = composer.querySelector('.composer-actions');
         if (actions) {
@@ -233,7 +222,6 @@ function initComposer() {
             textarea.blur();
             composer.classList.remove('expanded');
             composer.classList.add('compact');
-            composer.style.maxHeight = '';
             // hide actions when collapsing
             const actions = composer.querySelector('.composer-actions');
             if (actions) {
@@ -358,7 +346,7 @@ function connect() {
             ws.send(JSON.stringify({
                 cmd: 'client_info',
                 client: "maelink_gen2-electron",
-                version: "prealpha_220825"
+                version: "prealpha_051025"
             }));
         } else if (data.error) {
             showError(data.reason);
@@ -488,7 +476,7 @@ function startReconnection() {
                 ws.send(JSON.stringify({
                     cmd: 'client_info',
                     client: "maelink_gen2-electron",
-                    version: "prealpha_220825"
+                    version: "prealpha_051025"
                 }));
             } else if (data.error) {
                 showError(data.reason);

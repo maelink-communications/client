@@ -78,6 +78,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  transition: all 180ms ease;
 }
 .composer textarea::-webkit-scrollbar {
   height: 8px;
@@ -94,13 +95,13 @@
   display: none;
 }
 .composer textarea {
-  width: 100%;
+  width: 90%;
   flex: 1 1 auto;
   min-height: 42px;
   max-height: 480px;
   padding: 12px;
   border-radius: 12px;
-  background: var(--glass);
+  background: var(--bg);
   color: var(--text);
   border: none;
   font-family: inherit;
@@ -108,46 +109,24 @@
 }
 
 .composer.compact {
-  height: 56px;
-  padding: 8px;
-  overflow: hidden;
-}
-.composer.compact textarea {
-  height: 36px;
-  opacity: 0.95;
-  cursor: text;
-}
-.composer.expanded {
-  max-height: 420px;
-}
-.composer {
-  transition: all 180ms ease;
-}
-
-.composer-resizer {
-  height: 4px;
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.25));
-  border-radius: 6px;
-  cursor: ns-resize;
-  display: none;
-  margin-top: 8px;
-}
-.composer.expanded .composer-resizer {
-  display: block;
-}
-
-.composer.compact {
   border-radius: 28px;
   padding: 6px 10px;
   width: calc(100% - 20px);
+  max-height: 48px;
+  overflow: hidden;
+  background: #232323;
 }
 .composer.compact .composer-actions { display: none !important; }
 .composer.compact textarea {
   border-radius: 999px;
-  padding: 12px 18px;
-  min-height: 44px;
-  height: auto;
-  background: var(--glass);
+  height: 44px;
+  background: transparent;
+  text-align: center;
+  resize: none;
+  overflow: hidden;
+}
+.composer.expanded {
+  max-height: 420px;
 }
 
 #composer-placeholder-container {
@@ -157,17 +136,10 @@
 }
 #composer-placeholder-container .composer {
   margin: 0 !important;
+  width: 100% !important;
   max-width: none !important;
-
   box-sizing: border-box;
-  width: calc(100vw - 56px - var(--composer-margin)) !important;
-  transform: translateX(calc(-50vw + 56px + var(--composer-margin) / 2));
   transition: ease 0.5s;
-}
-
-.sidebar.extended ~ #composer-placeholder-container .composer {
-  width: calc(100vw - var(--sidebar-width) - var(--composer-margin)) !important;
-  transform: translateX(calc(-50vw + var(--sidebar-width) + var(--composer-margin) / 2));
 }
 
 .modal {
@@ -559,36 +531,6 @@ button:active {
   animation: error-fadein 0.3s ease;
   z-index: 11;
   width: 400px;
-}
-
-.composer {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 120px);
-  max-width: 1200px;
-  background: var(--pri);
-  border-radius: 16px;
-  padding: 12px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  z-index: 1000;
-}
-
-.composer textarea {
-  width: calc(100% - 24px);
-  min-height: 64px;
-  max-height: 240px;
-  resize: vertical;
-  padding: 12px;
-  border-radius: 12px;
-  background: var(--bg);
-  color: var(--text);
-  border: none;
-  font-family: inherit;
 }
 
 .composer-actions {

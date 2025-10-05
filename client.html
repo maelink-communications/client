@@ -145,8 +145,6 @@
                         <button id="composer-submit" class="primary">Post</button>
                     </div>
                 </div>
-                <!-- custom dark resizer shown only when expanded -->
-                <div class="composer-resizer" id="composer-resizer" aria-hidden="true"></div>
             </div>
         </div>
         <div class="feed" id="feed"></div>
@@ -302,22 +300,34 @@
                 const checkWidth = () => {
                     const sidebarRect = sidebar.getBoundingClientRect();
                     const leftPx = Math.ceil(sidebarRect.width + 10);
-                    const mainRect = mainContent.getBoundingClientRect();
                     const availableWidth = Math.max(280, Math.floor(window.innerWidth - leftPx - 10));
                     mainContent.style.left = leftPx + 'px';
                     mainContent.style.width = availableWidth + 'px';
 
-                    // align and pin the composer to the top of the main content area
+                    // place composer fixed at the top of the main content area and match its computed left/width
                     const composerHolder = document.getElementById('composer-placeholder-container');
-                    if (composerHolder) {
-                        // place composer fixed at the top of the main content area and match its computed left/width
+                    const feed = document.getElementById('feed');
+                    if (composerHolder && mainContent) {
                         const mainTop = Math.ceil(mainContent.getBoundingClientRect().top);
                         composerHolder.style.position = 'fixed';
                         composerHolder.style.top = (mainTop + 12) + 'px';
                         composerHolder.style.left = leftPx + 'px';
                         composerHolder.style.width = (availableWidth) + 'px';
                         composerHolder.style.boxSizing = 'border-box';
-                        composerHolder.style.zIndex = 40;
+                        composerHolder.style.zIndex = 60;
+                        // ensure composer itself stretches to the holder width
+                        const composer = document.getElementById('composer');
+                        if (composer) {
+                            composer.style.width = '100%';
+                            composer.style.boxSizing = 'border-box';
+                        }
+
+                        // make feed start below the fixed composer so posts aren't hidden underneath
+                        if (feed) {
+                            // measure composer height (include some breathing room)
+                            const holderHeight = composerHolder.getBoundingClientRect().height || (composer ? composer.offsetHeight : 120);
+                            feed.style.paddingTop = Math.ceil(holderHeight + 16) + 'px';
+                        }
                     }
 
                     if (Date.now() - startTime < 500) {
