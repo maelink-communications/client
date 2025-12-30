@@ -14,24 +14,25 @@
         href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
 </head>
+
 <body>
     <div class="pill">
-            <h1 class="disclaimer" style="display: none;">PRERELEASE</h1>
-    <p class="disclaimer2" id="build-info" style="display: none;"></p>
-    <script>
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.key === 'i') {
-                document.querySelector('.disclaimer').style.display = 'block';
-                document.querySelector('.disclaimer2').style.display = 'block';
-            }
-        });
-        document.addEventListener('keyup', (e) => {
-            if (e.key === 'Control' || e.key === 'i') {
-                document.querySelector('.disclaimer').style.display = 'none';
-                document.querySelector('.disclaimer2').style.display = 'none';
-            }
-        });
-    </script>
+        <h1 class="disclaimer" style="display: none;">CLOSED BETA</h1>
+        <p class="disclaimer2" id="build-info" style="display: none;"></p>
+        <script>
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'i') {
+                    document.querySelector('.disclaimer').style.display = 'block';
+                    document.querySelector('.disclaimer2').style.display = 'block';
+                }
+            });
+            document.addEventListener('keyup', (e) => {
+                if (e.key === 'Control' || e.key === 'i') {
+                    document.querySelector('.disclaimer').style.display = 'none';
+                    document.querySelector('.disclaimer2').style.display = 'none';
+                }
+            });
+        </script>
     </div>
     <div class="titlebar" id="titlebar">
         <div class="decorations">
@@ -41,16 +42,29 @@
         </div>
     </div>
     <div class="sidebar">
+        <div class="sidebar-bottom">
+            <img onclick="location.replace('client.html')" src="assets/img/back.svg" alt="">
+        </div>
         <img class="sidebar-full" id="maelink-icon" src="assets/img/icon.svg" alt="">
-        <a class="active">Account</a>
-        <a>Appearance</a>
-        <a>Logout</a>
     </div>
-    <div class="sidebar-bottom">
-        <img onclick="location.replace('client.html')" src="assets/img/back.svg" alt="">
+    <div class="content" style="transform: translateY(30px); margin-left: calc(24px + var(--sidebar-width));">
+        <div class="settings-section">
+            <h2>Account Settings</h2>
+            <div class="setting-item">
+                <div class="setting-label" onclick="displayNameInput()">Change your display name</div>
+                <input type="text" id="displayName" name="displayName" placeholder="Enter your new display name">
+                <div class="saveDispButton" onclick="saveDisplayName()">Save changes</div>
+            </div>
+            <div class="setting-item">
+                <div class="setting-label" onclick="passwordChangeInput()">Change your password</div>
+                <input type="password" id="passwordOld" name="passwordOld" placeholder="Enter your current password">
+                <input type="password" id="passwordNew" name="passwordNew" placeholder="Enter your new password">
+                <div class="savePassButton" onclick="savePassword()">Save changes</div>
+            </div>
+        </div>
     </div>
-    <div class="content"></div>
     <script src="config.js"></script>
+    <script src="comm.js"></script>
     <script src="web.js"></script>
 </body>
 </html>

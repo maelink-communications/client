@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>mod panel</title>
+    <link rel="stylesheet" href="assets/client.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            background: #111;
+            color: #eee;
+            font-family: 'Rethink Sans', system-ui, -apple-system, "Segoe UI", Roboto, Cantarell, "Helvetica Neue", Arial, sans-serif
+        }
+
+        .panel {
+            box-sizing: border-box;
+            padding: 12px;
+            min-width: 560px;
+            min-height: 420px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .row {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .row input,
+        .row select {
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #333;
+            background: #0f0f0f;
+            color: #fff
+        }
+
+        .btn {
+            background: #1f1f1f;
+            color: #fff;
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            cursor: pointer
+        }
+
+        #mod-logs {
+            flex: 1;
+            overflow: auto;
+            border-radius: 8px;
+            padding: 8px;
+            background: linear-gradient(180deg, #0b0b0b, #0f0f0f);
+            border: 1px solid rgba(255, 255, 255, 0.03)
+        }
+
+        .log-row {
+            padding: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03)
+        }
+
+        .status {
+            color: #9f9f9f;
+            font-size: 13px
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        header h2 {
+            margin: 0
+        }
+    </style>
+</head>
+
+<body>
+    <div class="panel">
+        <header>
+            <h2>Mod Panel</h2>
+            <div>
+                <button id="closeBtn" class="btn">Close</button>
+            </div>
+        </header>
+
+        <div class="row">
+            <input id="mod-target" placeholder="username or uuid">
+            <select id="mod-role-select">
+                <option value="user">user</option>
+                <option value="mod">mod</option>
+                <option value="admin">admin</option>
+            </select>
+            <button id="mod-apply-role" class="btn">Set Role</button>
+        </div>
+
+        <div class="row">
+            <label for="ban-length" style="color:#cfcfcf">Ban length</label>
+            <select id="ban-length"
+                style="width:120px;padding:8px;border-radius:6px;background:#0f0f0f;color:#fff;border:1px solid #333;">
+                <option value="1">1 day</option>
+                <option value="7" selected>7 days</option>
+                <option value="30">30 days</option>
+                <option value="perm">Permanent</option>
+                <option value="custom">Custom...</option>
+            </select>
+            <input id="ban-until" type="datetime-local"
+                style="display:none;padding:8px;border-radius:6px;border:1px solid #333;background:#0f0f0f;color:#fff;">
+            <button id="mod-instant-delete" class="btn">Instant Delete</button>
+            <button id="mod-schedule-delete" class="btn">Schedule Delete (7d)</button>
+            <input id="mod-post-id" placeholder="post id to delete" style="flex:1">
+            <button id="mod-delete-post" class="btn">Delete Post</button>
+        </div>
+
+        <div style="display:flex;gap:8px;align-items:center">
+            <input id="filter-actor" placeholder="actor (name)">
+            <input id="filter-target" placeholder="target (name)">
+            <input id="filter-action" placeholder="action">
+            <button id="mod-refresh-logs" class="btn">Refresh Logs</button>
+            <button id="mod-export-csv" class="btn">Export CSV</button>
+        </div>
+
+        <div id="mod-logs">Loading...</div>
+        <div class="status" id="mod-status"></div>
+    </div>
+
+    <script src="config.js"></script>
+    <script>
+        function escapeHtml(str) { if (str == null) return ''; return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;'); }
+
+        (function () {
+            const statusEl = document.getElementById('mod-status');
+            const logsEl = document.getElementById('mod-logs');
+            let lastFetchedLogs = [];
+
+            function setStatus(t) { statusEl.textContent = t || ''; }
+
+            const token = localStorage.getItem('session_token');
+            if (!token) {
+                alert('No session token found. Close this window and log in first.');
+                window.close();
+            }
+
+            document.getElementById('closeBtn').addEventListener('click', () => window.close());
+
+            document.getElementById('mod-apply-role').addEventListener('click', async () => {
+                const target = document.getElementById('mod-target').value.trim();
+                const role = document.getElementById('mod-role-select').value;
+                if (!target) return setStatus('Enter target username/uuid');
+                if (!confirm(`Set role ${role} for ${target}?`)) return;
+                setStatus('Applying role...');
+                try {
+                    const res = await fetch(`${serverAddress.replace(/\/$/, '')}/api/permissions`, { method: 'POST', headers: { 'Content-Type': 'application/json', token }, body: JSON.stringify({ user: target, role }) });
+                    if (!res.ok) return setStatus('Set role failed: ' + res.status);
+                    setStatus(`Set role ${role} for ${target}`);
+                    setTimeout(() => setStatus(''), 3000);
+                } catch (e) { console.error(e); setStatus('Network error'); }
+            });
+
+            const banLengthEl = document.getElementById('ban-length');
+            const banUntilEl = document.getElementById('ban-until');
+            banLengthEl.addEventListener('change', () => {
+                if (banLengthEl.value === 'custom') banUntilEl.style.display = '';
+                else banUntilEl.style.display = 'none';
+            });
+
+            document.getElementById('mod-ban').addEventListener('click', async () => {
+                const target = document.getElementById('mod-target').value.trim();
+                if (!target) return setStatus('Enter target username/uuid');
+                const sel = banLengthEl.value;
+                let payload = { user: target };
+                if (sel === 'custom') {
+                    const v = banUntilEl.value;
+                    if (!v) return setStatus('Select a date/time for custom ban');
+                    payload.until = new Date(v).toISOString();
+                } else if (sel === 'perm') {
+                    payload.permanent = true;
+                } else {
+                    payload.days = Number(sel);
+                }
+                const humanText = sel === 'perm' ? 'permanently' : (sel === 'custom' ? `until ${banUntilEl.value}` : `for ${sel} days`);
+                if (!confirm(`Ban ${target} ${humanText}?`)) return;
+                setStatus('Banning...');
+                try {
+                    const res = await fetch(`${serverAddress.replace(/\/$/, '')}/api/ban`, { method: 'POST', headers: { 'Content-Type': 'application/json', token }, body: JSON.stringify(payload) });
+                    if (!res.ok) return setStatus('Ban failed: ' + res.status);
+                    setStatus(`Banned ${target} ${humanText}`);
+                    setTimeout(() => setStatus(''), 3500);
+                } catch (e) { console.error(e); setStatus('Network error'); }
+            });
+
+            document.getElementById('mod-instant-delete').addEventListener('click', async () => {
+                const target = document.getElementById('mod-target').value.trim();
+                if (!target) return setStatus('Enter target username/uuid');
+                if (!confirm(`Instantly delete ${target}? This cannot be undone.`)) return;
+                setStatus('Deleting account...');
+                try {
+                    const res = await fetch(`${serverAddress.replace(/\/$/, '')}/api/account?user=${encodeURIComponent(target)}&instant=true`, { method: 'DELETE', headers: { token } });
+                    if (!res.ok) return setStatus('Instant delete failed: ' + res.status);
+                    setStatus(`Instantly deleted ${target}`);
+                    setTimeout(() => setStatus(''), 3000);
+                } catch (e) { console.error(e); setStatus('Network error'); }
+            });
+
+            document.getElementById('mod-schedule-delete').addEventListener('click', async () => {
+                const target = document.getElementById('mod-target').value.trim();
+                if (!target) return setStatus('Enter target username/uuid');
+                if (!confirm(`Schedule deletion for ${target} (7 days)?`)) return;
+                setStatus('Scheduling deletion...');
+                try {
+                    const res = await fetch(`${serverAddress.replace(/\/$/, '')}/api/account?user=${encodeURIComponent(target)}`, { method: 'DELETE', headers: { token } });
+                    if (!res.ok) return setStatus('Schedule delete failed: ' + res.status);
+                    const body = await res.json();
+                    setStatus(`Scheduled deletion for ${target} at ${body.scheduled}`);
+                    setTimeout(() => setStatus(''), 4000);
+                } catch (e) { console.error(e); setStatus('Network error'); }
+            });
+
+            document.getElementById('mod-delete-post').addEventListener('click', async () => {
+                const postId = document.getElementById('mod-post-id').value.trim();
+                if (!postId) return setStatus('Enter post id');
+                if (!confirm(`Delete post ${postId}?`)) return;
+                setStatus('Deleting post...');
+                try {
+                    const res = await fetch(`${serverAddress.replace(/\/$/, '')}/api/post?id=${encodeURIComponent(postId)}`, { method: 'DELETE', headers: { token } });
+                    if (!res.ok) return setStatus('Delete post failed: ' + res.status);
+                    setStatus(`Deleted post ${postId}`);
+                    setTimeout(() => setStatus(''), 2500);
+                } catch (e) { console.error(e); setStatus('Network error'); }
+            });
+
+            async function fetchLogs() {
+                setStatus('Loading logs...');
+                const actor = document.getElementById('filter-actor').value.trim();
+                const target = document.getElementById('filter-target').value.trim();
+                const action = document.getElementById('filter-action').value.trim();
+                const params = new URLSearchParams(); params.set('limit', '500');
+                if (actor) params.set('actor', actor);
+                if (target) params.set('target', target);
+                if (action) params.set('action', action);
+                try {
+                    const res = await fetch(`${serverAddress.replace(/\/$/, '')}/api/actionlogs?${params.toString()}`, { headers: { token } });
+                    if (!res.ok) { logsEl.textContent = 'Failed to load logs: ' + res.status; setStatus(''); return; }
+                    const body = await res.json();
+                    if (!body.logs || body.logs.length === 0) { logsEl.textContent = 'No logs'; lastFetchedLogs = []; setStatus(''); return; }
+                    logsEl.innerHTML = '';
+                    lastFetchedLogs = body.logs;
+                    for (const l of body.logs) {
+                        const row = document.createElement('div'); row.className = 'log-row';
+                        row.innerHTML = `<div style="font-weight:700">${escapeHtml(l.action)} — ${escapeHtml(l.actor || 'system')} -> ${escapeHtml(l.target || '')}</div><div style="font-size:12px;color:#ccc;margin-top:4px">${escapeHtml(l.details || '')}</div><div style="font-size:11px;color:#999;margin-top:6px">${new Date(l.created_at).toLocaleString()}</div>`;
+                        logsEl.appendChild(row);
+                    }
+                    setStatus('Loaded ' + body.logs.length + ' logs');
+                    setTimeout(() => setStatus(''), 2000);
+                } catch (e) { console.error(e); logsEl.textContent = 'Error loading logs'; setStatus(''); }
+            }
+
+            document.getElementById('mod-refresh-logs').addEventListener('click', fetchLogs);
+
+            document.getElementById('mod-export-csv').addEventListener('click', () => {
+                if (!lastFetchedLogs || lastFetchedLogs.length === 0) return alert('No logs to export');
+                const rows = [['id', 'actor', 'target', 'action', 'details', 'created_at']];
+                for (const l of lastFetchedLogs) rows.push([l.id, l.actor || '', l.target || '', l.action || '', (l.details || '').replace(/\n/g, ' '), l.created_at]);
+                const csv = rows.map(r => r.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(',')).join('\n');
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a'); a.href = url; a.download = `actionlogs_${Date.now()}.csv`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+            });
+
+            fetchLogs();
+
+        })();
+    </script>
+</body>
+
+</html>

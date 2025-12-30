@@ -25,6 +25,36 @@ function hideToast() {
     }
 }
 
+function displayNameInput() {
+    const input = document.getElementById('displayName');
+    if (input) {
+        input.style.display = input.style.display === 'block' ? 'none' : 'block';
+    }
+    const button = document.getElementById('saveDispButton');
+    if (button) {
+        button.style.display = button.style.display === 'block' ? 'none' : 'block';
+    } else {
+        console.error("button doesnt exist?? wha")
+    }
+}
+
+function passwordChangeInput() {
+    const oldInput = document.getElementById('passwordOld');
+    const newInput = document.getElementById('passwordNew');
+    if (oldInput) {
+        oldInput.style.display = oldInput.style.display === 'block' ? 'none' : 'block';
+    }
+    if (newInput) {
+        newInput.style.display = newInput.style.display === 'block' ? 'none' : 'block';
+    }
+    const button = document.getElementById('savePassButton');
+    if (button) {
+        button.style.display = button.style.display === 'block' ? 'none' : 'block';
+    } else {
+        console.error("button doesnt exist?? wha")
+    }
+}
+
 function showSkeletonPosts() {
     window.skeletonsHidden = false;
     const skeletons = document.querySelectorAll('.skeleton-post');
@@ -84,15 +114,19 @@ async function fetchFeed() {
         const postsRaw = body.posts || body.posts?.posts || body || [];
         const postsArray = Array.isArray(postsRaw) ? postsRaw : (postsRaw.posts || []);
 
-        const mapped = (postsArray || []).map(p => ({
-            id: p.uuid || p.ts || null,
-            avatar: p.avatar || 'assets/img/default-avatar.png',
-            display_name: p.display_name || p.displayName || p.display || p.user || p.name || null,
-            name: p.user || p.user || p.author || p.name || null,
-            content: p.content || p.p || '',
-            timestamp: p.timestamp || Date.now(),
-            debug: { source: 'rest' }
-        }));
+        const mapped = (postsArray || []).map(p => {
+            const rawContent = p.content || p.p || '';
+            const isHtml = /<[^>]+>/.test(rawContent);
+            const content = isHtml ? DOMPurify.sanitize(rawContent) : DOMPurify.sanitize(marked.parse(rawContent));
+            return {
+                id: p.id || p.post_id || `temp_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                avatar: p.avatar || 'assets/img/default-avatar.png',
+                display_name: p.display_name || p.displayName || p.display || p.user || p.name || null,
+                name: p.user || p.user || p.author || p.name || null,
+                content: content,
+                timestamp: p.timestamp || Date.now(),
+            };
+        });
 
         if (typeof renderPosts === 'function') {
             renderPosts(mapped);
@@ -102,6 +136,11 @@ async function fetchFeed() {
         console.error('Error fetching feed:', e);
         return false;
     }
+}
+
+function returnToken() {
+    const token = localStorage.getItem('session_token');
+    return token;
 }
 
 async function createPost(content) {
@@ -116,7 +155,7 @@ async function createPost(content) {
                 'Content-Type': 'application/json',
                 'token': token || ''
             },
-            body: JSON.stringify({ content })
+            body: JSON.stringify({ content: content })
         });
 
         hideToast();
@@ -140,6 +179,39 @@ async function createPost(content) {
         console.error('Error creating post:', e);
         return { success: false, reason: 'network' };
     }
+}
+
+function deletePost(postId) {
+    if (!postId) return { success: false, reason: 'invalid_id' };
+    try {
+        const token = localStorage.getItem('session_token');
+        const url = `${serverAddress.replace(/\/$/, '')}/api/post?id=${encodeURIComponent(postId)}`;
+        fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'token': token || ''
+            }
+        });
+        window.location.reload();
+    } catch (e) {
+        console.error('Error deleting post:', e);
+        return { success: false, reason: 'network' };
+    }
+}
+
+function showDeleteButtons() {
+    const deleteButtons = document.querySelectorAll('.post-action-icon');
+    const postUser = document.querySelector('.post-username')?.textContent.replace('//', '').trim();
+    deleteButtons.forEach(btn => {
+        if (postUser === localStorage.getItem('username')) {
+            btn.style.display = 'block';
+        } else {
+            btn.style.display = 'none';
+            console.log("no delete button shown");
+            console.log(postUser, localStorage.getItem('username'));
+        }
+    });
 }
 
 function initComposer() {
@@ -202,6 +274,10 @@ function initComposer() {
             buttons.forEach(b => b.tabIndex = 0);
         }
         textarea.focus();
+        // Force scroll to top
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        window.scrollTo(0, 0);
     });
 
     textarea.addEventListener('focus', () => {
@@ -215,6 +291,10 @@ function initComposer() {
             const buttons = actions.querySelectorAll('button');
             buttons.forEach(b => b.tabIndex = 0);
         }
+        // Force scroll to top
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        window.scrollTo(0, 0);
     });
 
     textarea.addEventListener('keydown', (e) => {
@@ -346,11 +426,26 @@ function connect() {
             ws.send(JSON.stringify({
                 cmd: 'client_info',
                 client: "maelink_gen2-electron",
-                version: "prealpha_051025"
+                version: "closedbeta_011125",
+                token: returnToken(),
             }));
         } else if (data.error) {
-            showError(data.reason);
-            console.error('Authentication error:', data);
+            // If server indicates the user is banned, show the banned modal (if available)
+            try {
+                if (data.reason === 'banned' || data.code === 403) {
+                    if (typeof window.showBannedModal === 'function') {
+                        window.showBannedModal(data);
+                    } else {
+                        showError(data);
+                    }
+                    return;
+                }
+            } catch (e) {
+                console.error('Error handling server error:', e);
+            }
+            console.log(data.reason);
+            console.error('Error:', data);
+            try { showError(data.reason); } catch (e) { /* ignore */ }
         } else {
             if (pendingAction === 'login' || pendingAction === 'register') {
                 if (pendingAction === 'login') {
@@ -393,7 +488,7 @@ async function joinMaelink(username, password, code) {
     ws.send(JSON.stringify({
         cmd: 'reg',
         user: username.value,
-        pswd: md5(password.value),
+        pswd: password.value,
         code: code.value
     }));
 }
@@ -426,7 +521,40 @@ async function logMaelink(username, password) {
     ws.send(JSON.stringify({
         cmd: 'login_pswd',
         user: username.value,
-        pswd: md5(password.value)
+        pswd: password.value
+    }));
+}
+
+async function logMaelinkKey(usernameInput, keyInput) {
+    if (!usernameInput || !keyInput) {
+        showErrorNorm("Please enter the system key.");
+        return;
+    }
+
+    if (!ws) {
+        ws = new WebSocket(serverWS);
+        window.ws = ws;
+    }
+
+    async function waitForWebSocket() {
+        return new Promise((resolve) => {
+            const interval = setInterval(() => {
+                if (ws && ws.readyState === WebSocket.OPEN) {
+                    clearInterval(interval);
+                    resolve();
+                }
+            }, 100);
+        });
+    }
+
+    await waitForWebSocket();
+    console.log("WebSocket is open, sending system-key login request...");
+
+    pendingAction = 'login';
+    ws.send(JSON.stringify({
+        cmd: 'login_syskey',
+        user: "maelink",
+        key: keyInput.value
     }));
 }
 
@@ -476,16 +604,23 @@ function startReconnection() {
                 ws.send(JSON.stringify({
                     cmd: 'client_info',
                     client: "maelink_gen2-electron",
-                    version: "prealpha_051025"
+                    version: "closedbeta-011125",
+                    token: returnToken(),
                 }));
             } else if (data.error) {
+                if (data.reason === 'banned' || data.code === 403) {
+                    if (typeof window.showBannedModal === 'function') {
+                        window.showBannedModal(data);
+                    } else {
+                        showError(data);
+                    }
+                    return;
+                }
                 showError(data.reason);
             } else {
                 if (pendingAction === 'login' || pendingAction === 'register') {
-                    if (pendingAction === 'login') {
                         localStorage.setItem('username', data.user);
                         localStorage.setItem('session_token', data.token);
-                    }
                     window.location.href = 'client.html';
                     pendingAction = null;
                 }

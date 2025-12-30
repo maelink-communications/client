@@ -28,7 +28,7 @@
         });
     </script>
     <div class="pill">
-        <h1 class="disclaimer" style="display: none;">PRERELEASE</h1>
+        <h1 class="disclaimer" style="display: none;">CLOSED BETA</h1>
         <p class="disclaimer2" id="build-info" style="display: none;"></p>
         <script>
             document.addEventListener('keydown', (e) => {
@@ -110,7 +110,7 @@
                 </div>
                 <div class="user-menu-actions">
                     <img class="user-menu-icon" src="assets/img/options.svg"
-                        onclick="window.location.href='/options.html'" alt="Options">
+                        onclick="window.location.href='settings.html'" alt="Options">
                     <img class="user-menu-icon" src="assets/img/logout.svg" onclick="logout()" alt="Logout">
                 </div>
             </div>
@@ -138,6 +138,12 @@
         </div>
         <div id="composer-placeholder-container">
             <div class="composer" id="composer">
+                <div class="composer-title">
+                    <img id="profile-icon"
+                        src="https://avatars.githubusercontent.com/u/145933633?s=400&u=3970a0e8c57c9c793ada88a6f08c5247a65d9566&v=4"
+                        alt="">
+                    <h2>What's happening?</h2>
+                </div>
                 <textarea id="composer-text" placeholder="What's happening?" rows="3"></textarea>
                 <div class="composer-actions">
                     <div class="composer-buttons">
@@ -401,14 +407,17 @@
                         <div class="post-display-name">${escapeHtml(display_name || name)}</div>
                         <div class="post-username">//${escapeHtml(name)}</div>
                     </div>
-                    <div class="post-content">${escapeHtml(content)}</div>
+                    <div class="post-content"></div>
                     <div class="post-footer">
                         <div class="post-timestamp">${escapeHtml(new Date(timestamp).toLocaleString())}</div>
-                        <div class="post-debug">${escapeHtml(JSON.stringify(Object.assign({ id }, debug)))}</div>
+                        <div class="post-actions">
+                            <img class="post-action-icon" src="assets/img/deletepost.png" alt="Delete Post" title="Delete Post" style="display: none;" onclick="deletePost('${escapeHtml(id)}')">
                     </div>
                 </div>
             `;
+            post.querySelector('.post-content').innerHTML = content;
             feed.appendChild(post);
+            showDeleteButtons();
         }
 
         function renderPosts(postsArray) {
@@ -424,13 +433,6 @@
                 renderPost(p);
             }
         }
-
-        // example usage:
-        // replace showSkeletonPosts() usage with rendering real posts when available:
-        // showSkeletonPosts(); // keep for placeholders
-        // later when data arrives:
-        // renderPosts([{ id: '1', avatar: '...', display_name: 'Alice', name: 'alice', content: 'Hello', timestamp: 1620000000000, debug: { source: 'ws' } }]);
-
 
         document.addEventListener('DOMContentLoaded', () => {
             generateSkeletonPosts();
@@ -478,8 +480,56 @@
     </script>
     <script src="config.js"></script>
     <script src="web.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
     <script src="comm.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
+    <script>
+        // Mod panel: fetch /api/me and show a Mod Panel toggle for authorized roles
+        async function initModPanel() {
+            try {
+                const token = localStorage.getItem('session_token');
+                if (!token) return;
+                const res = await fetch(`${serverAddress.replace(/\/$/, '')}/api/me`, { headers: { token } });
+                if (!res.ok) return;
+                const me = await res.json();
+                if (!me || !['mod', 'admin', 'sysadmin'].includes(me.role)) return;
+
+                // create sidebar entry that opens a separate mod panel window
+                const sidebar = document.getElementById('sidebar');
+                if (sidebar) {
+                    const el = document.createElement('div');
+                    el.className = 'sidebar-header';
+                    el.id = 'mod-panel-toggle';
+                    el.innerHTML = `<img class="sidebar-icon" src="assets/img/shield.svg" alt="Mod"><label class="sidebar-label">Mod Panel</label>`;
+                    el.addEventListener('click', () => {
+                        try {
+                            if (window._modPanelWindow && !window._modPanelWindow.closed) {
+                                window._modPanelWindow.focus();
+                                return;
+                            }
+                        } catch (e) {
+                            // ignore
+                        }
+                        const features = 'width=900,height=700,resizable=yes,scrollbars=yes';
+                        window._modPanelWindow = window.open('modpanel.html', 'mod panel', features);
+                        if (window._modPanelWindow) window._modPanelWindow.focus();
+                    });
+                    sidebar.insertBefore(el, sidebar.children[3] || null);
+                }
+
+                document.getElementById('mod-refresh-logs').addEventListener('click', fetchLogs);
+                // initial logs
+                fetchLogs();
+            } catch (err) {
+                console.error('Could not initialize mod panel', err);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // delay to ensure auth/connect completed
+            setTimeout(initModPanel, 1200);
+        });
+    </script>
     <style>
         .user-menu {
             width: 300px;

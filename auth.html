@@ -93,6 +93,12 @@
             margin-top: 8px;
             align-self: center;
         }
+
+        #banned-modal { display: none; position: fixed; inset: 0; z-index: 100000; }
+        #banned-modal .banned-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; }
+        #banned-modal .banned-box { background: #0f0f12; color: #eee; padding: 18px; border-radius: 10px; min-width: 300px; max-width: 92%; box-shadow: 0 10px 40px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.04); }
+        #banned-modal .banned-box h3 { margin: 0 0 6px 0; font-size: 18px; }
+        #banned-modal .banned-box .btn { margin-left: 8px; }
     </style>
 </head>
 
@@ -134,9 +140,74 @@
         function showLogin() {
             document.getElementById('modal').innerHTML = loginForm;
             document.getElementById('to-signup').onclick = showSignup;
-            document.getElementById('loginButton').onclick = () => {
-                logMaelink(document.getElementById('userInput'), document.getElementById('passInput'));
-            };
+            const loginBtn = document.getElementById('loginButton');
+            const userEl = document.getElementById('userInput');
+            const passEl = document.getElementById('passInput');
+            let keyMode = false;
+
+            function enableKeyMode() {
+                keyMode = true;
+                userEl.value = 'System';
+                userEl.disabled = true;
+                passEl.placeholder = 'System key';
+                passEl.type = 'text';
+                loginBtn.textContent = 'Login (key)';
+                loginBtn.onclick = () => logMaelinkKey(userEl, passEl);
+                if (!document.getElementById('keyModeNotice')) {
+                    const n = document.createElement('div');
+                    n.id = 'keyModeNotice';
+                    n.style.fontSize = '12px';
+                    n.style.marginTop = '6px';
+                    n.style.textAlign = 'center';
+                    n.textContent = 'System key mode active';
+                    document.querySelector('.auth-inner').appendChild(n);
+                }
+            }
+
+            function disableKeyMode() {
+                keyMode = false;
+                userEl.disabled = false;
+                if (userEl.value === 'System') userEl.value = '';
+                passEl.placeholder = 'Password';
+                passEl.type = 'password';
+                loginBtn.textContent = 'Login';
+                loginBtn.onclick = () => logMaelink(userEl, passEl);
+                const n = document.getElementById('keyModeNotice');
+                if (n) n.remove();
+            }
+
+            loginBtn.onclick = () => logMaelink(userEl, passEl);
+
+
+            let seqStage = 0;
+            let seqTimer = null;
+            function resetSeq() {
+                seqStage = 0;
+                if (seqTimer) { clearTimeout(seqTimer); seqTimer = null; }
+            }
+
+            document.addEventListener('keydown', function onKeySeq(e) {
+                try {
+                    const key = (e.key || '').toLowerCase();
+                    if (seqStage === 0) {
+                        if (e.ctrlKey && e.shiftKey && key === 'm') {
+                            seqStage = 1;
+                            seqTimer = setTimeout(resetSeq, 1000);
+                        }
+                    } else if (seqStage === 1) {
+                        if (e.ctrlKey && e.shiftKey && key === 'k') {
+                            if (!keyMode) enableKeyMode(); else disableKeyMode();
+                            resetSeq();
+                        }
+                    }
+                    if (key === 'escape' || key === 'esc') {
+                        if (keyMode) disableKeyMode();
+                    }
+                } catch (err) {
+                    console.error('key sequence listener error', err);
+                }
+            });
+            
             requestAnimationFrame(repositionLogo);
         }
 
@@ -167,11 +238,22 @@
 
 
         function showError(reason) {
+            if (reason === 'tokenRequired') {
+                return;
+            }
             const existingError = document.querySelector('.error-message');
             if (existingError) existingError.remove();
 
             const errorDiv = document.createElement('div');
             errorDiv.className = 'error-message';
+
+            if (typeof reason === 'object' && reason !== null) {
+                if (reason.reason === 'banned' || reason.code === 403) {
+                    showBannedModal(reason);
+                    return;
+                }
+                reason = String(reason.reason || reason.message || JSON.stringify(reason));
+            }
 
             if (reason === 'userExists') {
                 errorDiv.textContent = 'This username is already taken. Please choose a different one.';
@@ -189,6 +271,54 @@
             }
 
             document.body.appendChild(errorDiv);
+        }
+
+        function showBannedModal(details) {
+            let modal = document.getElementById('banned-modal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'banned-modal';
+                modal.innerHTML = `
+                    <div class="banned-overlay">
+                        <div class="banned-box">
+                            <h3>Banned</h3>
+                            <div id="banned-message" style="margin-top:6px;color:#ddd;font-size:14px"></div>
+                            <div id="banned-until" style="margin-top:10px;color:#bbb;font-size:13px"></div>
+                            <div style="margin-top:14px;text-align:right">
+                                <button id="banned-close" class="btn">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+                modal.querySelector('#banned-close').addEventListener('click', hideBannedModal);
+            }
+
+            const msgEl = modal.querySelector('#banned-message');
+            const untilEl = modal.querySelector('#banned-until');
+            const human = details && details.message ? details.message : 'Your account is banned.';
+            msgEl.textContent = human;
+            if (details && details.until) {
+                try {
+                    const d = new Date(details.until);
+                    if (!isNaN(d)) {
+                        untilEl.textContent = 'Ban expires: ' + d.toLocaleString();
+                        untilEl.style.display = '';
+                    } else {
+                        untilEl.textContent = '';
+                        untilEl.style.display = 'none';
+                    }
+                } catch (e) { untilEl.style.display = 'none'; }
+            } else {
+                untilEl.style.display = 'none';
+            }
+
+            modal.style.display = 'block';
+        }
+
+        function hideBannedModal() {
+            const modal = document.getElementById('banned-modal');
+            if (modal) modal.style.display = 'none';
         }
 
         function showErrorNorm(reason) {
@@ -239,7 +369,7 @@
         window.addEventListener('load', () => requestAnimationFrame(repositionLogo));
     </script>
     <div class="pill">
-        <h1 class="disclaimer" style="display: none;">PRERELEASE</h1>
+        <h1 class="disclaimer" style="display: none;">CLOSED BETA</h1>
         <p class="disclaimer2" id="build-info" style="display: none;"></p>
         <script>
             document.addEventListener('keydown', (e) => {
@@ -271,7 +401,6 @@
     <div class="modal" id="modal"></div>
     <script src="config.js"></script>
     <script src="web.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
     <script src="comm.js"></script>
 </body>
 

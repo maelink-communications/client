@@ -1,22 +1,21 @@
 // SET BUILD INFO HERE
-// REMOVE ALL VALUES RELATED TO PRERELEASE WHEN PREPARING FOR PROD!
 
 const buildInfo = {
-    buildDate: "05.10.25"
+    buildDate: "28.11.25"
 };
 
 const serverAddress = "http://127.0.0.1:6060"; // REST API server
 const serverWS = "ws://127.0.0.1:8080"; // WebSocket server
 function updateBuildInfo() {
-    const currentInstanceName = window.instanceName || "[instanceName could not be resolved]";
+    const currentInstanceName = window.instanceName || "Instance name could not be resolved.";
     if (window.ws && window.ws.readyState === WebSocket.OPEN) {
-        buildInfo.message = "This is a prerelease build of maelink.<br>" + // COMMENT THIS OUT IN PRODUCTION!
-            "Not to be used in production.<br><br>" +
+        buildInfo.message = "This version of maelink is still in development.<br>" +
+            "If you find any bugs or want to contribute, don't hesitate to drop by our GitHub repos!<br><br>" +
             `Current build date: ${buildInfo.buildDate}<br>` +
             `Connected to ${currentInstanceName}`;
     } else {
-        buildInfo.message = "This is a prerelease build of maelink.<br>" +
-            "Not to be used in production.<br><br>" +
+        buildInfo.message = "This version of maelink is still in development.<br>" +
+            "If you find any bugs or want to contribute, don't hesitate to drop by our GitHub repos!<br><br>" +
             `Current build date: ${buildInfo.buildDate}<br>` +
             `You are not connected to a server.`;
     }

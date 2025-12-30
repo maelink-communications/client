@@ -1,6 +1,6 @@
 {
   "name": "maelink-client",
-  "version": "1.0.0",
+  "version": "011125-beta",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
@@ -12,5 +12,8 @@
     "electron": "^36.5.0",
     "electron-forge": "^5.2.4",
     "electron-prebuilt-compile": "8.2.0"
+  },
+  "dependencies": {
+    "dompurify": "^3.3.0"
   }
 }
