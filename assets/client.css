@@ -726,6 +726,7 @@ button:active {
 .downtime-content h2 {
   font-size: 2rem;
   margin-bottom: 16px;
+  text-align: center;
   max-width: 100%;
   color: var(--accent1);
 }
