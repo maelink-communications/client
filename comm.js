@@ -6,6 +6,30 @@ window.instanceName = instanceName;
 window.ws = ws;
 window.skeletonsHidden = false;
 
+function _escapeHtmlLocal(str) {
+    if (str === null || typeof str === 'undefined') return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function sanitizeContent(rawContent, isHtml) {
+    try {
+        if (typeof DOMPurify !== 'undefined' && DOMPurify && typeof DOMPurify.sanitize === 'function') {
+            return isHtml ? DOMPurify.sanitize(rawContent) : DOMPurify.sanitize(marked.parse(rawContent));
+        }
+        console.warn('DOMPurify not available — using fallback sanitizer');
+        const html = isHtml ? rawContent : (typeof marked !== 'undefined' ? marked.parse(rawContent) : rawContent);
+        return _escapeHtmlLocal(html);
+    } catch (e) {
+        console.error('Sanitization error:', e);
+        try { return _escapeHtmlLocal(isHtml ? rawContent : (typeof marked !== 'undefined' ? marked.parse(rawContent) : rawContent)); } catch { return '' }
+    }
+}
+
 function showToast(message) {
     const toast = document.getElementById('loading-toast');
     if (toast) {
@@ -117,7 +141,7 @@ async function fetchFeed() {
         const mapped = (postsArray || []).map(p => {
             const rawContent = p.content || p.p || '';
             const isHtml = /<[^>]+>/.test(rawContent);
-            const content = isHtml ? DOMPurify.sanitize(rawContent) : DOMPurify.sanitize(marked.parse(rawContent));
+            const content = sanitizeContent(rawContent, isHtml);
             return {
                 id: p.id || p.post_id || `temp_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
                 avatar: p.avatar || 'assets/img/default-avatar.png',

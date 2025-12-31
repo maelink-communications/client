@@ -102,22 +102,21 @@
         <div class="user-menu" id="user-menu" style="display: none;">
             <div class="user-menu-header">
                 <img class="user-menu-avatar"
-                    src="https://avatars.githubusercontent.com/u/145933633?s=400&u=3970a0e8c57c9c793ada88a6f08c5247a65d9566&v=4"
+                    src="img/default-avatar.png"
                     alt="">
                 <div class="user-menu-info">
                     <div class="user-menu-display-name" id="menu-display-name">Display Name</div>
                     <div class="user-menu-username" id="menu-username">//username</div>
                 </div>
                 <div class="user-menu-actions">
-                    <img class="user-menu-icon" src="assets/img/options.svg"
-                        onclick="window.location.href='settings.html'" alt="Options">
+                    <img class="user-menu-icon" src="assets/img/options.svg">
                     <img class="user-menu-icon" src="assets/img/logout.svg" onclick="logout()" alt="Logout">
                 </div>
             </div>
         </div>
         <div class="sidebar-bottom" id="sidebar-bottom">
             <img id="profile-icon"
-                src="https://avatars.githubusercontent.com/u/145933633?s=400&u=3970a0e8c57c9c793ada88a6f08c5247a65d9566&v=4"
+                src="img/default-avatar.png"
                 alt="" onclick="toggleUserMenu()">
         </div>
     </div>
@@ -140,7 +139,7 @@
             <div class="composer" id="composer">
                 <div class="composer-title">
                     <img id="profile-icon"
-                        src="https://avatars.githubusercontent.com/u/145933633?s=400&u=3970a0e8c57c9c793ada88a6f08c5247a65d9566&v=4"
+                        src="img/default-avatar.png"
                         alt="">
                     <h2>What's happening?</h2>
                 </div>
@@ -479,9 +478,9 @@
         });
     </script>
     <script src="config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
     <script src="web.js"></script>
     <script src="comm.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
     <script>
         // Mod panel: fetch /api/me and show a Mod Panel toggle for authorized roles

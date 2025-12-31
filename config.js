@@ -1,11 +1,11 @@
 // SET BUILD INFO HERE
 
 const buildInfo = {
-    buildDate: "28.11.25"
+    buildDate: "31.12.25"
 };
 
-const serverAddress = "http://127.0.0.1:6060"; // REST API server
-const serverWS = "ws://127.0.0.1:8080"; // WebSocket server
+const serverAddress = "https://maelink.net/"; // REST API server
+const serverWS = "wss://maelink.net/"; // WebSocket server
 function updateBuildInfo() {
     const currentInstanceName = window.instanceName || "Instance name could not be resolved.";
     if (window.ws && window.ws.readyState === WebSocket.OPEN) {
