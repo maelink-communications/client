@@ -1,0 +1,9 @@
+RewriteEngine ON
+##External redirect rules here.
+RewriteCond %{THE_REQUEST} \s/([^.]*)\.html\s [NC]
+RewriteRule ^ /%1? [R=301,L]
+
+##Internal rewrite rules here..
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^/]*)/?$ $1.html [L]

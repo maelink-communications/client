@@ -19,7 +19,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             if (!localStorage.getItem('username') || !localStorage.getItem('session_token')) {
-                window.location.href = 'auth.html';
+                window.location.href = 'auth';
             } else {
                 if (typeof connect === 'function') {
                     connect();
@@ -510,7 +510,7 @@
                             // ignore
                         }
                         const features = 'width=900,height=700,resizable=yes,scrollbars=yes';
-                        window._modPanelWindow = window.open('modpanel.html', 'mod panel', features);
+                        window._modPanelWindow = window.open('modpanel', 'mod panel', features);
                         if (window._modPanelWindow) window._modPanelWindow.focus();
                     });
                     sidebar.insertBefore(el, sidebar.children[3] || null);

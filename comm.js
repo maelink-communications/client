@@ -186,7 +186,7 @@ async function createPost(content) {
         if (res.status === 401 || res.status === 403) {
             localStorage.removeItem('session_token');
             localStorage.removeItem('username');
-            window.location.href = 'auth.html';
+            window.location.href = 'auth';
             return { success: false, reason: 'auth' };
         }
 
@@ -476,7 +476,7 @@ function connect() {
                     localStorage.setItem('username', data.user);
                     localStorage.setItem('session_token', data.token);
                 }
-                window.location.href = 'client.html';
+                window.location.href = 'client';
                 pendingAction = null;
             }
         }
@@ -645,7 +645,7 @@ function startReconnection() {
                 if (pendingAction === 'login' || pendingAction === 'register') {
                         localStorage.setItem('username', data.user);
                         localStorage.setItem('session_token', data.token);
-                    window.location.href = 'client.html';
+                    window.location.href = 'client';
                     pendingAction = null;
                 }
             }

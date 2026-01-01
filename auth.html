@@ -336,7 +336,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             connect();
             if (localStorage.getItem('username') && localStorage.getItem('session_token')) {
-                window.location.href = 'client.html';
+                window.location.href = 'client';
             } else {
                 showLogin();
             }
