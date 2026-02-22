@@ -1,10 +1,10 @@
-## maelink client
+## client
 
-We're actually doing it.<br>
-This is the work-in-progress client for maelink, for real this time.
+The work-in-progress "official" client for the maelink project.<br>
 
 > [!NOTE]
-> A desktop build will be compiled upon a proper release. Updates, for now, will only have the source.
+> This client is not the main focus of the project anymore, with the [announcement to switch to a protocol-based system](https://discord.com/channels/1323793597186838589/1324146520790138941/1475214933279903888).<br>
+> Development may be slow, and the client may be lacking new features that the protocol supports.
 
 > [!WARNING]
 > This is not finished, and as such has NO DOCUMENTATION AND NO WARRANTY.
