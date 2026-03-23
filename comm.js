@@ -121,7 +121,7 @@ window.hideSkeletonPosts = hideSkeletonPosts;
 
 async function fetchFeed() {
     try {
-        const url = `${serverAddress.replace(/\/$/, '')}/api/feed`;
+        const url = `${serverAddress.replace(/\/$/, '')}/api/home`;
         const res = await fetch(url, {
             method: 'GET',
             headers: {
@@ -130,7 +130,7 @@ async function fetchFeed() {
         });
 
         if (!res.ok) {
-            console.warn('Failed to fetch feed:', res.status);
+            console.warn('Failed to fetch home:', res.status);
             return false;
         }
 
@@ -157,7 +157,7 @@ async function fetchFeed() {
         }
         return true;
     } catch (e) {
-        console.error('Error fetching feed:', e);
+        console.error('Error fetching home:', e);
         return false;
     }
 }
@@ -476,7 +476,7 @@ function connect() {
                     localStorage.setItem('username', data.user);
                     localStorage.setItem('session_token', data.token);
                 }
-                window.location.href = 'client';
+                window.location.href = 'home';
                 pendingAction = null;
             }
         }
@@ -645,7 +645,7 @@ function startReconnection() {
                 if (pendingAction === 'login' || pendingAction === 'register') {
                         localStorage.setItem('username', data.user);
                         localStorage.setItem('session_token', data.token);
-                    window.location.href = 'client';
+                    window.location.href = 'home';
                     pendingAction = null;
                 }
             }

@@ -264,9 +264,11 @@
             } else if (reason === 'badPswd') {
                 errorDiv.textContent = 'The credentials you entered are incorrect. Please try again.';
             } else if (reason === 'badCode') {
-                errorDiv.textContent = 'The verification code you entered is incorrect.';
+                errorDiv.textContent = 'The verification code you entered is invalid. If you think this is a mistake, please report to instance maintainer(s).';
+            } else if (reason === 'systemAccountUseKey') {
+                errorDiv.textContent = 'You are attempting to sign in with a system account. Please use the system key.';
             } else {
-                errorDiv.textContent = `We ran into an error. If this persists, please show this to support: ${reason}`;
+                errorDiv.textContent = `We ran into an error. If this persists, please report this to instance maintainer(s): ${reason}`;
                 console.error('Authentication error:', reason);
             }
 
@@ -336,7 +338,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             connect();
             if (localStorage.getItem('username') && localStorage.getItem('session_token')) {
-                window.location.href = 'client';
+                window.location.href = 'home';
             } else {
                 showLogin();
             }
