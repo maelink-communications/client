@@ -19,7 +19,7 @@ const createWindow = () => {
     }
   })
 
-  win.loadFile('auth')
+  win.loadFile('auth.html')
 }
 
 app.whenReady().then(() => {

@@ -1,21 +1,21 @@
 // SET BUILD INFO HERE
 
 const buildInfo = {
-    buildDate: "31.12.25"
+    buildDate: "23.03.26"
 };
 
-const serverAddress = "https://maelink-node2.delusionss5.deno.net/"; // REST API server
-const serverWS = "wss://maelink-node2.delusionss5.deno.net/"; // WebSocket server
+const serverAddress = "http://localhost:6000/"; // REST API server
+const serverWS = "ws://localhost:6001/"; // WebSocket server
 function updateBuildInfo() {
     const currentInstanceName = window.instanceName || "Instance name could not be resolved.";
     if (window.ws && window.ws.readyState === WebSocket.OPEN) {
-        buildInfo.message = "This version of maelink is still in development.<br>" +
-            "If you find any bugs or want to contribute, don't hesitate to drop by our GitHub repos!<br><br>" +
+        buildInfo.message = "This version of Promenade is still in VERY EARLY development.<br>" +
+            "If you find any bugs or want to contribute, don't hesitate to drop by our GitHub repository.<br><br>" +
             `Current build date: ${buildInfo.buildDate}<br>` +
             `Connected to ${currentInstanceName}`;
     } else {
-        buildInfo.message = "This version of maelink is still in development.<br>" +
-            "If you find any bugs or want to contribute, don't hesitate to drop by our GitHub repos!<br><br>" +
+        buildInfo.message = "This version of Promenade is still in VERY EARLY development.<br>" +
+            "If you find any bugs or want to contribute, don't hesitate to drop by our GitHub repository.<br><br>" +
             `Current build date: ${buildInfo.buildDate}<br>` +
             `You are not connected to a server.`;
     }

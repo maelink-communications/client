@@ -1,5 +1,5 @@
 let compactSidebar = false
-let currentPage = "home"
+let currentPage = "auth.html"
 
 function updateSidebar() {
     if (document.getElementById(currentPage)) {

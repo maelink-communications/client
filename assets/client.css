@@ -6,8 +6,8 @@
   --sec: #444;
   --text: rgb(255, 255, 255);
   --accent: linear-gradient(to bottom right, var(--accent1), var(--accent2));
-  --accent1: #ff3737;
-  --accent2: #ff1271;
+  --accent1: #9e37ff;
+  --accent2: #9c12ff;
   --glass: rgba(62, 62, 62, 0.2);
   --glass-alt: rgba(111, 111, 111, 0.2);
   --glass-light: rgba(255, 255, 255, 0.05);
@@ -19,164 +19,6 @@
   --composer-margin: 32px;
 }
 
-.post {
-  background: #2a2a2a;
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 16px;
-  display: flex;
-  gap: 12px;
-  max-width: 100%;
-  width: 100%;
-  box-sizing: border-box;
-  align-items: flex-start;
-}
-.post-left {
-  flex: 0 0 56px;
-}
-.post-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-.post-body {
-  flex: 1;
-  overflow-x: hidden;
-}
-.post-header {
-  display: flex;
-  gap: 12px;
-  align-items: baseline;
-}
-.post-display-name {
-  font-weight: 700;
-}
-.post-username {
-  opacity: 0.6;
-}
-.post-content {
-  margin-top: 8px;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-.post-footer {
-  margin-top: 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  opacity: 0.7;
-  font-size: 0.9rem;
-}
-
-.composer {
-  position: relative;
-  margin: 16px auto;
-  width: calc(100% - 40px);
-  max-width: 820px;
-  background: var(--pri);
-  border-radius: 16px;
-  border: 1px #434343 solid;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  transition: all 50ms ease;
-}
-.composer textarea::-webkit-scrollbar {
-  height: 8px;
-  width: 8px;
-}
-.composer textarea::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 8px;
-}
-.composer textarea {
-  scrollbar-color: rgba(0, 0, 0, 0.6) transparent;
-}
-.composer.compact textarea::-webkit-scrollbar {
-  display: none;
-}
-.composer textarea {
-  width: 95%;
-  flex: 1 1 auto;
-  min-height: 48px;
-  max-height: 480px;
-  padding: 12px;
-  border-radius: 12px;
-  background: var(--bg);
-  color: var(--text);
-  border: none;
-  font-family: inherit;
-  resize: none;
-}
-
-.composer.compact {
-  border-radius: 12px;
-  padding: 6px 10px;
-  width: calc(100% - 20px);
-  max-height: 48px;
-  overflow: hidden;
-  background: #232323;
-}
-
-.composer-title #profile-icon {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 12px;
-  vertical-align: middle;
-}
-
-.composer-title h2 {
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 300;
-  color: var(--text);
-  opacity: 1;
-}
-
-.composer.compact .composer-title {
-  display: flex;
-  align-items: flex-start;
-  transform: translateY(7px);
-  cursor: pointer;
-}
-
-.composer.expanded .composer-title {
-  display: none !important;
-}
-
-.composer.compact .composer-actions { display: none !important; }
-.composer.compact textarea {
-  border-radius: 999px;
-  height: 48px;
-  background: transparent;
-  text-align: left;
-  resize: none;
-  transform: translateY(999px);
-  overflow: hidden;
-}
-.composer.expanded {
-  max-height: 420px;
-}
-
-#composer-placeholder-container {
-  position: sticky;
-  top: 12px;
-  transform: translateY(40px);
-  z-index: 40;
-}
-#composer-placeholder-container .composer {
-  margin: 0 !important;
-  width: 100% !important;
-  max-width: none !important;
-  border-radius: 12px;
-  box-sizing: border-box;
-  transition: ease 0.15s;
-}
-
 .modal {
   position: fixed;
   top: 50%;
@@ -186,13 +28,12 @@
   height: fit-content;
   min-width: 600px;
   max-width: 600px;
-  min-height: 380px;
-  max-height: 380px;
-  border-radius: var(--pill);
-  background-color: var(--glass);
-  backdrop-filter: blur(48px);
+  min-height: 360px;
+  max-height: 360px;
+  background-color: #232323;
   z-index: 10;
   display: flex;
+  border-color: #232323;
   align-items: center;
   justify-content: center;
   overflow: hidden;
@@ -225,29 +66,12 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgb(55, 37, 37), rgb(39, 23, 32));
+  background: linear-gradient(135deg, rgb(42, 31, 45), rgb(36, 23, 66));
   z-index: -2;
 }
 
 .titlebar {
   background: #23232380;
-}
-
-.image {
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 14000px;
-  height: 14000px;
-  opacity: 50%;
-  filter: blur(12px);
-  z-index: -1;
-  background: url("img/PATTERN.png") 0% 0% / 5% repeat;
-  --pattern-speed: 300s;
-  animation:
-    linear var(--pattern-speed) linear infinite,
-    image-fadein 1s ease 1 forwards;
-  transition: --pattern-speed 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes linear {
@@ -361,7 +185,7 @@ button {
   border: none;
   font-family: inherit;
   font-size: inherit;
-  transition: cubic-bezier(0.19, 1, 0.22, 1) 0.25s;
+  transition: cubic-bezier(0.19, 1, 0.22, 1) 0.15s;
   cursor: pointer;
 }
 
@@ -371,21 +195,21 @@ button {
 
 @keyframes accent-shadow {
   0% {
-    outline: solid 2px #ff5b5b;
-    box-shadow: 0 0px 8px #ff5b5b;
+    outline: solid 2px #db5bff;
+    box-shadow: 0 0px 8px #db5bff;
   }
   50% {
     outline: solid 2px var(--accent1);
     box-shadow: 0 0px 12px var(--accent1);
   }
   100% {
-    outline: solid 2px #ff5b5b;
-    box-shadow: 0 0px 8px #ff5b5b;
+    outline: solid 2px #db5bff;
+    box-shadow: 0 0px 8px #db5bff;
   }
 }
 
 button:hover {
-  animation: accent-shadow 1s infinite;
+  animation: accent-shadow 5s infinite;
   background: var(--accent1);
 }
 
@@ -421,8 +245,7 @@ button:active {
 .biglogo {
   position: fixed;
   top: 40%;
-  left: 50%;
-  transform: translate(-50%, -330%);
+  left: 5%;
   width: 200px;
   height: auto;
   z-index: 2000;
@@ -554,7 +377,7 @@ button:active {
 .error-message {
   position: fixed;
   top: calc(50% + 220px);
-  left: 50%;
+  left: 240px;
   transform: translateX(-50%);
   background: rgba(255, 55, 55, 0.1);
   border: 1px solid rgba(255, 55, 55, 0.3);
@@ -569,25 +392,6 @@ button:active {
   width: 400px;
 }
 
-.composer-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.composer-buttons button {
-  margin-left: 8px;
-}
-
-.composer .primary {
-  background: linear-gradient(90deg, var(--accent1), var(--accent2));
-  color: white;
-}
-
-.composer .secondary {
-  background: var(--bg);
-  color: var(--text);
-}
 
 @keyframes error-fadein {
   from {

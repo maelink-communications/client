@@ -1,9 +1,9 @@
 {
-  "name": "maelink-client",
-  "version": "011125-beta",
+  "name": "promenade",
+  "version": "300326",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron --trace-warnings ."
   },
   "author": "",
   "license": "ISC",
