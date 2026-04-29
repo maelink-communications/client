@@ -17,15 +17,15 @@
 
 <body>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (!localStorage.getItem('username') || !localStorage.getItem('session_token')) {
-                window.location.href = 'auth';
-            } else {
-                if (typeof connect === 'function') {
-                    connect();
-                }
-            }
-        });
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     if (!localStorage.getItem('username') || !localStorage.getItem('session_token')) {
+        //         window.location.href = 'auth';
+        //     } else {
+        //         if (typeof connect === 'function') {
+        //             connect();
+        //         }
+        //     }
+        // });
     </script>
     <div class="pill">
         <h1 class="disclaimer" style="display: none;">CLOSED BETA</h1>
@@ -66,39 +66,6 @@
             <img class="sidebar-icon" src="assets/img/inbox.svg" alt="Inbox">
             <label class="sidebar-label">Inbox</label>
         </div>
-        <style>
-            .sidebar-header {
-                display: flex;
-                flex-wrap: nowrap;
-                justify-content: flex-start;
-                align-items: center;
-                gap: 1em;
-                transition: margin 0.5s ease;
-            }
-
-            .sidebar.compact .sidebar-header {
-                display: flex !important;
-                flex-direction: row !important;
-                justify-content: flex-start !important;
-                align-items: center !important;
-            }
-
-            .sidebar.compact .sidebar-icon {
-                margin-left: 8px;
-            }
-
-            .sidebar-label {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                flex: 1;
-            }
-
-            .sidebar-icon {
-                width: 24px;
-                flex-shrink: 0;
-            }
-        </style>
         <div class="user-menu" id="user-menu" style="display: none;">
             <div class="user-menu-header">
                 <img class="user-menu-avatar"
@@ -529,147 +496,6 @@
             setTimeout(initModPanel, 1200);
         });
     </script>
-    <style>
-        .user-menu {
-            width: 300px;
-            min-height: 80px;
-            padding: 14px;
-            background: #434343;
-            border: 2px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-            border-radius: 12px;
-            position: fixed;
-            display: none;
-            pointer-events: none;
-            z-index: 10000;
-            color: #ffffff;
-            backdrop-filter: blur(4px);
-            top: auto;
-            left: auto;
-            right: auto;
-        }
-
-        .user-menu.show {
-            display: block;
-            pointer-events: auto;
-        }
-
-        .user-menu-header {
-            display: flex;
-            gap: 12px;
-            align-items: flex-end;
-        }
-
-        .user-menu-quote {
-            opacity: 50%;
-        }
-
-        .user-menu-avatar {
-            width: 72px;
-            height: 72px;
-            border-radius: 8px;
-            object-fit: cover;
-            flex-shrink: 0;
-            border: 3px solid rgba(255, 255, 255, 0.18);
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-        }
-
-        .user-menu-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 4px;
-            overflow: hidden;
-        }
-
-        .user-menu-display-name {
-            font-weight: 700;
-            font-size: 18px;
-            line-height: 1;
-            color: #ffffff;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-        }
-
-        .user-menu-username {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.9);
-            opacity: 0.9;
-        }
-
-        .user-menu-actions {
-            display: flex;
-            gap: 8px;
-            align-items: start;
-            margin-left: auto;
-        }
-
-        .user-menu-icon {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.25));
-        }
-
-        .user-menu .controls {
-            margin-top: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .user-menu .btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 10px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.06);
-            color: #fff;
-            font-weight: 600;
-            cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .user-menu .tag-new {
-            margin-left: auto;
-            background: #ff2f7a;
-            color: white;
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 6px;
-        }
-
-        .user-menu .row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            padding: 8px;
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.06);
-            color: rgba(0, 0, 0, 0.75);
-            font-size: 13px;
-        }
-
-        @media (max-height: 380px) {
-            .user-menu {
-                bottom: 48px;
-                left: 8px;
-            }
-
-            .user-menu-avatar {
-                width: 56px;
-                height: 56px;
-            }
-
-            .user-menu {
-                width: 280px;
-                min-height: 160px;
-            }
-        }
-    </style>
 </body>
 
 </html>
